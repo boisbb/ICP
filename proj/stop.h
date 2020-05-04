@@ -1,7 +1,9 @@
 #ifndef STOP_H
 #define STOP_H
 
+#include <QGraphicsItem>
 #include <QString>
+#include <QVector>
 
 
 class street;
@@ -13,20 +15,21 @@ public:
     stop();
     stop(QString stopName, coordinate stopPosition, QString stopStreetName);
     void setStreet(street s);
-    QString getStreetName() const;
+    //QString getStreetName() const;
     QString getStopName() const;
-    street* getStreet() const;
+    street* getStreet(int i) const;
     coordinate* getCoord() const;
-
-
+    QVector<street*> getStreets();
+    QVector<QGraphicsItem*> getGraphics();
+    void setGraphics();
 
 
 private:
     QString name;
     coordinate* position;
     QString streetName;
-    street* Street;
-
+    QVector<street*> streets;
+    QVector<QGraphicsItem*> stopGraphics;
 };
 
 #endif // STOP_H

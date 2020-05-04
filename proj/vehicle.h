@@ -2,6 +2,7 @@
 #define VEHICLE_H
 
 #include <QColor>
+#include <QGraphicsItem>
 #include <QTime>
 #include <QVector>
 
@@ -23,10 +24,13 @@ public:
     int getJourneyPos();
     QVector<coordinate> getFullJourney();
     bool getWayBack();
+    QVector<QGraphicsItem*> getGraphics() const;
+    QColor getColor();
     /* */
     /* setters */
     void setCoords(coordinate newCoord);
     void setLine(busLine bus);
+    void setGraphics();
     /* */
     void move();
     void getJourney();
@@ -44,6 +48,7 @@ private:
     bool stopBool = false;
     QTime stopTime;
     bool wayBack;
+    QVector<QGraphicsItem*> vehicleGraphics;
 
 
 

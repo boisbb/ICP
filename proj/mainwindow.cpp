@@ -1,6 +1,5 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "scene.h"
 
 #include <QDebug>
 #include <QGraphicsLineItem>
@@ -30,17 +29,74 @@ void MainWindow::onValueChange(int val)
     qDebug() << "value" << val;
 }
 
+void MainWindow::moveVeh()
+{
+    /// moving vehicles
+    vehicleVector[0].move();
+
+}
+
+void MainWindow::drawStuff(QVector<QGraphicsItem*> items)
+{
+    for(QGraphicsItem* item : items){
+        myScene->addItem(item);
+    }
+}
+
+void MainWindow::timerStart()
+{
+    timer->setInterval(50);
+    connect(timer, SIGNAL(timeout()), this, SLOT(moveVeh()));
+          timer->start(100);
+}
+
 void MainWindow::initScene()
 {
-    auto *myScene = new scene(ui->graphicsView);
+    myScene = new scene(ui->graphicsView);
     ui->graphicsView->setScene(myScene);
-    QGraphicsLineItem *testLine = new QGraphicsLineItem(100, 200, 400, 500);
-    myScene->addItem(testLine);
-    //auto line = myScene->addLine(150, 150, 50, 30);
     coordinate testCoord(150, 150);
 
-    vehicle testVehicle(testCoord, 10);
+
+
+
     street testStreet(coordinate(100.0, 200.0), coordinate(400.0, 500.0), "testStreet");
+    testStreet.setGraphics();
+    this->drawStuff(testStreet.getGraphics());
+
+
+    stop testStop1("testStop1", coordinate(100, 200), "testStreet");
+    testStop1.setStreet(testStreet);
+    testStop1.setGraphics();
+    this->drawStuff(testStop1.getGraphics());
+
+    stop testStop2("testStop2", coordinate(250, 350), "testStreet");
+    testStop2.setStreet(testStreet);
+    testStop2.setGraphics();
+    this->drawStuff(testStop2.getGraphics());
+
+    stop testStop3("testStop3", coordinate(400, 500), "testStreet");
+    testStop3.setStreet(testStreet);
+    testStop3.setGraphics();
+    this->drawStuff(testStop3.getGraphics());
+
+
+    QVector<QString> testStops;
+    testStops.append("testStop1");
+    testStops.append("testStop2");
+    testStops.append("testStop3");
+    busLine testLine(10, testStops);
+    testLine.addStop(testStop1);
+    testLine.addStop(testStop2);
+    testLine.addStop(testStop3);
+
+
+
+    vehicle testVehicle(coordinate(100.0, 200.0), 10);
+    testVehicle.setGraphics();
+    testVehicle.setLine(testLine);
+    testVehicle.getJourney();
+    vehicleVector.append(testVehicle);
+    drawStuff(vehicleVector.at(0).getGraphics());
 
 
     //auto line = line();
@@ -80,13 +136,18 @@ void MainWindow::initScene()
     QJsonArray array = newobject.find("coords").value().toArray();
     //QJsonArray array = value.toArray();
 
-    qDebug() << array[1].toObject().value("x").toDouble();
+    //qDebug() << array[1].toObject().value("x").toDouble();
     //qDebug() << newdoc.toJson();
-    qDebug() << testCoord.getX();
-    qDebug() << testCoord.getY();
+    //qDebug() << testCoord.getX();
+    //qDebug() << testCoord.getY();
 
 
     ui->graphicsView->setRenderHint(QPainter::Antialiasing);
+    timerStart();
 }
+
+
+
+
 
 
