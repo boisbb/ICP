@@ -17,6 +17,9 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     initScene();
+
+    connect(ui->button_plus, &QPushButton::clicked, this, &MainWindow::zoom_in);
+    connect(ui->button_minus,&QPushButton::clicked, this, &MainWindow::zoom_out);
 }
 
 MainWindow::~MainWindow()
@@ -33,7 +36,16 @@ void MainWindow::moveVeh()
 {
     /// moving vehicles
     vehicleVector[0].move();
+}
 
+void MainWindow::zoom_in()
+{
+    ui->graphicsView->scale(1.25, 1.25);
+}
+
+void MainWindow::zoom_out()
+{
+    ui->graphicsView->scale(0.75, 0.75);
 }
 
 void MainWindow::drawStuff(QVector<QGraphicsItem*> items)

@@ -25,7 +25,8 @@ public:
 private slots:
     void onValueChange(int val);
     void moveVeh();
-
+    void zoom_in();
+    void zoom_out();
 
 private:
     Ui::MainWindow *ui;
