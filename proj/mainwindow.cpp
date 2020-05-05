@@ -9,6 +9,8 @@
 #include <QJsonObject>
 #include <QJsonArray>
 #include <QFile>
+#include <QLabel>//clock
+#include <QString>//jen na ukázku pro clock v moveVeh
 
 
 MainWindow::MainWindow(QWidget *parent)
@@ -36,6 +38,14 @@ void MainWindow::moveVeh()
 {
     /// moving vehicles
     vehicleVector[0].move();
+
+    static int i = 0;
+    QString s = QString::number(i);
+
+    //nastav si tady nějakej čas, jak budeš chtít
+    //setText bere QString!!
+    ui->clock->setText(s);
+    i++;
 }
 
 void MainWindow::zoom_in()
