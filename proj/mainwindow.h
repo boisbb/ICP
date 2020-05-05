@@ -27,6 +27,8 @@ private slots:
     void moveVeh();
     void zoom_in();
     void zoom_out();
+    void speed_up();
+    void slow_down();
 
 private:
     Ui::MainWindow *ui;
@@ -35,11 +37,14 @@ private:
     void timerStart();
 
 
+    QTime sceneTime = QTime::currentTime();
+    double interval = 500;
     QVector<busLine> lineVector;
     QVector<street> streetVector;
     QVector<stop> stopVector;
     QVector<vehicle> vehicleVector;
     scene *myScene;
     QTimer *timer = new QTimer(this);
+    void deserialize();
 };
 #endif // MAINWINDOW_H

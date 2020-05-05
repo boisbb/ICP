@@ -11,14 +11,16 @@ class busLine
 {
 public:
     busLine();
-    busLine(int lineId, QVector<QString> lineStopNames);
+    busLine(int lineId);
     /* getters */
     int getId();
     QVector<QString> getStopNames();
     QColor getLineColor();
+    QVector<stop> getRoute();
     /* */
     void addStop(stop busStop);
-    QVector<stop> getRoute();
+    void setColor(QColor color);
+
 
 private:
     int id;

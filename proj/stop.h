@@ -13,7 +13,7 @@ class stop
 {
 public:
     stop();
-    stop(QString stopName, coordinate stopPosition, QString stopStreetName);
+    stop(QString stopName, coordinate stopPosition);
     void setStreet(street s);
     //QString getStreetName() const;
     QString getStopName() const;

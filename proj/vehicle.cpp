@@ -110,7 +110,7 @@ void vehicle::move()
 
         journeyPos++;
         stopBool = false;
-        qDebug() << " X CURRENT: " << coords->getX() << " Y CURRENT: " << coords->getY();
+        qDebug() << " X CURRENT: " << coords->getX() << " Y CURRENT: " << coords->getY() << journeyPos;
         qDebug() << " X STOP: " << nextStop.getCoord()->getX() << " Y STOP: " << nextStop.getCoord()->getY();
 
         if(nextStop.getCoord()->getX() == coords->getX() && nextStop.getCoord()->getY() == coords->getY()){
@@ -174,7 +174,7 @@ void vehicle::getJourney()
                 c_pow = a_pow + b_pow;
 
                 c = sqrt(c_pow);
-                ratio = 1 / c;
+                ratio = 0.2 / c;
 
                 if(journey.at(i).getX() > line->getRoute().at(j).getStreet(stopStreetNum)->getEnd().getX()){
                     if(journey.at(i).getY() > line->getRoute().at(j).getStreet(stopStreetNum)->getEnd().getY()){
@@ -208,7 +208,8 @@ void vehicle::getJourney()
                 }
 
 
-                if(coords->getX() == round(journey.at(i).getX()) && coords->getY() == round(journey.at(i).getY())){
+                if((coords->getX() == round(journey.at(i).getX()) && coords->getY() == round(journey.at(i).getY()))
+                        && (coords->getX() >= journey.at(i).getX() && coords->getY() >= journey.at(i).getY()) ){
                     journeyPos = i;
                     stopNum = j;
                 }
@@ -243,7 +244,10 @@ void vehicle::getJourney()
         }
     }
 
+    qDebug() << "SIZE IS: " << journey.size() << " TIME IS in minutes: " << ((500.0 / 1000.0)/60) * (double)journey.size();
+    //exit(0);
 
-    for (QVector<coordinate>::const_iterator i = journey.begin(); i != journey.end(); ++i)
-        qDebug() << i->getX() << " " << i->getY() << ' ';
+
+    //for (QVector<coordinate>::const_iterator i = journey.begin(); i != journey.end(); ++i)
+        //qDebug() << i->getX() << " " << i->getY() << ' ';
 }

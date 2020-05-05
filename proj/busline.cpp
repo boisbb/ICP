@@ -6,10 +6,9 @@ busLine::busLine()
 
 }
 
-busLine::busLine(int lineId, QVector<QString> lineStopNames)
+busLine::busLine(int lineId)
 {
     id = lineId;
-    stopNames = lineStopNames;
 }
 
 int busLine::getId()
@@ -30,6 +29,11 @@ QColor busLine::getLineColor()
 void busLine::addStop(stop busStop)
 {
     lineRoute.append(busStop);
+}
+
+void busLine::setColor(QColor color)
+{
+    lineColor = color;
 }
 
 QVector<stop> busLine::getRoute()
