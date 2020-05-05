@@ -22,6 +22,8 @@ MainWindow::MainWindow(QWidget *parent)
 
     connect(ui->button_plus, &QPushButton::clicked, this, &MainWindow::zoom_in);
     connect(ui->button_minus,&QPushButton::clicked, this, &MainWindow::zoom_out);
+    connect(ui->speed_up, &QPushButton::clicked, this, &MainWindow::speed_up);
+    connect(ui->slow_down, &QPushButton::clicked, this, &MainWindow::slow_down);
 }
 
 MainWindow::~MainWindow()
@@ -56,6 +58,19 @@ void MainWindow::zoom_in()
 void MainWindow::zoom_out()
 {
     ui->graphicsView->scale(0.8, 0.8);
+}
+
+//signály jsou connectnuté
+void MainWindow::speed_up()
+{
+    //zrychlení
+    qDebug() << "přidej";
+}
+
+void MainWindow::slow_down()
+{
+    qDebug() << "zpomal";
+    //zpomalení
 }
 
 void MainWindow::drawStuff(QVector<QGraphicsItem*> items)
