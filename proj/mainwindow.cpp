@@ -20,6 +20,13 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
     initScene();
 
+
+    /*
+        Ke kolečku pristoupis nasledovne: v cyklu ofc abys prosel vsechny vozidla
+        vehicleVector[0].getGraphics()[0];
+        tzn.: connect(vehicleVector[i].getGraphics()[0], Nejakej signal, this, SLOT(stisknuteVozidlo(vehicleVector[i]));
+    */
+
     connect(ui->button_plus, &QPushButton::clicked, this, &MainWindow::zoom_in);
     connect(ui->button_minus,&QPushButton::clicked, this, &MainWindow::zoom_out);
     connect(ui->speed_up, &QPushButton::clicked, this, &MainWindow::speed_up);
@@ -72,6 +79,7 @@ void MainWindow::slow_down()
 
 void MainWindow::resizeEvent(QResizeEvent *event)
 {
+
 
     static QSize old = QWidget::size();
     QSize size = QWidget::size();
