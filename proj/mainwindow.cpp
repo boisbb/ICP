@@ -45,7 +45,7 @@ void MainWindow::zoom_in()
 
 void MainWindow::zoom_out()
 {
-    ui->graphicsView->scale(0.75, 0.75);
+    ui->graphicsView->scale(0.8, 0.8);
 }
 
 void MainWindow::drawStuff(QVector<QGraphicsItem*> items)
