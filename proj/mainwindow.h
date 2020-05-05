@@ -3,6 +3,7 @@
 #include <QMainWindow>
 #include <QGraphicsItem>
 #include <QTimer>
+#include <QWidget>//resize
 
 #include "busline.h"
 #include "coordinate.h"
@@ -30,11 +31,15 @@ private slots:
     void speed_up();
     void slow_down();
 
+protected:
+    virtual void resizeEvent(QResizeEvent *event);
+
 private:
     Ui::MainWindow *ui;
     void initScene();
     void drawStuff(QVector<QGraphicsItem*> items);
     void timerStart();
+    void see_info();//v dolním místě bude ukazovat informace o zvoleném vozidle
 
 
     QTime sceneTime = QTime::currentTime();

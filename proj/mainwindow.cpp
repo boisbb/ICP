@@ -41,14 +41,8 @@ void MainWindow::moveVeh()
     /// moving vehicles
     vehicleVector[0].move();
 
-    static int i = 0;
-    QString s = QString::number(i);
-
-    //nastav si tady nějakej čas, jak budeš chtít
-    //setText bere QString!!
     sceneTime = sceneTime.addMSecs(500);
     ui->clock->setText(sceneTime.toString());
-    i++;
 }
 
 void MainWindow::zoom_in()
@@ -61,7 +55,6 @@ void MainWindow::zoom_out()
     ui->graphicsView->scale(0.8, 0.8);
 }
 
-//signály jsou connectnuté
 void MainWindow::speed_up()
 {
     //zrychlení
@@ -77,6 +70,32 @@ void MainWindow::slow_down()
     timer->setInterval(interval);
 }
 
+void MainWindow::resizeEvent(QResizeEvent *event)
+{
+
+    static QSize old = QWidget::size();
+    QSize size = QWidget::size();
+
+    float width = (float)size.rwidth()/(float)old.rwidth();
+    //float height = (float)size.rheight()/(float)old.rheight();
+    /*
+    if(width == 1){
+        width = height;
+        qDebug() << "sirka";
+    }
+    else if(height == 1){
+        qDebug() << "vyska";
+    }
+    else{
+       height = width;
+    }
+    */
+    qDebug() << width;
+    ui->graphicsView->scale(width, width);
+    old = size;
+    QWidget::resizeEvent(event);
+
+}
 void MainWindow::drawStuff(QVector<QGraphicsItem*> items)
 {
     for(QGraphicsItem* item : items){
@@ -89,6 +108,11 @@ void MainWindow::timerStart()
     timer->setInterval(interval);
     connect(timer, SIGNAL(timeout()), this, SLOT(moveVeh()));
     timer->start(100);
+}
+
+void MainWindow::see_info()
+{
+
 }
 
 void MainWindow::deserialize()
