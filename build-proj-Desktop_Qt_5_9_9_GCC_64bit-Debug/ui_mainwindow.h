@@ -30,7 +30,7 @@ public:
     QWidget *centralwidget;
     QGridLayout *gridLayout;
     QVBoxLayout *verticalLayout_2;
-    QGraphicsView *graphicsView_2;
+    QGraphicsView *route_info;
     QVBoxLayout *verticalLayout_4;
     QPushButton *speed_up;
     QPushButton *slow_down;
@@ -50,16 +50,16 @@ public:
         gridLayout->setObjectName(QStringLiteral("gridLayout"));
         verticalLayout_2 = new QVBoxLayout();
         verticalLayout_2->setObjectName(QStringLiteral("verticalLayout_2"));
-        graphicsView_2 = new QGraphicsView(centralwidget);
-        graphicsView_2->setObjectName(QStringLiteral("graphicsView_2"));
+        route_info = new QGraphicsView(centralwidget);
+        route_info->setObjectName(QStringLiteral("route_info"));
         QSizePolicy sizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
         sizePolicy.setHorizontalStretch(0);
         sizePolicy.setVerticalStretch(0);
-        sizePolicy.setHeightForWidth(graphicsView_2->sizePolicy().hasHeightForWidth());
-        graphicsView_2->setSizePolicy(sizePolicy);
-        graphicsView_2->setMaximumSize(QSize(16777215, 90));
+        sizePolicy.setHeightForWidth(route_info->sizePolicy().hasHeightForWidth());
+        route_info->setSizePolicy(sizePolicy);
+        route_info->setMaximumSize(QSize(16777215, 90));
 
-        verticalLayout_2->addWidget(graphicsView_2);
+        verticalLayout_2->addWidget(route_info);
 
 
         gridLayout->addLayout(verticalLayout_2, 2, 0, 1, 1);

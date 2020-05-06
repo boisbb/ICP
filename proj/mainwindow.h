@@ -54,5 +54,6 @@ private:
     scene *myScene;
     QTimer *timer = new QTimer(this);
     void deserialize();
+    QGraphicsEllipseItem *infoVehicle;
 };
 #endif // MAINWINDOW_H

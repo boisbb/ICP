@@ -68,22 +68,47 @@ void MainWindow::showInfo(vehicle veh, bool check)
             route->setPos(-350, 0);
 
             //linka 10
+            /*
             if(veh.getNumber() == 10){
                 qDebug() << veh.get_stops_number();
                 //funkce na kreslní zastávek, je tam ukazatel, takže co tam vykreslíš se vykrelsí
                 //MainWindow::draw_stops(info_box);
                 for(int i = 0; i < veh.get_stops_number(); i++){
                     auto stop = info_box->addEllipse((-400+i*20), 6, 4, 4);//jen pro test
-                    stop->setBrush(QBrush(QColor(0, 0, 0), Qt::SolidPattern));
+
 
                 }
 
+            }*/
+
+
+            QVector<double> stopRatio = veh.getStopRatio();
+            for (double ratio : stopRatio) {
+                if(!veh.getWayBack()){
+                    // Nememlo by byt natvrdo
+                    double width = 390;
+                    auto stopEll = info_box->addEllipse(-410 + ratio * width - 2, 12 - 2, 4, 4);
+                    stopEll->setBrush(QBrush(QColor(0, 0, 0), Qt::SolidPattern));
+                }
+                else{
+                    double width = 390;
+                    auto stopEll = info_box->addEllipse(20 - ratio * width - 2, 12 - 2, 4, 4);
+                    stopEll->setBrush(QBrush(QColor(0, 0, 0), Qt::SolidPattern));
+                }
             }
+
+
+
             ui->route_info->setRenderHint(QPainter::Antialiasing);
+            infoVehicle = new QGraphicsEllipseItem((-410 + ((double) veh.getJourneyPos()/(double) veh.getFullJourney().size()) * 390) - 4, 12 - 4, 8, 8);
+            info_box->addItem(infoVehicle);
+            infoVehicle->setBrush(QBrush(veh.getColor(), Qt::SolidPattern));
         }
         else{
-            //posunuj vozidlo, mapa je vykreslená
-            //asi se tady i vozidlo přidá
+            if(!veh.getWayBack())
+                infoVehicle->setRect((-410 + ((double) veh.getJourneyPos()/(double) veh.getFullJourney().size()) * 390) - 4, 12 - 4, 8, 8);
+            else
+                infoVehicle->setRect((-20 - ((double) veh.getJourneyPos()/(double) veh.getFullJourney().size()) * 390) -4, 12 - 4, 8, 8);
         }
     }
     else{
@@ -294,7 +319,7 @@ void MainWindow::deserialize()
     }
 
     // VEHICLES /
-    /*
+
     for (QJsonValue vehVal : vehicles) {
         QJsonObject vehObj = vehVal.toObject();
         int number = vehObj.find("number")->toInt();
@@ -313,7 +338,7 @@ void MainWindow::deserialize()
         vehicleVector[vehicleVector.size() - 1]->setGraphics();
         drawStuff(vehicleVector[vehicleVector.size() - 1]->getGraphics());
 
-    }*/
+    }
 
     ui->graphicsView->scale(0.5, 0.5);
 
