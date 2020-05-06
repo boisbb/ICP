@@ -45,11 +45,19 @@ void MainWindow::onValueChange(int val)
 
 void MainWindow::moveVeh()
 {
+    static int a = 0;
     /// moving vehicles
-    vehicleVector[0].move();
+    for (vehicle *veh : vehicleVector) {
+        veh->move();
+        if(veh->getClicked()){
+            qDebug() << a++;
+        }
+    }
 
     sceneTime = sceneTime.addMSecs(500);
     ui->clock->setText(sceneTime.toString());
+
+
 }
 
 void MainWindow::zoom_in()
@@ -69,7 +77,7 @@ void MainWindow::speed_up()
     interval /= 2;
     //qDebug() << interval;
     for(int i = 0; i < vehicleVector.size(); i++){
-        vehicleVector[i].speedUp();
+        vehicleVector[i]->speedUp();
     }
     timer->setInterval(interval);
 }
@@ -78,7 +86,7 @@ void MainWindow::slow_down()
 {
     interval *= 2;
     for(int i = 0; i < vehicleVector.size(); i++){
-        vehicleVector[i].slowDown();
+        vehicleVector[i]->slowDown();
     }
     timer->setInterval(interval);
 }
@@ -211,19 +219,19 @@ void MainWindow::deserialize()
         QJsonObject vehObj = vehVal.toObject();
         int number = vehObj.find("number")->toInt();
         coordinate position(vehObj.find("x")->toDouble(),vehObj.find("y")->toDouble());
-        vehicleVector.append(vehicle(position, number));
+        vehicleVector.append(new vehicle(position, number));
         int i = 0;
         for(busLine line : lineVector){
             if(line.getId() == number){
-                vehicleVector[vehicleVector.size() - 1].setLine(line);
-                lineVector[i].setColor(vehicleVector[vehicleVector.size() - 1].getColor());
+                vehicleVector[vehicleVector.size() - 1]->setLine(line);
+                lineVector[i].setColor(vehicleVector[vehicleVector.size() - 1]->getColor());
             }
             i++;
         }
-        vehicleVector[vehicleVector.size() - 1].getJourney();
+        vehicleVector[vehicleVector.size() - 1]->getJourney();
 
-        vehicleVector[vehicleVector.size() - 1].setGraphics();
-        drawStuff(vehicleVector[vehicleVector.size() - 1].getGraphics());
+        vehicleVector[vehicleVector.size() - 1]->setGraphics();
+        drawStuff(vehicleVector[vehicleVector.size() - 1]->getGraphics());
 
     }
 

@@ -10,7 +10,9 @@ void ellipse::setVehicle(vehicle *ellVeh)
 void ellipse::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
     qDebug() << "clicked";
+
     if(ellipseVehicle){
+        ellipseVehicle->setClicked(true);
         qDebug() << ellipseVehicle->getNumber();
     }
 }

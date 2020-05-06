@@ -47,7 +47,7 @@ private:
     QVector<busLine> lineVector;
     QVector<street> streetVector;
     QVector<stop> stopVector;
-    QVector<vehicle> vehicleVector;
+    QVector<vehicle*> vehicleVector;
     scene *myScene;
     QTimer *timer = new QTimer(this);
     void deserialize();

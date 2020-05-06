@@ -26,6 +26,7 @@ public:
     bool getWayBack();
     QVector<QGraphicsItem*> getGraphics() const;
     QColor getColor();
+    bool getClicked();
     /* */
     /* setters */
     void setCoords(coordinate newCoord);
@@ -33,6 +34,7 @@ public:
     void setGraphics();
     void speedUp();
     void slowDown();
+    void setClicked(bool switchClicked);
     /* */
     void move();
     void getJourney();
@@ -52,6 +54,7 @@ private:
     bool wayBack;
     QVector<QGraphicsItem*> vehicleGraphics;
     double speed;
+    bool clicked = false;
 
 
 

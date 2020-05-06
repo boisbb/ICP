@@ -49,12 +49,12 @@ QVector<double> vehicle::getStopRatio()
 
 int vehicle::getJourneyPos()
 {
-
+    return journeyPos;
 }
 
 QVector<coordinate> vehicle::getFullJourney()
 {
-
+    return journey;
 }
 
 bool vehicle::getWayBack()
@@ -70,6 +70,11 @@ QVector<QGraphicsItem *> vehicle::getGraphics() const
 QColor vehicle::getColor()
 {
     return color;
+}
+
+bool vehicle::getClicked()
+{
+    return clicked;
 }
 
 void vehicle::setCoords(coordinate newCoord)
@@ -113,6 +118,11 @@ void vehicle::speedUp()
 void vehicle::slowDown()
 {
     speed *= 1.2;
+}
+
+void vehicle::setClicked(bool switchClicked)
+{
+    clicked = switchClicked;
 }
 
 
