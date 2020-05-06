@@ -26,6 +26,7 @@ public:
     ~MainWindow();
 private slots:
     void onValueChange(int val);
+    void showInfo(vehicle veh, bool check);
     void moveVeh();
     void zoom_in();
     void zoom_out();
@@ -41,6 +42,7 @@ private:
     void drawStuff(QVector<QGraphicsItem*> items);
     void timerStart();
     void see_info();//v dolním místě bude ukazovat informace o zvoleném vozidle
+    void draw_stops(QGraphicsScene *scene);
 
 
     QTime sceneTime = QTime(QTime::currentTime().hour(),QTime::currentTime().minute(), round(QTime::currentTime().second()));

@@ -9,10 +9,20 @@ void ellipse::setVehicle(vehicle *ellVeh)
 
 void ellipse::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
-    qDebug() << "clicked";
+    //qDebug() << "clicked";
+    static bool clicked = false;
 
     if(ellipseVehicle){
-        ellipseVehicle->setClicked(true);
-        qDebug() << ellipseVehicle->getNumber();
+        //TODO překlikávání když bude víc vozidel
+        if(clicked){
+            ellipseVehicle->setClicked(false);
+            clicked = false;
+        }
+        else{
+            ellipseVehicle->setClicked(true);
+            clicked = true;
+        }
+        //v mainwindow se v moveVeh zjsiití jeslti je trues
+        //qDebug() << ellipseVehicle->getNumber();
     }
 }

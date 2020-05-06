@@ -11,6 +11,7 @@
 #include <QFile>
 #include <QLabel>//clock
 #include <QString>//jen na ukázku pro clock v moveVeh
+#include <QGraphicsScene>//info dole
 
 
 MainWindow::MainWindow(QWidget *parent)
@@ -43,14 +44,79 @@ void MainWindow::onValueChange(int val)
     qDebug() << "value" << val;
 }
 
+//funkce na ukazování informací o zvolené trase
+void MainWindow::showInfo(vehicle veh, bool check)
+{
+    //qDebug() << veh.getNumber();
+    //aby se celý box stále nepřekresloval
+    static bool was_here = false;
+    if(check){
+        if(!was_here){
+            was_here = true;
+            auto *info_box = new QGraphicsScene(ui->route_info);
+            ui->route_info->setScene(info_box);
+
+            auto linka = info_box->addText("Linka:");
+            linka->setPos(-500, 0);
+
+            QString number = QString::number(veh.getNumber());
+            //qDebug() << number;
+            auto cislo = info_box->addText(number);
+            cislo->setPos(-450, 0);
+
+            auto route = info_box->addLine(-60,12,330, 12);
+            route->setPos(-350, 0);
+
+            //linka 10
+            if(veh.getNumber() == 10){
+                qDebug() << veh.get_stops_number();
+                //funkce na kreslní zastávek, je tam ukazatel, takže co tam vykreslíš se vykrelsí
+                //MainWindow::draw_stops(info_box);
+                for(int i = 0; i < veh.get_stops_number(); i++){
+                    auto stop = info_box->addEllipse((-400+i*20), 6, 4, 4);//jen pro test
+                    stop->setBrush(QBrush(QColor(0, 0, 0), Qt::SolidPattern));
+
+                }
+
+            }
+            ui->route_info->setRenderHint(QPainter::Antialiasing);
+        }
+        else{
+            //posunuj vozidlo, mapa je vykreslená
+            //asi se tady i vozidlo přidá
+        }
+    }
+    else{
+        //vyčistí dolní box
+        auto *info_box = new QGraphicsScene(ui->route_info);
+        ui->route_info->setScene(info_box);
+        was_here = false;
+
+        auto text = info_box->addText("klikněte na autobus pro zobrazení podrobností");
+    }
+
+
+}
+
+void MainWindow::draw_stops(QGraphicsScene *scene)
+{
+    /*
+    auto stop =  scene->addEllipse((-400*20), 6, 4, 4);
+    stop->setBrush(QBrush(QColor(0, 0, 0), Qt::SolidPattern));
+    */
+}
+
 void MainWindow::moveVeh()
 {
-    static int a = 0;
+    //static int a = 0;
     /// moving vehicles
     for (vehicle *veh : vehicleVector) {
         veh->move();
         if(veh->getClicked()){
-            qDebug() << a++;
+            MainWindow::showInfo(*veh, true);
+        }
+        else{
+            MainWindow::showInfo(*veh, false);
         }
     }
 
@@ -124,6 +190,8 @@ void MainWindow::resizeEvent(QResizeEvent *event)
     }
     */
     ui->graphicsView->scale(width, width);
+    //TODO upravit
+    ui->route_info->scale(width, width);
     old = size;
     QWidget::resizeEvent(event);
 

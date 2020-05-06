@@ -27,6 +27,7 @@ public:
     QVector<QGraphicsItem*> getGraphics() const;
     QColor getColor();
     bool getClicked();
+    int get_stops_number();
     /* */
     /* setters */
     void setCoords(coordinate newCoord);
