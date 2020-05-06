@@ -1,5 +1,8 @@
 #include "busline.h"
 #include "stop.h"
+#include "coordinate.h"
+
+#include <QDebug>
 
 busLine::busLine()
 {
@@ -39,4 +42,22 @@ void busLine::setColor(QColor color)
 QVector<stop> busLine::getRoute()
 {
     return lineRoute;
+}
+
+void busLine::getStopTimes()
+{
+    for(stop busS : lineRoute){
+        stopTimes.append(new timetableClass());
+    }
+
+    stopTimes[0]->busStop = new stop(lineRoute[0].getStopName(),*lineRoute[0].getCoord());
+
+    for(int i = 0; i < 48; i++){
+        stopTimes[0]->departureTime[i][0] = new QTime(i, 0, 0);
+        qDebug() << stopTimes[0]->departureTime[i][0] << " BUSTIME";
+        stopTimes[0]->departureTime[i][1] = new QTime(i, 30, 0);
+        qDebug() << stopTimes[0]->departureTime[i][1];
+    }
+
+
 }

@@ -8,6 +8,7 @@
 #include "coordinate.h"
 #include "stop.h"
 #include "street.h"
+#include "ellipse.h"
 
 vehicle::vehicle()
 {
@@ -95,23 +96,46 @@ void vehicle::setLine(busLine bus)
 
 void vehicle::setGraphics()
 {
-    vehicleGraphics.append(new QGraphicsEllipseItem(this->getCoords()->getX() - 6, this->getCoords()->getY() - 6, 12, 12));
+    ellipse *ellipseVeh = new ellipse();
+    ellipseVeh->setRect(this->getCoords()->getX() - 6, this->getCoords()->getY() - 6, 12, 12);
+    ellipseVeh->setVehicle(this);
+    vehicleGraphics.append(ellipseVeh);
     dynamic_cast<QGraphicsEllipseItem*>(vehicleGraphics.at(0))->setBrush(QBrush(color, Qt::SolidPattern));
+    /* NASTAVENÍ FLAGU */
 }
+
+void vehicle::speedUp()
+{
+    speed /= 1.2;
+    //WqDebug() << "Speed up: " << speed;
+}
+
+void vehicle::slowDown()
+{
+    speed *= 1.2;
+}
+
+
 
 void vehicle::move()
 {
-    if(!stopBool || QTime::currentTime() >= stopTime.addSecs(1)){
+    //qDebug() << speed;
+    if(!stopBool || QTime::currentTime() >= stopTime.addMSecs(speed)){
         stop nextStop = stopVec.at(stopNum);
+
+        /*qDebug() << " X CURRENT: " << coords->getX() << " Y CURRENT: " << coords->getY() << journeyPos;
+        qDebug() << " X STOP: " << nextStop.getCoord()->getX() << " Y STOP: " << nextStop.getCoord()->getY();
+        qDebug() << journey.size() << stopVec.size();*/
 
         QGraphicsEllipseItem *newVehicleGraphics = dynamic_cast<QGraphicsEllipseItem*>(vehicleGraphics.at(0));
         newVehicleGraphics->setRect(journey.at(journeyPos).getX() - 6, journey.at(journeyPos).getY() - 6, 12, 12);
         *coords = journey[journeyPos];
 
+
+
         journeyPos++;
         stopBool = false;
-        qDebug() << " X CURRENT: " << coords->getX() << " Y CURRENT: " << coords->getY() << journeyPos;
-        qDebug() << " X STOP: " << nextStop.getCoord()->getX() << " Y STOP: " << nextStop.getCoord()->getY();
+
 
         if(nextStop.getCoord()->getX() == coords->getX() && nextStop.getCoord()->getY() == coords->getY()){
             stopBool = true;
@@ -136,6 +160,7 @@ void vehicle::move()
 void vehicle::getJourney()
 {
     stopNum = 1;
+    speed = 1000;
     double a = 0.0;
     double b = 0.0;
     double c = 0.0;
@@ -174,7 +199,7 @@ void vehicle::getJourney()
                 c_pow = a_pow + b_pow;
 
                 c = sqrt(c_pow);
-                ratio = 0.2 / c;
+                ratio = 0.5 / c;
 
                 if(journey.at(i).getX() > line->getRoute().at(j).getStreet(stopStreetNum)->getEnd().getX()){
                     if(journey.at(i).getY() > line->getRoute().at(j).getStreet(stopStreetNum)->getEnd().getY()){
@@ -213,7 +238,10 @@ void vehicle::getJourney()
                     journeyPos = i;
                     stopNum = j;
                 }
-                //qDebug() << "X: " << journey.at(i).getX() << " Y: " << journey.at(i).getY();
+
+                /*qDebug() << "X: " << journey.at(i).getX() << " Y: " << journey.at(i).getY();
+                qDebug() << "X: " << line->getRoute().at(j).getStreet(stopStreetNum)->getEnd().getX() << " Y: " << line->getRoute().at(j).getStreet(stopStreetNum)->getEnd().getY();
+                qDebug() << "X: " << journey.at(i).getX() << " Y: " << journey.at(i).getY();*/
 
             }while(round(journey.at(i).getY()) != line->getRoute().at(j).getStreet(stopStreetNum)->getEnd().getY() || round(journey.at(i).getX()) != line->getRoute().at(j).getStreet(stopStreetNum)->getEnd().getX());
             journey.append(coordinate(line->getRoute().at(j).getStreet(stopStreetNum)->getEnd().getX(), line->getRoute().at(j).getStreet(stopStreetNum)->getEnd().getY()));
@@ -228,11 +256,13 @@ void vehicle::getJourney()
     for(int j = 0; j < line->getRoute().size(); j++){
         k = 0;
         for (coordinate journeyCoord : journey){
-            if(line->getRoute().at(j).getCoord()->getX() == round(journeyCoord.getX())
-            && line->getRoute().at(j).getCoord()->getY() == round(journeyCoord.getY())){
+            if(round(line->getRoute().at(j).getCoord()->getX()) == round(journeyCoord.getX())
+            && round(line->getRoute().at(j).getCoord()->getY()) == round(journeyCoord.getY())){
+                //qDebug() << line->getRoute()[j].getCoord()->getX() << line->getRoute()[j].getCoord()->getY();
                 journey[k].setX(line->getRoute().at(j).getCoord()->getX());
                 journey[k].setY(line->getRoute().at(j).getCoord()->getY());
                 idx = k;
+
                 if(j == line->getRoute().size() - 1){
                     for(int l = journey.size() - 1; l > idx; l--){
                         journey.remove(l);
@@ -244,7 +274,8 @@ void vehicle::getJourney()
         }
     }
 
-    qDebug() << "SIZE IS: " << journey.size() << " TIME IS in minutes: " << ((500.0 / 1000.0)/60) * (double)journey.size();
+    //qDebug() << "SIZE IS: " << journey.size() << " TIME IS in minutes: " << ((500.0 / 1000.0)/60) * (double)journey.size();
+    //qDebug() << stopVec.size();
     //exit(0);
 
 

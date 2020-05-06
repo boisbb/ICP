@@ -31,6 +31,8 @@ public:
     void setCoords(coordinate newCoord);
     void setLine(busLine bus);
     void setGraphics();
+    void speedUp();
+    void slowDown();
     /* */
     void move();
     void getJourney();
@@ -49,6 +51,7 @@ private:
     QTime stopTime;
     bool wayBack;
     QVector<QGraphicsItem*> vehicleGraphics;
+    double speed;
 
 
 

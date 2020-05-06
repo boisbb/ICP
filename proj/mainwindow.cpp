@@ -65,15 +65,21 @@ void MainWindow::zoom_out()
 void MainWindow::speed_up()
 {
     //zrychlení
-    qDebug() << "přidej";
+
     interval /= 2;
+    //qDebug() << interval;
+    for(int i = 0; i < vehicleVector.size(); i++){
+        vehicleVector[i].speedUp();
+    }
     timer->setInterval(interval);
 }
 
 void MainWindow::slow_down()
 {
-    qDebug() << "zpomal";
     interval *= 2;
+    for(int i = 0; i < vehicleVector.size(); i++){
+        vehicleVector[i].slowDown();
+    }
     timer->setInterval(interval);
 }
 
@@ -98,7 +104,6 @@ void MainWindow::resizeEvent(QResizeEvent *event)
        height = width;
     }
     */
-    qDebug() << width;
     ui->graphicsView->scale(width, width);
     old = size;
     QWidget::resizeEvent(event);
@@ -125,9 +130,9 @@ void MainWindow::see_info()
 
 void MainWindow::deserialize()
 {
-    QFile input("../examples/map.json");
+    QFile input("../examples/map_base.json");
     if(input.open(QIODevice::ReadWrite)){
-        qDebug() << "Created/opened";
+        exit(1);
     }
 
     QJsonDocument doc;
@@ -156,13 +161,13 @@ void MainWindow::deserialize()
         coordinate start(streetObj.find("start x")->toDouble(), streetObj.find("start y")->toDouble());
         coordinate end(streetObj.find("end x")->toDouble(), streetObj.find("end y")->toDouble());
         QString name = streetObj.find("name")->toString();
-
         streetVector.append(street(start, end, name));
         streetVector[streetVector.size() - 1].setGraphics();
         drawStuff(streetVector[streetVector.size() - 1].getGraphics());
 
 
     }
+
     /* STOPS */
     for(QJsonValue stopVal : stops){
         QJsonObject stopObj = stopVal.toObject();
@@ -184,7 +189,8 @@ void MainWindow::deserialize()
         }
     }
 
-    /* LINES */
+
+    // LINES /
     for (QJsonValue lineVal : lines) {
        QJsonObject lineObj = lineVal.toObject();
        int number = lineObj.find("number")->toInt();
@@ -197,31 +203,31 @@ void MainWindow::deserialize()
                 }
             }
        }
+       lineVector[lineVector.size() - 1].getStopTimes();
     }
 
-    /* VEHICLES */
+    // VEHICLES /
     for (QJsonValue vehVal : vehicles) {
         QJsonObject vehObj = vehVal.toObject();
         int number = vehObj.find("number")->toInt();
         coordinate position(vehObj.find("x")->toDouble(),vehObj.find("y")->toDouble());
         vehicleVector.append(vehicle(position, number));
         int i = 0;
-        qDebug() << vehicleVector[vehicleVector.size() - 1].getCoords()->getX();
         for(busLine line : lineVector){
             if(line.getId() == number){
-                qDebug() << line.getId();
                 vehicleVector[vehicleVector.size() - 1].setLine(line);
                 lineVector[i].setColor(vehicleVector[vehicleVector.size() - 1].getColor());
             }
             i++;
         }
-
         vehicleVector[vehicleVector.size() - 1].getJourney();
+
         vehicleVector[vehicleVector.size() - 1].setGraphics();
         drawStuff(vehicleVector[vehicleVector.size() - 1].getGraphics());
+
     }
 
-
+    ui->graphicsView->scale(0.5, 0.5);
 
 
 }

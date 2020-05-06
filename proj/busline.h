@@ -3,6 +3,7 @@
 
 
 #include <QColor>
+#include <QTime>
 #include <QVector>
 
 class stop;
@@ -17,16 +18,26 @@ public:
     QVector<QString> getStopNames();
     QColor getLineColor();
     QVector<stop> getRoute();
+    void getStopTimes();
     /* */
     void addStop(stop busStop);
     void setColor(QColor color);
 
 
 private:
+
+    class timetableClass {
+      public:
+        stop *busStop;
+        QVector<QVector<QTime*>> departureTime;
+    };
+
+
     int id;
     QVector<QString> stopNames;
     QVector<stop> lineRoute;
     QColor lineColor;
+    QVector<timetableClass*> stopTimes;
 
 
 

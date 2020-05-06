@@ -1,0 +1,550 @@
+[
+    {
+        "stops": [
+            {
+                "name": "testStop0",
+                "street name": [
+                    "testStreet0"
+                ],
+                "x": 37,
+                "y": 80
+            },
+            {
+                "name": "testStop1",
+                "street name": [
+                    "testStreet0"
+                ],
+                "x": 121.719276,
+                "y": 73.909072
+            },
+            {
+                "name": "testStop2",
+                "street name": [
+                    "testStreet0"
+                ],
+                "x": 172.329130,
+                "y": 70.270455
+            },
+            {
+                "name": "testStop3",
+                "street name": [
+                    "testStreet1"
+                ],
+                "x": 199.380087,
+                "y": 77.740536
+            },
+            {
+                "name": "testStop4",
+                "street name": [
+                    "testStreet1"
+                ],
+                "x": 227.349746,
+                "y": 103.803173
+            },
+            {
+                "name": "testStop5",
+                "street name": [
+                    "testStreet2"
+                ],
+                "x": 235.396685,
+                "y": 145.964651
+            },
+            {
+                "name": "testStop6",
+                "street name": [
+                    "testStreet3"
+                ],
+                "x": 249.277723,
+                "y": 213.629721
+            },
+            {
+                "name": "testStop7",
+                "street name": [
+                    "testStreet3"
+                ],
+                "x": 345.479034,
+                "y": 219.001367
+            },
+            {
+                "name": "testStop8",
+                "street name": [
+                    "testStreet3"
+                ],
+                "x": 388.200226,
+                "y": 221.386815
+            },
+            {
+                "name": "testStop9",
+                "street name": [
+                    "testStreet4"
+                ],
+                "x": 443.996729,
+                "y": 252.789533
+            },
+            {
+                "name": "testStop10",
+                "street name": [
+                    "testStreet4"
+                ],
+                "x": 482.411129,
+                "y": 375.715612
+            },
+            {
+                "name": "testStop11",
+                "street name": [
+                    "testStreet5"
+                ],
+                "x": 545.892493,
+                "y": 385.343217
+            },
+            {
+                "name": "testStop12",
+                "street name": [
+                    "testStreet5"
+                ],
+                "x": 559.359546,
+                "y": 385.640284
+            },
+            {
+                "name": "testStop13",
+                "street name": [
+                    "testStreet6"
+                ],
+                "x": 666.516214,
+                "y": 466.801154
+            },
+            {
+                "name": "testStopExtra1",
+                "street name": [
+                    "testStreet5"
+                ],
+                "x": 698,
+                "y": 522
+            },
+            {
+                "name": "testStop14",
+                "street name": [
+                    "testStreet7"
+                ],
+                "x": 6,
+                "y": 506
+            },
+            {
+                "name": "testStop15",
+                "street name": [
+                    "testStreet8"
+                ],
+                "x": 100.227907,
+                "y": 508.196279
+            },
+            {
+                "name": "testStop16",
+                "street name": [
+                    "testStreet9"
+                ],
+                "x": 262.653680,
+                "y": 609.932038
+            },
+            {
+                "name": "testStop18",
+                "street name": [
+                    "testStreet10"
+                ],
+                "x": 262.832034,
+                "y": 522.643105
+            },
+            {
+                "name": "testStop17",
+                "street name": [
+                    "testStreet10"
+                ],
+                "x": 307.871804,
+                "y": 607.013378
+            },
+            {
+                "name": "testStop19",
+                "street name": [
+                    "testStreet11"
+                ],
+                "x": 292.393804,
+                "y": 419.494023
+            },
+            {
+                "name": "testStop20",
+                "street name": [
+                    "testStreet11"
+                ],
+                "x": 318.025820,
+                "y": 391.407878
+            },
+            {
+                "name": "testStop22",
+                "street name": [
+                    "testStreet12"
+                ],
+                "x": 307.752284,
+                "y": 270.402321
+            },
+            {
+                "name": "testStop21",
+                "street name": [
+                    "testStreet12"
+                ],
+                "x": 311.991156,
+                "y": 287.963360
+            },
+            {
+                "name": "testStop23",
+                "street name": [
+                    "testStreet13"
+                ],
+                "x": 335.571816,
+                "y": 198.653893
+            },
+            {
+                "name": "testStop25",
+                "street name": [
+                    "testStreet13"
+                ],
+                "x": 381.996356,
+                "y": 107.015889
+            },
+            {
+                "name": "testStop26",
+                "street name": [
+                    "testStreet13"
+                ],
+                "x": 416.747937,
+                "y": 38.419290
+            },
+            {
+                "name": "testStop24",
+                "street name": [
+                    "testStreet13"
+                ],
+                "x": 352.992249,
+                "y": 164.267474
+            },
+            {
+                "name": "testStop28",
+                "street name": [
+                    "testStreet14"
+                ],
+                "x": 605.314429,
+                "y": 36.003707
+            },
+            {
+                "name": "testStop27",
+                "street name": [
+                    "testStreet14"
+                ],
+                "x": 493.785589,
+                "y": 33.594133
+            },
+            {
+                "name": "testStop29",
+                "street name": [
+                    "testStreet14"
+                ],
+                "x": 709.233304,
+                "y": 38.248868
+            },
+            {
+                "name": "testStop30",
+                "street name": [
+                    "testStreet15"
+                ],
+                "x": 744.190407,
+                "y": 101.263201
+            },
+            {
+                "name": "testStop32",
+                "street name": [
+                    "testStreet15"
+                ],
+                "x": 744.504878,
+                "y": 204.095230
+            },
+            {
+                "name": "testStop31",
+                "street name": [
+                    "testStreet15"
+                ],
+                "x": 744.380561,
+                "y": 163.443502
+            },
+            {
+                "name": "testStop34",
+                "street name": [
+                    "testStreet16"
+                ],
+                "x": 714.883986,
+                "y": 465.959536
+            },
+            {
+                "name": "testStop33",
+                "street name": [
+                    "testStreet16"
+                ],
+                "x": 722.412265,
+                "y": 440.972057
+            },
+            {
+                "name": "testStop35",
+                "street name": [
+                    "testStreet17"
+                ],
+                "x": 582.285866,
+                "y": 598.948194
+            },
+            {
+                "name": "testStop37",
+                "street name": [
+                    "testStreet18"
+                ],
+                "x": 383.932653,
+                "y": 482.591036
+            },
+            {
+                "name": "testStop36",
+                "street name": [
+                    "testStreet18"
+                ],
+                "x": 442.880426,
+                "y": 503.902923
+            },
+            {
+                "name": "testStop39",
+                "street name": [
+                    "testStreet19"
+                ],
+                "x": 327.807508,
+                "y": 478.657833
+            },
+            {
+                "name": "testStop38",
+                "street name": [
+                    "testStreet19"
+                ],
+                "x": 366.902375,
+                "y": 478.947425
+            },
+            {
+                "name": "testStop40",
+                "street name": [
+                    "testStreet20"
+                ],
+                "x": 209.873714,
+                "y": 453.305975
+            },
+            {
+                "name": "testStop42",
+                "street name": [
+                    "testStreet21"
+                ],
+                "x": 137.234312,
+                "y": 273.378846
+            },
+            {
+                "name": "testStop41",
+                "street name": [
+                    "testStreet21"
+                ],
+                "x": 105.093489,
+                "y": 351.101200
+            }
+        ]
+    },
+    {
+        "streets": [
+            {
+                "end x": 190,
+                "end y": 69,
+                "name": "testStreet0",
+                "start x": 37,
+                "start y": 80
+            },
+            {
+                "end x": 234,
+                "end y": 110,
+                "name": "testStreet1",
+                "start x": 190,
+                "start y": 69
+            },
+            {
+                "end x": 238,
+                "end y": 213,
+                "name": "testStreet2",
+                "start x": 234,
+                "start y": 110
+            },
+            {
+                "end x": 435,
+                "end y": 224,
+                "name": "testStreet3",
+                "start x": 238,
+                "start y": 213
+            },
+            {
+                "end x": 485,
+                "end y": 384,
+                "name": "testStreet4",
+                "start x": 435,
+                "start y": 224
+            },
+            {
+                "end x": 621,
+                "end y": 387,
+                "name": "testStreet5",
+                "start x": 485,
+                "start y": 384
+            },
+            {
+                "end x": 698,
+                "end y": 522,
+                "name": "testStreet6",
+                "start x": 621,
+                "start y": 387
+            },
+            {
+                "end x": 97,
+                "end y": 504,
+                "name": "testStreet7",
+                "start x": 6,
+                "start y": 506
+            },
+            {
+                "end x": 177,
+                "end y": 608,
+                "name": "testStreet8",
+                "start x": 97,
+                "start y": 504
+            },
+            {
+                "end x": 310,
+                "end y": 611,
+                "name": "testStreet9",
+                "start x": 177,
+                "start y": 608
+            },
+            {
+                "end x": 239,
+                "end y": 478,
+                "name": "testStreet10",
+                "start x": 310,
+                "start y": 611
+            },
+            {
+                "end x": 333,
+                "end y": 375,
+                "name": "testStreet11",
+                "start x": 239,
+                "start y": 478
+            },
+            {
+                "end x": 305,
+                "end y": 259,
+                "name": "testStreet12",
+                "start x": 333,
+                "start y": 375
+            },
+            {
+                "end x": 420,
+                "end y": 32,
+                "name": "testStreet13",
+                "start x": 305,
+                "start y": 259
+            },
+            {
+                "end x": 744,
+                "end y": 39,
+                "name": "testStreet14",
+                "start x": 420,
+                "start y": 32
+            },
+            {
+                "end x": 745,
+                "end y": 366,
+                "name": "testStreet15",
+                "start x": 744,
+                "start y": 39
+            },
+            {
+                "end x": 698,
+                "end y": 522,
+                "name": "testStreet16",
+                "start x": 745,
+                "start y": 366
+            },
+            {
+                "end x": 504,
+                "end y": 526,
+                "name": "testStreet17",
+                "start x": 592,
+                "start y": 608
+            },
+            {
+                "end x": 374,
+                "end y": 479,
+                "name": "testStreet18",
+                "start x": 504,
+                "start y": 526
+            },
+            {
+                "end x": 239,
+                "end y": 478,
+                "name": "testStreet19",
+                "start x": 374,
+                "start y": 479
+            },
+            {
+                "end x": 101,
+                "end y": 361,
+                "name": "testStreet20",
+                "start x": 239,
+                "start y": 478
+            },
+            {
+                "end x": 156,
+                "end y": 228,
+                "name": "testStreet21",
+                "start x": 101,
+                "start y": 361
+            }
+        ]
+    },
+    {
+        "lines": [
+            {
+                "number": 10,
+                "stops": [
+                    "testStop0",
+                    "testStop1",
+		                "testStop2",
+		                "testStop3",
+                    "testStop4",
+                    "testStop5",
+		                "testStop6",
+		                "testStop7",
+                    "testStop8",
+                    "testStop9",
+		                "testStop10",
+		                "testStop11",
+                    "testStop12",
+                    "testStop13",
+                    "testStopExtra1"
+
+                ]
+            }
+        ]
+    },
+    {
+        "vehicles": [
+            {
+                "number": 10,
+                "x": 37,
+                "y": 80
+            }
+        ]
+    }
+]

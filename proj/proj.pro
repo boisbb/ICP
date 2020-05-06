@@ -18,6 +18,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     busline.cpp \
     coordinate.cpp \
+    ellipse.cpp \
     main.cpp \
     mainwindow.cpp \
     scene.cpp \
@@ -28,6 +29,7 @@ SOURCES += \
 HEADERS += \
     busline.h \
     coordinate.h \
+    ellipse.h \
     mainwindow.h \
     scene.h \
     stop.h \
