@@ -4,6 +4,7 @@
 #include <QGraphicsItem>
 #include <QTimer>
 #include <QWidget>//resize
+#include <cmath>
 
 #include "busline.h"
 #include "coordinate.h"
@@ -42,7 +43,7 @@ private:
     void see_info();//v dolním místě bude ukazovat informace o zvoleném vozidle
 
 
-    QTime sceneTime = QTime::currentTime();
+    QTime sceneTime = QTime(QTime::currentTime().hour(),QTime::currentTime().minute(), round(QTime::currentTime().second()));
     double interval = 500;
     QVector<busLine> lineVector;
     QVector<street> streetVector;

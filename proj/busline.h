@@ -18,8 +18,9 @@ public:
     QVector<QString> getStopNames();
     QColor getLineColor();
     QVector<stop> getRoute();
-    void getStopTimes();
+    QVector<QVector<QTime*>> getStopTime(int index);
     /* */
+    void generateStopTimes();
     void addStop(stop busStop);
     void setColor(QColor color);
 

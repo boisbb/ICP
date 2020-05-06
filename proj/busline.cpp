@@ -44,7 +44,12 @@ QVector<stop> busLine::getRoute()
     return lineRoute;
 }
 
-void busLine::getStopTimes()
+QVector<QVector<QTime *>> busLine::getStopTime(int index)
+{
+    return stopTimes[index]->departureTime;
+}
+
+void busLine::generateStopTimes()
 {
     for(stop busS : lineRoute){
         stopTimes.append(new timetableClass());
@@ -53,11 +58,13 @@ void busLine::getStopTimes()
     stopTimes.append(new timetableClass());
     stopTimes[0]->busStop = new stop(lineRoute[0].getStopName(),*lineRoute[0].getCoord());
 
-    for(int i = 0; i < 48; i++){
-        stopTimes[0]->departureTime[i].append(new QTime(i, 0, 0));
-        qDebug() << stopTimes[0]->departureTime[i][0] << " BUSTIME";
-        stopTimes[0]->departureTime[i].append(new QTime(i, 30, 0));
-        qDebug() << stopTimes[0]->departureTime[i][1];
+    for(int i = 0; i < 24; i++){
+        QVector<QTime*> times;
+        times.append(new QTime(i, 0, 0));
+        times.append(new QTime(i, 30, 0));
+        stopTimes[0]->departureTime.append(times);
+        qDebug() << stopTimes[0]->departureTime[i][0]->toString() << " BUSTIME";
+        qDebug() << stopTimes[0]->departureTime[i][1]->toString();
     }
 
 

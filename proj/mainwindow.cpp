@@ -54,6 +54,17 @@ void MainWindow::moveVeh()
         }
     }
 
+    bool started = false;
+    for(busLine line : lineVector){
+        line.getStopTime(0)[0];
+        for(int i = 0; i < line.getStopTime(0)[sceneTime.hour()].size(); i++){
+            if(sceneTime > *line.getStopTime(0)[sceneTime.hour()][i] && sceneTime < line.getStopTime(0)[sceneTime.hour()][i]->addSecs(1)){
+                qDebug() << "Start a vehicle";
+                qDebug() << sceneTime.toString();
+                started = true;
+            }
+        }
+    }
     sceneTime = sceneTime.addMSecs(500);
     ui->clock->setText(sceneTime.toString());
 
@@ -211,10 +222,11 @@ void MainWindow::deserialize()
                 }
             }
        }
-       //lineVector[lineVector.size() - 1].getStopTimes();
+       lineVector[lineVector.size() - 1].generateStopTimes();
     }
 
     // VEHICLES /
+    /*
     for (QJsonValue vehVal : vehicles) {
         QJsonObject vehObj = vehVal.toObject();
         int number = vehObj.find("number")->toInt();
@@ -233,7 +245,7 @@ void MainWindow::deserialize()
         vehicleVector[vehicleVector.size() - 1]->setGraphics();
         drawStuff(vehicleVector[vehicleVector.size() - 1]->getGraphics());
 
-    }
+    }*/
 
     ui->graphicsView->scale(0.5, 0.5);
 
