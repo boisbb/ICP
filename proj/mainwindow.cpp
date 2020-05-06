@@ -131,7 +131,7 @@ void MainWindow::see_info()
 void MainWindow::deserialize()
 {
     QFile input("../examples/map_base.json");
-    if(input.open(QIODevice::ReadWrite)){
+    if(!input.open(QIODevice::ReadWrite)){
         exit(1);
     }
 
@@ -203,7 +203,7 @@ void MainWindow::deserialize()
                 }
             }
        }
-       lineVector[lineVector.size() - 1].getStopTimes();
+       //lineVector[lineVector.size() - 1].getStopTimes();
     }
 
     // VEHICLES /
