@@ -18,7 +18,7 @@
     <item row="2" column="0">
      <layout class="QVBoxLayout" name="verticalLayout_2">
       <item>
-       <widget class="QGraphicsView" name="graphicsView_2">
+       <widget class="QGraphicsView" name="route_info">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
           <horstretch>0</horstretch>

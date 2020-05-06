@@ -77,6 +77,11 @@ bool vehicle::getClicked()
     return clicked;
 }
 
+int vehicle::get_stops_number()
+{
+    return stopVec.size();
+}
+
 void vehicle::setCoords(coordinate newCoord)
 {
     if(coords){
