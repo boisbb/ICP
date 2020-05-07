@@ -420,13 +420,14 @@ void MainWindow::deserialize()
                     double travelRatio = travelledMinsToDouble / durationMinsToDouble;
                     qDebug() << "Travelled: " << travelledMinsToDouble << " Duration: " << durationMinsToDouble << " Travel ratio: " << travelRatio;
                     int position = blankVeh.getFullJourney().size() * travelRatio;
-                    int stopPosition = lineVector[i].getRoute().size() * travelRatio + 2;
-                    //qDebug() << blankVeh.get
+                    int stopPosition = (lineVector[i].getRoute().size()) * travelRatio;
+
+                    qDebug() << lineVector[i].getRoute().size();
                     qDebug() << "JoureyPos: " << position << " stopPosition: " << stopPosition;
                     vehicle *newVehicle = new vehicle(blankVeh.getFullJourney()[position], lineVector[i].getId());
                     newVehicle->setLine(lineVector[i]);
-                    newVehicle->getJourney();
                     newVehicle->setJourneyPos(position, stopPosition);
+                    newVehicle->getJourney();
                     newVehicle->setGraphics();
                     drawStuff(newVehicle->getGraphics());
                     vehicleVector.append(newVehicle);

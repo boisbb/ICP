@@ -21,8 +21,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_MainWindow_t {
-    QByteArrayData data[14];
-    char stringdata0[113];
+    QByteArrayData data[15];
+    char stringdata0[117];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -39,16 +39,17 @@ QT_MOC_LITERAL(4, 30, 8), // "showInfo"
 QT_MOC_LITERAL(5, 39, 7), // "vehicle"
 QT_MOC_LITERAL(6, 47, 3), // "veh"
 QT_MOC_LITERAL(7, 51, 5), // "check"
-QT_MOC_LITERAL(8, 57, 7), // "moveVeh"
-QT_MOC_LITERAL(9, 65, 7), // "zoom_in"
-QT_MOC_LITERAL(10, 73, 8), // "zoom_out"
-QT_MOC_LITERAL(11, 82, 8), // "speed_up"
-QT_MOC_LITERAL(12, 91, 9), // "slow_down"
-QT_MOC_LITERAL(13, 101, 11) // "time_change"
+QT_MOC_LITERAL(8, 57, 3), // "was"
+QT_MOC_LITERAL(9, 61, 7), // "moveVeh"
+QT_MOC_LITERAL(10, 69, 7), // "zoom_in"
+QT_MOC_LITERAL(11, 77, 8), // "zoom_out"
+QT_MOC_LITERAL(12, 86, 8), // "speed_up"
+QT_MOC_LITERAL(13, 95, 9), // "slow_down"
+QT_MOC_LITERAL(14, 105, 11) // "time_change"
 
     },
     "MainWindow\0onValueChange\0\0val\0showInfo\0"
-    "vehicle\0veh\0check\0moveVeh\0zoom_in\0"
+    "vehicle\0veh\0check\0was\0moveVeh\0zoom_in\0"
     "zoom_out\0speed_up\0slow_down\0time_change"
 };
 #undef QT_MOC_LITERAL
@@ -68,17 +69,17 @@ static const uint qt_meta_data_MainWindow[] = {
 
  // slots: name, argc, parameters, tag, flags
        1,    1,   54,    2, 0x08 /* Private */,
-       4,    2,   57,    2, 0x08 /* Private */,
-       8,    0,   62,    2, 0x08 /* Private */,
-       9,    0,   63,    2, 0x08 /* Private */,
-      10,    0,   64,    2, 0x08 /* Private */,
-      11,    0,   65,    2, 0x08 /* Private */,
-      12,    0,   66,    2, 0x08 /* Private */,
-      13,    0,   67,    2, 0x08 /* Private */,
+       4,    3,   57,    2, 0x08 /* Private */,
+       9,    0,   64,    2, 0x08 /* Private */,
+      10,    0,   65,    2, 0x08 /* Private */,
+      11,    0,   66,    2, 0x08 /* Private */,
+      12,    0,   67,    2, 0x08 /* Private */,
+      13,    0,   68,    2, 0x08 /* Private */,
+      14,    0,   69,    2, 0x08 /* Private */,
 
  // slots: parameters
     QMetaType::Void, QMetaType::Int,    3,
-    QMetaType::Void, 0x80000000 | 5, QMetaType::Bool,    6,    7,
+    QMetaType::Void, 0x80000000 | 5, QMetaType::Bool, QMetaType::Bool,    6,    7,    8,
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
@@ -96,7 +97,7 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         Q_UNUSED(_t)
         switch (_id) {
         case 0: _t->onValueChange((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 1: _t->showInfo((*reinterpret_cast< vehicle(*)>(_a[1])),(*reinterpret_cast< bool(*)>(_a[2]))); break;
+        case 1: _t->showInfo((*reinterpret_cast< vehicle(*)>(_a[1])),(*reinterpret_cast< bool(*)>(_a[2])),(*reinterpret_cast< bool(*)>(_a[3]))); break;
         case 2: _t->moveVeh(); break;
         case 3: _t->zoom_in(); break;
         case 4: _t->zoom_out(); break;

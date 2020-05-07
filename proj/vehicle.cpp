@@ -145,7 +145,7 @@ void vehicle::setClicked(bool switchClicked)
 void vehicle::setJourneyPos(int pos, int stop)
 {
     journeyPos = pos;
-    stopNum = stop;
+    //stopNum = stop;
 }
 
 
@@ -333,13 +333,6 @@ void vehicle::getJourney()
                     }
                 }
 
-
-                if((coords->getX() == round(journey.at(i).getX()) && coords->getY() == round(journey.at(i).getY()))
-                        && (coords->getX() >= journey.at(i).getX() && coords->getY() >= journey.at(i).getY()) ){
-                    journeyPos = i;
-                    stopNum = j;
-                }
-
                 /*
                 qDebug() << "X: " << journey.at(i).getX() << " Y: " << journey.at(i).getY();
                 qDebug() << "X: " << line->getRoute().at(j).getStreet(stopStreetNum)->getEnd().getX() << " Y: " << line->getRoute().at(j).getStreet(stopStreetNum)->getEnd().getY();
@@ -375,6 +368,23 @@ void vehicle::getJourney()
                 break;
             }
             k++;
+        }
+    }
+
+    int stopCnt = 0;
+    for(coordinate jCoord : journey){
+        if(line->getRoute()[stopCnt].getCoord()->getX() == jCoord.getX()
+        && line->getRoute()[stopCnt].getCoord()->getY() == jCoord.getY()){
+            stopCnt++;
+        }
+
+
+
+        if(jCoord.getX() == journey[journeyPos].getX() && jCoord.getY() == journey[journeyPos].getY()){
+            stopNum = stopCnt;
+            qDebug() << stopNum << " HERE GOES NOTHING " << journeyPos;
+            qDebug() << jCoord.getX() << " " << jCoord.getY() << " HERE GOES NOTHING";
+            break;
         }
     }
 
