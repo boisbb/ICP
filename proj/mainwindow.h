@@ -26,7 +26,7 @@ public:
     ~MainWindow();
 private slots:
     void onValueChange(int val);
-    void showInfo(vehicle veh, bool check);
+    void showInfo(vehicle veh, bool check, bool was);
     void moveVeh();
     void zoom_in();
     void zoom_out();

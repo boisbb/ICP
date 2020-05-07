@@ -22,13 +22,6 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
     initScene();
 
-
-    /*
-        Ke kolečku pristoupis nasledovne: v cyklu ofc abys prosel vsechny vozidla
-        vehicleVector[0].getGraphics()[0];
-        tzn.: connect(vehicleVector[i].getGraphics()[0], Nejakej signal, this, SLOT(stisknuteVozidlo(vehicleVector[i]));
-    */
-
     connect(ui->button_plus, &QPushButton::clicked, this, &MainWindow::zoom_in);
     connect(ui->button_minus,&QPushButton::clicked, this, &MainWindow::zoom_out);
     connect(ui->speed_up, &QPushButton::clicked, this, &MainWindow::speed_up);
@@ -47,15 +40,21 @@ void MainWindow::onValueChange(int val)
 }
 
 //funkce na ukazování informací o zvolené trase
-void MainWindow::showInfo(vehicle veh, bool check)
+void MainWindow::showInfo(vehicle veh, bool check, bool was)
 {
     //qDebug() << veh.getNumber();
     //aby se celý box stále nepřekresloval
     static bool was_here = false;
     //aby se bok "klikněte" stále nepřekresloval
     static bool showing = false;
+    if(was){
+        was_here = true;
+    }
+    else{
+        was_here = false;
+    }
     if(check){
-        if(!was_here){
+        if(!was_here){//fungovalo pro jedno vozidlo
             was_here = true;
             showing = false;
             auto *info_box = new QGraphicsScene(ui->route_info);
@@ -71,20 +70,6 @@ void MainWindow::showInfo(vehicle veh, bool check)
 
             auto route = info_box->addLine(-60,12,330, 12);
             route->setPos(-350, 0);
-
-            //linka 10
-            /*
-            if(veh.getNumber() == 10){
-                qDebug() << veh.get_stops_number();
-                //funkce na kreslní zastávek, je tam ukazatel, takže co tam vykreslíš se vykrelsí
-                //MainWindow::draw_stops(info_box);
-                for(int i = 0; i < veh.get_stops_number(); i++){
-                    auto stop = info_box->addEllipse((-400+i*20), 6, 4, 4);//jen pro test
-
-
-                }
-
-            }*/
 
 
             QVector<double> stopRatio = veh.getStopRatio();
@@ -109,13 +94,14 @@ void MainWindow::showInfo(vehicle veh, bool check)
             info_box->addItem(infoVehicle);
             infoVehicle->setBrush(QBrush(veh.getColor(), Qt::SolidPattern));
         }
-        else{
+       else{
             if(!veh.getWayBack())
                 infoVehicle->setRect((-410 + ((double) veh.getJourneyPos()/(double) veh.getFullJourney().size()) * 390) - 4, 12 - 4, 8, 8);
             else
                 infoVehicle->setRect((-20 - ((double) veh.getJourneyPos()/(double) veh.getFullJourney().size()) * 390) -4, 12 - 4, 8, 8);
         }
     }
+    /* fungovalo pro jedno vozidlo
     else{
         //vyčistí dolní box
         if(!showing){
@@ -126,6 +112,7 @@ void MainWindow::showInfo(vehicle veh, bool check)
             auto text = info_box->addText("klikněte na autobus pro zobrazení podrobností");
         }
     }
+    */
 
 
 }
@@ -140,18 +127,73 @@ void MainWindow::draw_stops(QGraphicsScene *scene)
 
 void MainWindow::moveVeh()
 {
-    //static int a = 0;
+    //aby se "klikněte.." nepřekreslovalo
+    static bool was_here = false;
+    //na zrušení výberu staréh vozidla při kliknutí na jiné
+    static vehicle *prev;
+    static bool was = false;
     /// moving vehicles
+
+    int counter = 0;
+    //zjistí počet vybraných vozidel
     for (vehicle *veh : vehicleVector) {
         veh->move(sceneTime);
         if(veh->getClicked()){
-            MainWindow::showInfo(*veh, true);
-        }
-        else{
-            MainWindow::showInfo(*veh, false);
+            counter++;
         }
     }
 
+    //vozidlo je rozklikntué
+    if(counter == 1){
+        was_here = false;
+        for (vehicle *veh : vehicleVector) {
+            //veh->move(sceneTime);
+            if(veh->getClicked()){
+                MainWindow::showInfo(*veh, true, was);
+                //do prev nastaví vozidlo které je zrovna rozkliknuté
+                //když se klikne na další tak se tomuto vozidlu zruší flag clicked
+                was = true;
+                prev = veh;
+            }
+        }
+    }
+    //jedno vozidlo je rozkliknuté a klikne se na další
+    else if(counter > 1){
+        //zrušení flagu předchozího vozidla
+        prev->setClicked(false);
+        was = false;
+    }
+    //Žádné vozidlo není rozkliknuté
+    else{
+        if(!was_here){
+            was_here = true;
+            was = false;
+            auto *info_box = new QGraphicsScene(ui->route_info);
+            ui->route_info->setScene(info_box);
+            auto text = info_box->addText("klikněte na autobus pro zobrazení podrobností");
+        }
+
+    }
+    /*fungovalo pro jedno vozidlo
+    for (vehicle *veh : vehicleVector) {
+        veh->move(sceneTime);
+        if(!clicked){
+            clicked = true;
+            if(veh->getClicked()){
+                MainWindow::showInfo(*veh, true);
+                qDebug() << "tady";
+            }
+            else{
+                MainWindow::showInfo(*veh, false);
+                qDebug() << "here";
+                clicked = false;
+            }
+        }
+        else{
+            clicked = false;
+        }
+    }
+    */
     bool started = false;
     for(busLine line : lineVector){
         line.getStopTime(0)[0];
