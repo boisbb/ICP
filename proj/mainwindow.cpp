@@ -12,6 +12,7 @@
 #include <QLabel>//clock
 #include <QString>//jen na ukázku pro clock v moveVeh
 #include <QGraphicsScene>//info dole
+#include <QDateTimeEdit>
 
 
 MainWindow::MainWindow(QWidget *parent)
@@ -32,6 +33,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->button_minus,&QPushButton::clicked, this, &MainWindow::zoom_out);
     connect(ui->speed_up, &QPushButton::clicked, this, &MainWindow::speed_up);
     connect(ui->slow_down, &QPushButton::clicked, this, &MainWindow::slow_down);
+    connect(ui->time_changer, &QPushButton::clicked, this, &MainWindow::time_change);
 }
 
 MainWindow::~MainWindow()
@@ -50,9 +52,12 @@ void MainWindow::showInfo(vehicle veh, bool check)
     //qDebug() << veh.getNumber();
     //aby se celý box stále nepřekresloval
     static bool was_here = false;
+    //aby se bok "klikněte" stále nepřekresloval
+    static bool showing = false;
     if(check){
         if(!was_here){
             was_here = true;
+            showing = false;
             auto *info_box = new QGraphicsScene(ui->route_info);
             ui->route_info->setScene(info_box);
 
@@ -113,11 +118,13 @@ void MainWindow::showInfo(vehicle veh, bool check)
     }
     else{
         //vyčistí dolní box
-        auto *info_box = new QGraphicsScene(ui->route_info);
-        ui->route_info->setScene(info_box);
-        was_here = false;
-
-        auto text = info_box->addText("klikněte na autobus pro zobrazení podrobností");
+        if(!showing){
+            showing = true;
+            auto *info_box = new QGraphicsScene(ui->route_info);
+            ui->route_info->setScene(info_box);
+            was_here = false;
+            auto text = info_box->addText("klikněte na autobus pro zobrazení podrobností");
+        }
     }
 
 
@@ -214,6 +221,11 @@ void MainWindow::slow_down()
     qDebug() << "Interval in Main Window: " << interval;
     //qDebug() << "Speed in Main Window: " << speed;
     timer->setInterval(interval);
+}
+
+void MainWindow::time_change()
+{
+    sceneTime = ui->timeEdit->time();
 }
 
 void MainWindow::resizeEvent(QResizeEvent *event)

@@ -32,6 +32,7 @@ private slots:
     void zoom_out();
     void speed_up();
     void slow_down();
+    void time_change();
 
 protected:
     virtual void resizeEvent(QResizeEvent *event);
