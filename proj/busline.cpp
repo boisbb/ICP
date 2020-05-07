@@ -61,7 +61,11 @@ void busLine::generateStopTimes()
     for(int i = 0; i < 24; i++){
         QVector<QTime*> times;
         times.append(new QTime(i, 0, 0));
+        times.append(new QTime(i, 10, 0));
+        times.append(new QTime(i, 20, 0));
         times.append(new QTime(i, 30, 0));
+        times.append(new QTime(i, 40, 0));
+        times.append(new QTime(i, 50, 0));
         stopTimes[0]->departureTime.append(times);
         qDebug() << stopTimes[0]->departureTime[i][0]->toString() << " BUSTIME";
         qDebug() << stopTimes[0]->departureTime[i][1]->toString();

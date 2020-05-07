@@ -136,7 +136,7 @@ void MainWindow::moveVeh()
     //static int a = 0;
     /// moving vehicles
     for (vehicle *veh : vehicleVector) {
-        veh->move();
+        veh->move(sceneTime);
         if(veh->getClicked()){
             MainWindow::showInfo(*veh, true);
         }
@@ -152,7 +152,29 @@ void MainWindow::moveVeh()
             if(sceneTime > *line.getStopTime(0)[sceneTime.hour()][i] && sceneTime < line.getStopTime(0)[sceneTime.hour()][i]->addSecs(1)){
                 qDebug() << "Start a vehicle";
                 qDebug() << sceneTime.toString();
-                started = true;
+
+                /* vehicle creation */
+                int number = line.getId();
+                coordinate position(line.getRoute()[0].getCoord()->getX(), line.getRoute()[0].getCoord()->getY());
+                vehicleVector.append(new vehicle(position, number));
+
+                int i = 0;
+                for(busLine line : lineVector){
+                    if(line.getId() == number){
+                        vehicleVector[vehicleVector.size() - 1]->setLine(line);
+                        lineVector[i].setColor(vehicleVector[vehicleVector.size() - 1]->getColor());
+                    }
+                    i++;
+                }
+
+
+                qDebug() << "SETTING SPEED TO: " << speed;
+                vehicleVector[vehicleVector.size() - 1]->getJourney();
+
+                vehicleVector[vehicleVector.size() - 1]->setGraphics();
+                drawStuff(vehicleVector[vehicleVector.size() - 1]->getGraphics());
+
+                //started = true;
             }
         }
     }
@@ -177,19 +199,20 @@ void MainWindow::speed_up()
     //zrychlení
 
     interval /= 2;
-    //qDebug() << interval;
-    for(int i = 0; i < vehicleVector.size(); i++){
-        vehicleVector[i]->speedUp();
-    }
+    speed /= 1.2;
+
+    qDebug() << "Interval in Main Window: " << interval;
+    //qDebug() << "Speed in Main Window: " << speed;
     timer->setInterval(interval);
 }
 
 void MainWindow::slow_down()
 {
     interval *= 2;
-    for(int i = 0; i < vehicleVector.size(); i++){
-        vehicleVector[i]->slowDown();
-    }
+    speed *= 1.2;
+
+    qDebug() << "Interval in Main Window: " << interval;
+    //qDebug() << "Speed in Main Window: " << speed;
     timer->setInterval(interval);
 }
 
@@ -320,6 +343,7 @@ void MainWindow::deserialize()
 
     // VEHICLES /
 
+    /*
     for (QJsonValue vehVal : vehicles) {
         QJsonObject vehObj = vehVal.toObject();
         int number = vehObj.find("number")->toInt();
@@ -338,7 +362,7 @@ void MainWindow::deserialize()
         vehicleVector[vehicleVector.size() - 1]->setGraphics();
         drawStuff(vehicleVector[vehicleVector.size() - 1]->getGraphics());
 
-    }
+    }*/
 
     ui->graphicsView->scale(0.5, 0.5);
 

@@ -135,16 +135,6 @@ void vehicle::setGraphics()
     /* NASTAVENÍ FLAGU */
 }
 
-void vehicle::speedUp()
-{
-    speed /= 1.2;
-    //WqDebug() << "Speed up: " << speed;
-}
-
-void vehicle::slowDown()
-{
-    speed *= 1.2;
-}
 
 void vehicle::setClicked(bool switchClicked)
 {
@@ -153,10 +143,11 @@ void vehicle::setClicked(bool switchClicked)
 
 
 
-void vehicle::move()
+void vehicle::move(QTime sceneTime)
 {
     //qDebug() << speed;
-    if(!stopBool || QTime::currentTime() >= stopTime.addMSecs(speed)){
+    //qDebug() << "Speed in Move: " << speed;
+    if(!stopBool || sceneTime >= stopTime.addMSecs(10000)){
         stop nextStop = stopVec.at(stopNum);
 
         /*qDebug() << " X CURRENT: " << coords->getX() << " Y CURRENT: " << coords->getY() << journeyPos;
@@ -175,7 +166,7 @@ void vehicle::move()
 
         if(nextStop.getCoord()->getX() == coords->getX() && nextStop.getCoord()->getY() == coords->getY()){
             stopBool = true;
-            stopTime = QTime::currentTime();
+            stopTime = sceneTime;
             stopNum++;
             if(line->getRoute().size() == stopNum){
                 if(wayBack)
@@ -201,7 +192,6 @@ double pointDistance(coordinate oldCoord, coordinate newCoord){
 void vehicle::getJourney()
 {
     stopNum = 1;
-    speed = 1000;
     double a = 0.0;
     double b = 0.0;
     double c = 0.0;
@@ -338,9 +328,11 @@ void vehicle::getJourney()
                     stopNum = j;
                 }
 
+                /*
                 qDebug() << "X: " << journey.at(i).getX() << " Y: " << journey.at(i).getY();
                 qDebug() << "X: " << line->getRoute().at(j).getStreet(stopStreetNum)->getEnd().getX() << " Y: " << line->getRoute().at(j).getStreet(stopStreetNum)->getEnd().getY();
                 qDebug() << "X: " << journey.at(i).getX() << " Y: " << journey.at(i).getY();
+                */
 
             }while(pointDistance(journey.at(i), line->getRoute().at(j).getStreet(stopStreetNum)->getEnd()) > 0.5);
             //journey.append(coordinate(line->getRoute().at(j).getStreet(stopStreetNum)->getEnd().getX(), line->getRoute().at(j).getStreet(stopStreetNum)->getEnd().getY()));

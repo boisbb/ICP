@@ -47,6 +47,7 @@ private:
 
     QTime sceneTime = QTime(QTime::currentTime().hour(),QTime::currentTime().minute(), round(QTime::currentTime().second()));
     double interval = 500;
+    double speed = 1000;
     QVector<busLine> lineVector;
     QVector<street> streetVector;
     QVector<stop> stopVector;
