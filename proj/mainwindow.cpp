@@ -88,7 +88,6 @@ void MainWindow::showInfo(vehicle veh, bool check, bool was)
             }
 
 
-
             ui->route_info->setRenderHint(QPainter::Antialiasing);
             infoVehicle = new QGraphicsEllipseItem((-410 + ((double) veh.getJourneyPos()/(double) veh.getFullJourney().size()) * 390) - 4, 12 - 4, 8, 8);
             info_box->addItem(infoVehicle);
@@ -154,6 +153,11 @@ void MainWindow::moveVeh()
                 //když se klikne na další tak se tomuto vozidlu zruší flag clicked
                 was = true;
                 prev = veh;
+
+                for(int i = 0; i < veh->get_stops_number(); i++){
+                    QGraphicsItem *stop = veh->getStopVec()[i].getGraphics()[0];
+                    dynamic_cast<QGraphicsEllipseItem*>(stop)->setBrush(QBrush(QColor(255, 0, 0), Qt::SolidPattern));
+                }
             }
         }
     }
@@ -162,12 +166,25 @@ void MainWindow::moveVeh()
         //zrušení flagu předchozího vozidla
         prev->setClicked(false);
         was = false;
+        //Tady odmazat zvýrazněné zastávky přes prev
+        for(int i = 0; i < prev->get_stops_number(); i++){
+            QGraphicsItem *stop = prev->getStopVec()[i].getGraphics()[0];
+            dynamic_cast<QGraphicsEllipseItem*>(stop)->setBrush(QBrush(QColor(0, 0, 0), Qt::SolidPattern));
+        }
     }
     //Žádné vozidlo není rozkliknuté
     else{
         if(!was_here){
             was_here = true;
             was = false;
+            //Tady odmazat zvýrazněné zastávky přes prev
+            if(prev){
+                for(int i = 0; i < prev->get_stops_number(); i++){
+                    QGraphicsItem *stop = prev->getStopVec()[i].getGraphics()[0];
+                    dynamic_cast<QGraphicsEllipseItem*>(stop)->setBrush(QBrush(QColor(0, 0, 0), Qt::SolidPattern));
+                }
+            }
+
             auto *info_box = new QGraphicsScene(ui->route_info);
             ui->route_info->setScene(info_box);
             auto text = info_box->addText("klikněte na autobus pro zobrazení podrobností");
