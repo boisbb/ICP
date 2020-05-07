@@ -19,12 +19,12 @@ public:
     QColor getLineColor();
     QVector<stop> getRoute();
     QVector<QVector<QTime*>> getStopTime(int index);
+    QColor getColor();
     /* */
     void generateStopTimes();
     void addStop(stop busStop);
     void setColor(QColor color);
-
-
+    QTime getDuration(double journeySize);
 private:
 
     class timetableClass {

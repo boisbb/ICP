@@ -6,12 +6,13 @@
 
 busLine::busLine()
 {
-
+    lineColor.setRgb(rand() % 256, rand() % 256, rand() % 256);
 }
 
 busLine::busLine(int lineId)
 {
     id = lineId;
+    lineColor.setRgb(rand() % 256, rand() % 256, rand() % 256);
 }
 
 int busLine::getId()
@@ -34,9 +35,19 @@ void busLine::addStop(stop busStop)
     lineRoute.append(busStop);
 }
 
+/*
 void busLine::setColor(QColor color)
 {
     lineColor = color;
+}
+*/
+
+QTime busLine::getDuration(double journeySize)
+{
+    double seconds = ((double)((journeySize + 1 - (double)getRoute().size()) * 500 +
+                    ((double) getRoute().size() - 2) * (double)10000) / (double) 1000);
+    qDebug() << seconds;
+    return QTime(0, seconds / 60, (int)seconds % 60);
 }
 
 QVector<stop> busLine::getRoute()
@@ -47,6 +58,11 @@ QVector<stop> busLine::getRoute()
 QVector<QVector<QTime *>> busLine::getStopTime(int index)
 {
     return stopTimes[index]->departureTime;
+}
+
+QColor busLine::getColor()
+{
+    return lineColor;
 }
 
 void busLine::generateStopTimes()

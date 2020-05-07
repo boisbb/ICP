@@ -19,7 +19,6 @@ vehicle::vehicle(coordinate vehicleCoords, int vehicleNumber)
 {
     coords = new coordinate(vehicleCoords.getX(), vehicleCoords.getY());
     number = vehicleNumber;
-    color.setRgb(rand() % 256, rand() % 256, rand() % 256);
 }
 
 coordinate* vehicle::getCoords()
@@ -118,10 +117,12 @@ void vehicle::setLine(busLine bus)
 {
     if(line){
         *line = bus;
+        color = line->getColor();
     }
     else{
         line = new busLine();
         *line = bus;
+        color = line->getColor();
     }
 }
 
@@ -139,6 +140,12 @@ void vehicle::setGraphics()
 void vehicle::setClicked(bool switchClicked)
 {
     clicked = switchClicked;
+}
+
+void vehicle::setJourneyPos(int pos, int stop)
+{
+    journeyPos = pos;
+    stopNum = stop;
 }
 
 
@@ -171,8 +178,13 @@ void vehicle::move(QTime sceneTime)
             if(line->getRoute().size() == stopNum){
                 if(wayBack)
                     wayBack = false;
-                else
+                else{
+                    qDebug() << "Real time" << sceneTime.toString();
+                    qDebug() << "Computed duration in mins" << (double)(((double)((double)journey.size() + 1  - (double)stopVec.size()) * (double)500 + ((double)stopVec.size() - 2) * (double)10000) / (double)1000) / (double)60;
+                    qDebug() << " X CURRENT: " << coords->getX() << " Y CURRENT: " << coords->getY() << journeyPos;
+                    qDebug() << journey.size() << stopVec.size();
                     wayBack = true;
+                }
 
                 stopNum = 1;
                 std::reverse(journey.begin(), journey.end());

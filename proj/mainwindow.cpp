@@ -169,7 +169,7 @@ void MainWindow::moveVeh()
                 for(busLine line : lineVector){
                     if(line.getId() == number){
                         vehicleVector[vehicleVector.size() - 1]->setLine(line);
-                        lineVector[i].setColor(vehicleVector[vehicleVector.size() - 1]->getColor());
+                        //lineVector[i].setColor(vehicleVector[vehicleVector.size() - 1]->getColor());
                     }
                     i++;
                 }
@@ -354,6 +354,44 @@ void MainWindow::deserialize()
     }
 
     // VEHICLES /
+    // create blank vehicle just to compute the journey
+    for (int i = 0; i < lineVector.size(); i++) {
+        vehicle blankVeh(*lineVector[i].getRoute()[0].getCoord(), -200);
+        blankVeh.setLine(lineVector[i]);
+        blankVeh.getJourney();
+        QTime duration = lineVector[i].getDuration(blankVeh.getFullJourney().size());
+        qDebug() << "Before " << sceneTime.toString();
+        qDebug() << duration.toString();
+        QTime swpSceneTime = sceneTime.addSecs(-duration.second() - duration.minute() * 60 - duration.hour() * 3600);
+
+        qDebug() << "After " << swpSceneTime.addSecs(-duration.second() - duration.minute() * 60 - duration.hour() * 3600).toString();
+        QVector<QVector<QTime*>> stopTimes = lineVector[i].getStopTime(0);
+        for (int k = swpSceneTime.hour(); k <= sceneTime.hour(); ++k) {
+            for (int j = 0; j < stopTimes[k].size(); ++j) {
+                //qDebug()<< "TIMES " << stopTimes[i][j]->toString();
+                if(*stopTimes[k][j] >= swpSceneTime && *stopTimes[k][j] <= sceneTime){
+                    qDebug()<< "TIME IN INTERVAL: " << stopTimes[k][j]->toString();
+                    QTime travelledTime = sceneTime.addSecs(-stopTimes[k][j]->hour() * 3600 -stopTimes[k][j]->minute() * 60 -stopTimes[k][j]->second());
+                    qDebug() << travelledTime.toString();
+                    double travelledMinsToDouble = travelledTime.minute() + (double)((double)travelledTime.second() / 60.0);
+                    double durationMinsToDouble = duration.minute() + (double)((double)duration.second() / 60.0);
+                    double travelRatio = travelledMinsToDouble / durationMinsToDouble;
+                    qDebug() << "Travelled: " << travelledMinsToDouble << " Duration: " << durationMinsToDouble << " Travel ratio: " << travelRatio;
+                    int position = blankVeh.getFullJourney().size() * travelRatio;
+                    int stopPosition = lineVector[i].getRoute().size() * travelRatio + 1;
+                    qDebug() << "JoureyPos: " << position << " stopPosition: " << stopPosition;
+                    vehicle *newVehicle = new vehicle(blankVeh.getFullJourney()[position], lineVector[i].getId());
+                    newVehicle->setLine(lineVector[i]);
+                    newVehicle->setJourneyPos(position, stopPosition);
+                    newVehicle->getJourney();
+                    newVehicle->setGraphics();
+                    drawStuff(newVehicle->getGraphics());
+                    vehicleVector.append(newVehicle);
+                }
+            }
+        }
+    }
+    //exit(0);
 
     /*
     for (QJsonValue vehVal : vehicles) {
