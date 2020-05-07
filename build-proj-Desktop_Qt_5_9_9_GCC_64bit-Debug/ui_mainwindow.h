@@ -19,6 +19,7 @@
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QPushButton>
+#include <QtWidgets/QTimeEdit>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
 
@@ -36,6 +37,8 @@ public:
     QPushButton *slow_down;
     QPushButton *button_plus;
     QPushButton *button_minus;
+    QTimeEdit *timeEdit;
+    QPushButton *time_changer;
     QGraphicsView *graphicsView;
     QLabel *clock;
 
@@ -68,7 +71,7 @@ public:
         verticalLayout_4->setObjectName(QStringLiteral("verticalLayout_4"));
         speed_up = new QPushButton(centralwidget);
         speed_up->setObjectName(QStringLiteral("speed_up"));
-        QSizePolicy sizePolicy1(QSizePolicy::Maximum, QSizePolicy::Fixed);
+        QSizePolicy sizePolicy1(QSizePolicy::Minimum, QSizePolicy::Fixed);
         sizePolicy1.setHorizontalStretch(0);
         sizePolicy1.setVerticalStretch(0);
         sizePolicy1.setHeightForWidth(speed_up->sizePolicy().hasHeightForWidth());
@@ -97,24 +100,47 @@ public:
 
         verticalLayout_4->addWidget(button_minus);
 
+        timeEdit = new QTimeEdit(centralwidget);
+        timeEdit->setObjectName(QStringLiteral("timeEdit"));
+        sizePolicy1.setHeightForWidth(timeEdit->sizePolicy().hasHeightForWidth());
+        timeEdit->setSizePolicy(sizePolicy1);
+
+        verticalLayout_4->addWidget(timeEdit);
+
+        time_changer = new QPushButton(centralwidget);
+        time_changer->setObjectName(QStringLiteral("time_changer"));
+        QSizePolicy sizePolicy2(QSizePolicy::Maximum, QSizePolicy::Fixed);
+        sizePolicy2.setHorizontalStretch(0);
+        sizePolicy2.setVerticalStretch(0);
+        sizePolicy2.setHeightForWidth(time_changer->sizePolicy().hasHeightForWidth());
+        time_changer->setSizePolicy(sizePolicy2);
+
+        verticalLayout_4->addWidget(time_changer);
+
 
         gridLayout->addLayout(verticalLayout_4, 0, 1, 1, 1);
 
         graphicsView = new QGraphicsView(centralwidget);
         graphicsView->setObjectName(QStringLiteral("graphicsView"));
-        QSizePolicy sizePolicy2(QSizePolicy::Expanding, QSizePolicy::Expanding);
-        sizePolicy2.setHorizontalStretch(0);
-        sizePolicy2.setVerticalStretch(0);
-        sizePolicy2.setHeightForWidth(graphicsView->sizePolicy().hasHeightForWidth());
-        graphicsView->setSizePolicy(sizePolicy2);
+        QSizePolicy sizePolicy3(QSizePolicy::Expanding, QSizePolicy::Expanding);
+        sizePolicy3.setHorizontalStretch(0);
+        sizePolicy3.setVerticalStretch(0);
+        sizePolicy3.setHeightForWidth(graphicsView->sizePolicy().hasHeightForWidth());
+        graphicsView->setSizePolicy(sizePolicy3);
 
         gridLayout->addWidget(graphicsView, 0, 0, 1, 1);
 
         clock = new QLabel(centralwidget);
         clock->setObjectName(QStringLiteral("clock"));
-        clock->setLayoutDirection(Qt::LeftToRight);
+        QFont font;
+        font.setFamily(QStringLiteral("Ubuntu"));
+        font.setPointSize(14);
+        clock->setFont(font);
+        clock->setLayoutDirection(Qt::RightToLeft);
         clock->setFrameShape(QFrame::Box);
         clock->setFrameShadow(QFrame::Plain);
+        clock->setTextFormat(Qt::AutoText);
+        clock->setAlignment(Qt::AlignCenter);
 
         gridLayout->addWidget(clock, 2, 1, 1, 1);
 
@@ -132,6 +158,7 @@ public:
         slow_down->setText(QApplication::translate("MainWindow", "slow down", Q_NULLPTR));
         button_plus->setText(QApplication::translate("MainWindow", "+", Q_NULLPTR));
         button_minus->setText(QApplication::translate("MainWindow", "-", Q_NULLPTR));
+        time_changer->setText(QApplication::translate("MainWindow", "Nastavit \304\215as", Q_NULLPTR));
         clock->setText(QApplication::translate("MainWindow", "HODINY", Q_NULLPTR));
     } // retranslateUi
 
