@@ -169,7 +169,7 @@ void MainWindow::moveVeh()
 
                 for(int i = 0; i < veh->get_stops_number(); i++){
                     QGraphicsItem *stop = veh->getStopVec()[i].getGraphics()[0];
-                    dynamic_cast<QGraphicsEllipseItem*>(stop)->setBrush(QBrush(QColor(255, 0, 0), Qt::SolidPattern));
+                    dynamic_cast<QGraphicsEllipseItem*>(stop)->setBrush(QBrush(veh->getLine()->getColor(), Qt::SolidPattern));
                 }
             }
         }
