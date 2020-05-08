@@ -96,8 +96,8 @@ void MainWindow::showInfo(vehicle veh, bool check, bool was)
                     auto stopEll = info_box->addEllipse(-20 - ratio * width - 2, 12 - 2, 4, 4);
                     stopEll->setBrush(QBrush(QColor(0, 0, 0), Qt::SolidPattern));
 
-                    auto stop_name = info_box->addText(current_stop[counter].getStopName());
-                    stop_name->setPos(-415 + ratio * width - 2, 12 - 2);
+                    auto stop_name = info_box->addText(current_stop[veh.get_stops_number()-1-counter].getStopName());
+                    stop_name->setPos(-25 - ratio * width - 2, 12 - 2);
                     stop_name->setRotation(-90);
                     stop_name->setScale(0.5);
                 }
