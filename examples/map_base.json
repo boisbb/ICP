@@ -2,7 +2,7 @@
     {
         "stops": [
             {
-                "name": "testStop0",
+                "name": "Stop0",
                 "street name": [
                     "testStreet0"
                 ],
@@ -10,7 +10,7 @@
                 "y": 80
             },
             {
-                "name": "testStop1",
+                "name": "Stop1",
                 "street name": [
                     "testStreet0"
                 ],
@@ -18,7 +18,7 @@
                 "y": 73.909072
             },
             {
-                "name": "testStop2",
+                "name": "Stop2",
                 "street name": [
                     "testStreet0"
                 ],
@@ -26,7 +26,7 @@
                 "y": 70.270455
             },
             {
-                "name": "testStop3",
+                "name": "Stop3",
                 "street name": [
                     "testStreet1"
                 ],
@@ -34,7 +34,7 @@
                 "y": 77.740536
             },
             {
-                "name": "testStop4",
+                "name": "Stop4",
                 "street name": [
                     "testStreet1"
                 ],
@@ -42,7 +42,7 @@
                 "y": 103.803173
             },
             {
-                "name": "testStop5",
+                "name": "Stop5",
                 "street name": [
                     "testStreet2"
                 ],
@@ -50,7 +50,7 @@
                 "y": 145.964651
             },
             {
-                "name": "testStop6",
+                "name": "Stop6",
                 "street name": [
                     "testStreet3"
                 ],
@@ -58,7 +58,7 @@
                 "y": 213.629721
             },
             {
-                "name": "testStop7",
+                "name": "Stop7",
                 "street name": [
                     "testStreet3"
                 ],
@@ -66,7 +66,7 @@
                 "y": 219.001367
             },
             {
-                "name": "testStop8",
+                "name": "Stop8",
                 "street name": [
                     "testStreet3"
                 ],
@@ -74,7 +74,7 @@
                 "y": 221.386815
             },
             {
-                "name": "testStop9",
+                "name": "Stop9",
                 "street name": [
                     "testStreet4"
                 ],
@@ -82,7 +82,7 @@
                 "y": 252.789533
             },
             {
-                "name": "testStop10",
+                "name": "Stop10",
                 "street name": [
                     "testStreet4"
                 ],
@@ -90,7 +90,7 @@
                 "y": 375.715612
             },
             {
-                "name": "testStop11",
+                "name": "Stop11",
                 "street name": [
                     "testStreet5"
                 ],
@@ -98,7 +98,7 @@
                 "y": 385.343217
             },
             {
-                "name": "testStop12",
+                "name": "Stop12",
                 "street name": [
                     "testStreet5"
                 ],
@@ -106,7 +106,7 @@
                 "y": 385.640284
             },
             {
-                "name": "testStop13",
+                "name": "Stop13",
                 "street name": [
                     "testStreet6"
                 ],
@@ -114,7 +114,7 @@
                 "y": 466.801154
             },
             {
-                "name": "testStopExtra1",
+                "name": "StopExtra1",
                 "street name": [
                     "testStreet5"
                 ],
@@ -124,7 +124,7 @@
 
 
             {
-                "name": "testStop14",
+                "name": "Stop14",
                 "street name": [
                     "testStreet7"
                 ],
@@ -132,7 +132,7 @@
                 "y": 506
             },
             {
-                "name": "testStop15",
+                "name": "Stop15",
                 "street name": [
                     "testStreet8"
                 ],
@@ -140,7 +140,7 @@
                 "y": 508.196279
             },
             {
-                "name": "testStop16",
+                "name": "Stop16",
                 "street name": [
                     "testStreet9"
                 ],
@@ -148,7 +148,7 @@
                 "y": 609.932038
             },
             {
-                "name": "testStop17",
+                "name": "Stop17",
                 "street name": [
                     "testStreet10"
                 ],
@@ -156,7 +156,7 @@
                 "y": 607.013378
             },
             {
-                "name": "testStop18",
+                "name": "Stop18",
                 "street name": [
                     "testStreet10"
                 ],
@@ -164,7 +164,7 @@
                 "y": 522.643105
             },
             {
-                "name": "testStop20",
+                "name": "Stop20",
                 "street name": [
                     "testStreet11"
                 ],
@@ -172,7 +172,7 @@
                 "y": 391.407878
             },
             {
-                "name": "testStop21",
+                "name": "Stop21",
                 "street name": [
                     "testStreet12"
                 ],
@@ -180,7 +180,7 @@
                 "y": 287.963360
             },
             {
-                "name": "testStop22",
+                "name": "Stop22",
                 "street name": [
                     "testStreet12"
                 ],
@@ -188,7 +188,7 @@
                 "y": 270.402321
             },
             {
-                "name": "testStop23",
+                "name": "Stop23",
                 "street name": [
                     "testStreet13"
                 ],
@@ -196,7 +196,7 @@
                 "y": 198.653893
             },
             {
-                "name": "testStop24",
+                "name": "Stop24",
                 "street name": [
                     "testStreet13"
                 ],
@@ -204,7 +204,7 @@
                 "y": 164.267474
             },
             {
-                "name": "testStop25",
+                "name": "Stop25",
                 "street name": [
                     "testStreet13"
                 ],
@@ -212,7 +212,7 @@
                 "y": 107.015889
             },
             {
-                "name": "testStop26",
+                "name": "Stop26",
                 "street name": [
                     "testStreet13"
                 ],
@@ -220,7 +220,7 @@
                 "y": 38.419290
             },
             {
-                "name": "testStop27",
+                "name": "Stop27",
                 "street name": [
                     "testStreet14"
                 ],
@@ -228,7 +228,7 @@
                 "y": 33.594133
             },
             {
-                "name": "testStop28",
+                "name": "Stop28",
                 "street name": [
                     "testStreet14"
                 ],
@@ -236,7 +236,7 @@
                 "y": 36.003707
             },
             {
-                "name": "testStop29",
+                "name": "Stop29",
                 "street name": [
                     "testStreet14"
                 ],
@@ -244,7 +244,7 @@
                 "y": 38.248868
             },
             {
-                "name": "testStop30",
+                "name": "Stop30",
                 "street name": [
                     "testStreet15"
                 ],
@@ -252,7 +252,7 @@
                 "y": 101.263201
             },
             {
-                "name": "testStop31",
+                "name": "Stop31",
                 "street name": [
                     "testStreet15"
                 ],
@@ -260,7 +260,7 @@
                 "y": 163.443502
             },
             {
-                "name": "testStop32",
+                "name": "Stop32",
                 "street name": [
                     "testStreet15"
                 ],
@@ -268,7 +268,7 @@
                 "y": 204.095230
             },
             {
-                "name": "testStop33",
+                "name": "Stop33",
                 "street name": [
                     "testStreet16"
                 ],
@@ -276,7 +276,7 @@
                 "y": 440.972057
             },
             {
-                "name": "testStop34",
+                "name": "Stop34",
                 "street name": [
                     "testStreet16"
                 ],
@@ -286,7 +286,7 @@
 
 
             {
-                "name": "testStopExtra2",
+                "name": "StopExtra2",
                 "street name": [
                     "testStreet17"
                 ],
@@ -294,7 +294,7 @@
                 "y": 608
             },
             {
-                "name": "testStop35",
+                "name": "Stop35",
                 "street name": [
                     "testStreet17"
                 ],
@@ -302,7 +302,7 @@
                 "y": 598.948194
             },
             {
-                "name": "testStop36",
+                "name": "Stop36",
                 "street name": [
                     "testStreet18"
                 ],
@@ -310,7 +310,7 @@
                 "y": 503.902923
             },
             {
-                "name": "testStop37",
+                "name": "Stop37",
                 "street name": [
                     "testStreet18"
                 ],
@@ -318,7 +318,7 @@
                 "y": 482.591036
             },
             {
-                "name": "testStop38",
+                "name": "Stop38",
                 "street name": [
                     "testStreet19"
                 ],
@@ -326,7 +326,7 @@
                 "y": 478.947425
             },
             {
-                "name": "testStop39",
+                "name": "Stop39",
                 "street name": [
                     "testStreet19"
                 ],
@@ -334,7 +334,7 @@
                 "y": 478.657833
             },
             {
-                "name": "testStop40",
+                "name": "Stop40",
                 "street name": [
                     "testStreet20"
                 ],
@@ -342,7 +342,7 @@
                 "y": 453.305975
             },
             {
-                "name": "testStop41",
+                "name": "Stop41",
                 "street name": [
                     "testStreet21"
                 ],
@@ -350,7 +350,7 @@
                 "y": 351.101200
             },
             {
-                "name": "testStop42",
+                "name": "Stop42",
                 "street name": [
                     "testStreet21"
                 ],
@@ -358,7 +358,7 @@
                 "y": 273.378846
             },
             {
-                "name": "testStopExtra3",
+                "name": "StopExtra3",
                 "street name": [
                     "testStreet21"
                 ],
@@ -530,63 +530,63 @@
             {
                 "number": 10,
                 "stops": [
-                    "testStop0",
-                    "testStop1",
-		                "testStop2",
-		                "testStop3",
-                    "testStop4",
-                    "testStop5",
-		                "testStop6",
-		                "testStop7",
-                    "testStop8",
-                    "testStop9",
-		                "testStop10",
-		                "testStop11",
-                    "testStop12",
-                    "testStop13",
-                    "testStopExtra1"
+                    "Stop0",
+                    "Stop1",
+		                "Stop2",
+		                "Stop3",
+                    "Stop4",
+                    "Stop5",
+		                "Stop6",
+		                "Stop7",
+                    "Stop8",
+                    "Stop9",
+		                "Stop10",
+		                "Stop11",
+                    "Stop12",
+                    "Stop13",
+                    "StopExtra1"
 
                 ]
             },
             {
                 "number": 11,
                 "stops": [
-                    "testStopExtra2",
-                    "testStop35",
-		                "testStop36",
-		                "testStop37",
-                    "testStop38",
-                    "testStop39",
-		                "testStop40",
-		                "testStop41",
-                    "testStop42",
-                    "testStopExtra3"
+                    "StopExtra2",
+                    "Stop35",
+		                "Stop36",
+		                "Stop37",
+                    "Stop38",
+                    "Stop39",
+		                "Stop40",
+		                "Stop41",
+                    "Stop42",
+                    "StopExtra3"
 
                 ]
             },
             {
                 "number": 12,
                 "stops": [
-                    "testStop14",
-		                "testStop15",
-		                "testStop16",
-                    "testStop17",
-                    "testStop18",
-		                "testStop20",
-                    "testStop21",
-                    "testStop22",
-		                "testStop23",
-		                "testStop24",
-                    "testStop25",
-                    "testStop26",
-		                "testStop27",
-		                "testStop28",
-                    "testStop29",
-                    "testStop30",
-                    "testStop31",
-                    "testStop32",
-		                "testStop33",
-		                "testStop34"
+                    "Stop14",
+		                "Stop15",
+		                "Stop16",
+                    "Stop17",
+                    "Stop18",
+		                "Stop20",
+                    "Stop21",
+                    "Stop22",
+		                "Stop23",
+		                "Stop24",
+                    "Stop25",
+                    "Stop26",
+		                "Stop27",
+		                "Stop28",
+                    "Stop29",
+                    "Stop30",
+                    "Stop31",
+                    "Stop32",
+		                "Stop33",
+		                "Stop34"
                 ]
             }
         ]

@@ -54,18 +54,22 @@ void MainWindow::showInfo(vehicle veh, bool check, bool was)
         was_here = false;
     }
     if(check){
-        if(!was_here){//fungovalo pro jedno vozidlo
+        if(!was_here){
             was_here = true;
             showing = false;
             auto *info_box = new QGraphicsScene(ui->route_info);
             ui->route_info->setScene(info_box);
 
-            auto linka = info_box->addText("Linka:");
+            auto cas = info_box ->addSimpleText("3:50");
+            cas->setPos(-500, -20);
+
+            auto linka = info_box->addSimpleText("Linka:");
             linka->setPos(-500, 0);
 
             QString number = QString::number(veh.getNumber());
             //qDebug() << number;
-            auto cislo = info_box->addText(number);
+            //auto cislo = info_box->addText(number);
+            auto cislo = info_box->addSimpleText(number);
             cislo->setPos(-450, 0);
 
             auto route = info_box->addLine(-60,12,330, 12);
@@ -73,18 +77,31 @@ void MainWindow::showInfo(vehicle veh, bool check, bool was)
 
 
             QVector<double> stopRatio = veh.getStopRatio();
+            int counter = 0;//pro průchod vektoru zastávek
             for (double ratio : stopRatio) {
+                QVector<stop> current_stop = veh.getStopVec();
                 if(!veh.getWayBack()){
                     // Nememlo by byt natvrdo
                     double width = 390;
                     auto stopEll = info_box->addEllipse(-410 + ratio * width - 2, 12 - 2, 4, 4);
                     stopEll->setBrush(QBrush(QColor(0, 0, 0), Qt::SolidPattern));
+
+                    auto stop_name = info_box->addText(current_stop[counter].getStopName());
+                    stop_name->setPos(-415 + ratio * width - 2, 12 - 2);
+                    stop_name->setRotation(-90);
+                    stop_name->setScale(0.5);
                 }
                 else{
                     double width = 390;
                     auto stopEll = info_box->addEllipse(-20 - ratio * width - 2, 12 - 2, 4, 4);
                     stopEll->setBrush(QBrush(QColor(0, 0, 0), Qt::SolidPattern));
+
+                    auto stop_name = info_box->addText(current_stop[counter].getStopName());
+                    stop_name->setPos(-415 + ratio * width - 2, 12 - 2);
+                    stop_name->setRotation(-90);
+                    stop_name->setScale(0.5);
                 }
+                counter++;
             }
 
 
@@ -330,6 +347,16 @@ void MainWindow::resizeEvent(QResizeEvent *event)
     ui->graphicsView->scale(width, width);
     //TODO upravit
     ui->route_info->scale(width, width);
+
+    QList<QGraphicsItem*> items = ui->route_info->items();
+    if(items.size()>1){
+        for(QGraphicsItem *item : items){
+            //dynamic_cast<QGraphicsTextItem*>(item);
+            if(QGraphicsTextItem* text = dynamic_cast<QGraphicsTextItem*>(item)){
+              item->setScale(0.5);
+            }
+        }
+    }
     old = size;
     QWidget::resizeEvent(event);
 
