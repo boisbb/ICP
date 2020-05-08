@@ -4,6 +4,8 @@
 
 #include <QDebug>
 
+
+
 busLine::busLine()
 {
     lineColor.setRgb(rand() % 256, rand() % 256, rand() % 256);
@@ -65,26 +67,52 @@ QColor busLine::getColor()
     return lineColor;
 }
 
-void busLine::generateStopTimes()
+void busLine::generateStopTimes(QJsonArray timetableArray)
 {
     for(stop busS : lineRoute){
         stopTimes.append(new timetableClass());
     }
 
+    //qDebug() << timetableArray[2].toObject().find("night").value().toArray();
+
     stopTimes.append(new timetableClass());
     stopTimes[0]->busStop = new stop(lineRoute[0].getStopName(),*lineRoute[0].getCoord());
 
-    for(int i = 0; i < 24; i++){
+    QJsonArray morning = timetableArray[0].toObject().find("morning").value().toArray();
+    QJsonArray day = timetableArray[1].toObject().find("day").value().toArray();
+    QJsonArray night = timetableArray[2].toObject().find("night").value().toArray();
+    for(int i = 0; i < 5; i++){
         QVector<QTime*> times;
-        times.append(new QTime(i, 0, 0));
-        times.append(new QTime(i, 10, 0));
-        times.append(new QTime(i, 20, 0));
-        times.append(new QTime(i, 30, 0));
-        times.append(new QTime(i, 40, 0));
-        times.append(new QTime(i, 50, 0));
+        for(int j = 0; j < night.size(); j++){
+            times.append(new QTime(i, night[j].toInt(), 0));
+             //qDebug() << "Added times: " << times[times.size() - 1]->toString();
+        }
         stopTimes[0]->departureTime.append(times);
-        qDebug() << stopTimes[0]->departureTime[i][0]->toString() << " BUSTIME";
-        qDebug() << stopTimes[0]->departureTime[i][1]->toString();
+    }
+    for(int i = 5; i < 10; i++){
+        QVector<QTime*> times;
+        for(int j = 0; j < morning.size(); j++){
+            times.append(new QTime(i, morning[j].toInt(), 0));
+             //qDebug() << "Added times: " << times[times.size() - 1]->toString();
+        }
+        stopTimes[0]->departureTime.append(times);
+    }
+
+    for(int i = 10; i < 18; i++){
+        QVector<QTime*> times;
+        for(int j = 0; j < day.size(); j++){
+            times.append(new QTime(i, day[j].toInt(), 0));
+             //qDebug() << "Added times: " << times[times.size() - 1]->toString();
+        }
+        stopTimes[0]->departureTime.append(times);
+    }
+    for(int i = 18; i < 24; i++){
+        QVector<QTime*> times;
+        for(int j = 0; j < night.size(); j++){
+            times.append(new QTime(i, night[j].toInt(), 0));
+             //qDebug() << "Added times: " << times[times.size() - 1]->toString();
+        }
+        stopTimes[0]->departureTime.append(times);
     }
 
 

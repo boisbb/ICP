@@ -135,12 +135,25 @@ void MainWindow::moveVeh()
     /// moving vehicles
 
     int counter = 0;
+    int i = 0;
+    QVector<int> toBeDestr;
     //zjistí počet vybraných vozidel
     for (vehicle *veh : vehicleVector) {
         veh->move(sceneTime);
+
+        if(veh->destruct()){
+            toBeDestr.append(i);
+        }
+
         if(veh->getClicked()){
             counter++;
         }
+        i++;
+    }
+
+    for(int dest : toBeDestr){
+        qDebug() << "To be destructed: " << dest;
+        vehicleVector.remove(dest);
     }
 
     //vozidlo je rozklikntué
@@ -219,6 +232,8 @@ void MainWindow::moveVeh()
 
                 qDebug() << "SETTING SPEED TO: " << speed;
                 vehicleVector[vehicleVector.size() - 1]->getJourney();
+                vehicleVector[vehicleVector.size() - 1]->setWayback(false);
+                vehicleVector[vehicleVector.size() - 1]->setStopNum();
 
                 vehicleVector[vehicleVector.size() - 1]->setGraphics();
                 drawStuff(vehicleVector[vehicleVector.size() - 1]->getGraphics());
@@ -267,7 +282,17 @@ void MainWindow::slow_down()
 
 void MainWindow::time_change()
 {
+
+
+
+    /// TODO OPRAVIT KDYZ JE TAM 00:05:00
     sceneTime = ui->timeEdit->time();
+    for (int i = vehicleVector.size() - 1; i >= 0; i--) {
+        delete vehicleVector[i]->getGraphics()[0];
+        vehicleVector.remove(i);
+    }
+
+    spawnVehicles();
 }
 
 void MainWindow::resizeEvent(QResizeEvent *event)
@@ -319,6 +344,44 @@ void MainWindow::see_info()
 
 void MainWindow::deserialize()
 {
+
+    /*
+    QJsonArray minutes;
+    minutes.append(QJsonValue(0));
+    minutes.append(QJsonValue(10));
+    minutes.append(QJsonValue(20));
+    minutes.append(QJsonValue(30));
+    minutes.append(QJsonValue(40));
+    minutes.append(QJsonValue(50));
+
+    QJsonObject hour{{"0", minutes}};
+
+    QJsonArray hours;
+    hours.append(hour);
+    hours.append(hour);
+
+
+    QJsonObject lineObj{{"10", hours}};
+
+    QJsonArray linesArr;
+    linesArr.append(lineObj);
+
+    QJsonDocument timetableDoc;
+    timetableDoc.setArray(linesArr);
+
+    timetable.write(timetableDoc.toJson());
+    */
+
+    QFile timetable("../examples/timetable.json");
+    if(!timetable.open(QIODevice::ReadWrite))
+        exit(1);
+
+    QString timetableString = timetable.readAll();
+
+    QJsonDocument timetableDoc;
+    timetableDoc = QJsonDocument::fromJson(timetableString.toUtf8());
+    QJsonArray timetableArray = timetableDoc.array();
+
     QFile input("../examples/map_base.json");
     if(!input.open(QIODevice::ReadWrite)){
         exit(1);
@@ -392,10 +455,30 @@ void MainWindow::deserialize()
                 }
             }
        }
-       lineVector[lineVector.size() - 1].generateStopTimes();
+       //lineVector[lineVector.size() - 1].generateStopTimes();
+       QJsonObject testObj;
+       for (int i = 0; i < timetableArray.size(); i++) {
+           testObj = timetableArray[i].toObject();
+           if(testObj.find(QString::number(lineVector[lineVector.size() - 1].getId())) != testObj.end()){
+               qDebug() << QString::number(lineVector[lineVector.size() - 1].getId());
+               lineVector[lineVector.size() - 1].generateStopTimes(testObj.find(QString::number(lineVector[lineVector.size() - 1].getId())).value().toArray());
+           }
+       }
     }
 
+    //lineVector[lineVector.size() - 1].generateStopTimes();
+    //exit(1);
+
+
+    spawnVehicles();
+    //exit(1);
+
+    ui->graphicsView->scale(0.5, 0.5);
+}
+
+void MainWindow::spawnVehicles(){
     // VEHICLES /
+    // o pulnoci se to nejak jebe
     // create blank vehicle just to compute the journey
     for (int i = 0; i < lineVector.size(); i++) {
         vehicle blankVeh(*lineVector[i].getRoute()[0].getCoord(), -200);
@@ -404,7 +487,7 @@ void MainWindow::deserialize()
         QTime duration = lineVector[i].getDuration(blankVeh.getFullJourney().size());
         qDebug() << "Before " << sceneTime.toString();
         qDebug() << duration.toString();
-        QTime swpSceneTime = sceneTime.addSecs(-duration.second() - duration.minute() * 60 - duration.hour() * 3600);
+        QTime swpSceneTime = sceneTime.addSecs((-duration.second() - duration.minute() * 60 - duration.hour() * 3600)*2);
 
         qDebug() << "After " << swpSceneTime.addSecs(-duration.second() - duration.minute() * 60 - duration.hour() * 3600).toString();
         QVector<QVector<QTime*>> stopTimes = lineVector[i].getStopTime(0);
@@ -414,20 +497,37 @@ void MainWindow::deserialize()
                 if(*stopTimes[k][j] >= swpSceneTime && *stopTimes[k][j] <= sceneTime){
                     qDebug()<< "TIME IN INTERVAL: " << stopTimes[k][j]->toString();
                     QTime travelledTime = sceneTime.addSecs(-stopTimes[k][j]->hour() * 3600 -stopTimes[k][j]->minute() * 60 -stopTimes[k][j]->second());
-                    qDebug() << travelledTime.toString();
+                    //qDebug() << travelledTime.toString();
                     double travelledMinsToDouble = travelledTime.minute() + (double)((double)travelledTime.second() / 60.0);
                     double durationMinsToDouble = duration.minute() + (double)((double)duration.second() / 60.0);
                     double travelRatio = travelledMinsToDouble / durationMinsToDouble;
-                    qDebug() << "Travelled: " << travelledMinsToDouble << " Duration: " << durationMinsToDouble << " Travel ratio: " << travelRatio;
-                    int position = blankVeh.getFullJourney().size() * travelRatio;
-                    int stopPosition = (lineVector[i].getRoute().size()) * travelRatio;
+                    //qDebug() << "Travelled: " << travelledMinsToDouble << " Duration: " << durationMinsToDouble << " Travel ratio: " << travelRatio;
 
-                    qDebug() << lineVector[i].getRoute().size();
-                    qDebug() << "JoureyPos: " << position << " stopPosition: " << stopPosition;
+                    int position = blankVeh.getFullJourney().size() * travelRatio;
+                    //int stopPosition = (lineVector[i].getRoute().size()) * travelRatio;
+
+
+                    if(travelRatio > 1){
+                        qDebug() << "BIGGER TIME IN INTERVAL: " << stopTimes[k][j]->toString();
+                        position = blankVeh.getFullJourney().size() * (travelRatio - 1);
+                        //stopPosition = (lineVector[i].getRoute().size()) * (travelRatio - 1);
+                    }
+
+
+                    //qDebug() << lineVector[i].getRoute().size();
+                    qDebug() << "JoureyPos: " << position;
                     vehicle *newVehicle = new vehicle(blankVeh.getFullJourney()[position], lineVector[i].getId());
+
+
                     newVehicle->setLine(lineVector[i]);
-                    newVehicle->setJourneyPos(position, stopPosition);
+                    newVehicle->setJourneyPos(position, 0);
                     newVehicle->getJourney();
+
+                    if(travelRatio > 1){
+                        newVehicle->reverseVectors();
+                        newVehicle->setWayback(true);
+                    }
+                    newVehicle->setStopNum();
                     newVehicle->setGraphics();
                     drawStuff(newVehicle->getGraphics());
                     vehicleVector.append(newVehicle);
@@ -457,10 +557,6 @@ void MainWindow::deserialize()
         drawStuff(vehicleVector[vehicleVector.size() - 1]->getGraphics());
 
     }*/
-
-    ui->graphicsView->scale(0.5, 0.5);
-
-
 }
 
 void MainWindow::initScene()
@@ -469,148 +565,6 @@ void MainWindow::initScene()
     ui->graphicsView->setScene(myScene);
     coordinate testCoord(150, 150);
     deserialize();
-
-
-
-    /*
-    street testStreet(coordinate(100.0, 200.0), coordinate(400.0, 500.0), "testStreet");
-    testStreet.setGraphics();
-    this->drawStuff(testStreet.getGraphics());
-
-
-    stop testStop1("testStop1", coordinate(100, 200));
-    testStop1.setStreet(testStreet);
-    testStop1.setGraphics();
-    this->drawStuff(testStop1.getGraphics());
-
-    stop testStop2("testStop2", coordinate(250, 350));
-    testStop2.setStreet(testStreet);
-    testStop2.setGraphics();
-    this->drawStuff(testStop2.getGraphics());
-
-    stop testStop3("testStop3", coordinate(400, 500));
-    testStop3.setStreet(testStreet);
-    testStop3.setGraphics();
-    this->drawStuff(testStop3.getGraphics());
-
-
-    QVector<QString> testStops;
-    testStops.append("testStop1");
-    testStops.append("testStop2");
-    testStops.append("testStop3");
-    busLine testLine(10);
-    testLine.addStop(testStop1);
-    testLine.addStop(testStop2);
-    testLine.addStop(testStop3);
-
-
-
-    vehicle testVehicle(coordinate(100.0, 200.0), 10);
-    testVehicle.setGraphics();
-    testVehicle.setLine(testLine);
-    testVehicle.getJourney();
-    vehicleVector.append(testVehicle);
-    drawStuff(vehicleVector.at(0).getGraphics());
-
-
-    //auto line = line();
-
-    QJsonDocument doc;
-    QJsonObject objStops;
-    QJsonObject objVehicle;
-    QJsonObject objLine;
-    QJsonObject objStreets;
-    QJsonArray stopArr;
-    QJsonArray stopStreets;
-    stopStreets.append(QJsonValue("testStreet"));
-    stopArr.append(QJsonObject({
-                               {"name", testStop1.getStopName()},
-                               {"x", testStop1.getCoord()->getX()},
-                               {"y", testStop1.getCoord()->getY()},
-                               {"street name", stopStreets},
-                           }));
-
-    stopArr.append(QJsonObject({
-                               {"name", testStop2.getStopName()},
-                               {"x", testStop2.getCoord()->getX()},
-                               {"y", testStop2.getCoord()->getY()},
-                               {"street name", stopStreets},
-                           }));
-
-    stopArr.append(QJsonObject({
-                               {"name", testStop3.getStopName()},
-                               {"x", testStop3.getCoord()->getX()},
-                               {"y", testStop3.getCoord()->getY()},
-                               {"street name", stopStreets},
-                           }));
-
-
-    QJsonObject stops{{"stops", stopArr}};
-
-    QJsonArray streetArr;
-    streetArr.append(QJsonObject({
-                                     {"start x", testStreet.getStart().getX()},
-                                     {"start y", testStreet.getStart().getY()},
-                                     {"end x", testStreet.getEnd().getX()},
-                                     {"end y", testStreet.getEnd().getY()},
-                                     {"name", testStreet.getName()},
-                                 }));
-
-    QJsonArray lineArr;
-    QJsonArray lineStops;
-    lineStops.append(QJsonValue("testStop1"));
-    lineArr.append(QJsonObject({
-                                   {"number", 10},
-                                   {"stops", lineStops}
-                               }));
-
-    QJsonArray vehicleArr;
-    vehicleArr.append(QJsonObject({
-                                          {"x", 100},
-                                          {"y", 200},
-                                          {"number", 10}
-                                      }));
-
-
-
-    QJsonObject streets{{"streets", streetArr}};
-    QJsonObject lines{{"lines", lineArr}};
-    QJsonObject vehicles{{"vehicles", vehicleArr}};
-    QJsonArray all;
-    all.append(stops);
-    all.append(streets);
-    all.append(lines);
-    all.append(vehicles);
-
-    //QJsonObject allObj{{"map", all}};
-
-
-
-
-    QFile input("../examples/map.json");
-    if(input.open(QIODevice::ReadWrite)){
-        qDebug() << "Created";
-    }
-
-
-
-    doc.setArray(all);
-    input.write(doc.toJson());
-    QJsonDocument newdoc;
-    //QString data = input.readAll();
-
-    //qDebug() << doc.toJson(QJsonDocument::Compact);
-    //newdoc = QJsonDocument::fromJson(data.toUtf8());
-    //QJsonObject newobject = newdoc.object();
-    //QJsonArray array = newobject.find("coords").value().toArray();
-    //QJsonArray array = value.toArray();
-
-    //qDebug() << array[1].toObject().value("x").toDouble();
-    //qDebug() << newdoc.toJson();
-    //qDebug() << testCoord.getX();
-    //qDebug() << testCoord.getY();
-
-*/
     ui->graphicsView->setRenderHint(QPainter::Antialiasing);
     timerStart();
 

@@ -102,6 +102,11 @@ int vehicle::get_stops_number()
     return stopVec.size();
 }
 
+bool vehicle::destruct()
+{
+    return destr;
+}
+
 void vehicle::setCoords(coordinate newCoord)
 {
     if(coords){
@@ -148,6 +153,11 @@ void vehicle::setJourneyPos(int pos, int stop)
     //stopNum = stop;
 }
 
+void vehicle::setWayback(bool wB)
+{
+    wayBack = wB;
+}
+
 
 
 void vehicle::move(QTime sceneTime)
@@ -176,14 +186,19 @@ void vehicle::move(QTime sceneTime)
             stopTime = sceneTime;
             stopNum++;
             if(line->getRoute().size() == stopNum){
-                if(wayBack)
+                if(wayBack){
                     wayBack = false;
+                    destr = true;
+                     //qDebug() << " WAYBACK IS TRUE X CURRENT: " << coords->getX() << " Y CURRENT: " << coords->getY() << journeyPos;
+                     //qDebug() << " X STOP: " << nextStop.getCoord()->getX() << " Y STOP: " << nextStop.getCoord()->getY();
+                    delete getGraphics()[0];
+                }
                 else{
-                    qDebug() << "Real time" << sceneTime.toString();
-                    qDebug() << "Computed duration in mins" << (double)(((double)((double)journey.size() + 1  - (double)stopVec.size()) * (double)500 + ((double)stopVec.size() - 2) * (double)10000) / (double)1000) / (double)60;
-                    qDebug() << " X CURRENT: " << coords->getX() << " Y CURRENT: " << coords->getY() << journeyPos;
-                    qDebug() << journey.size() << stopVec.size();
+                    //qDebug() << journey.size() << stopVec.size();
                     wayBack = true;
+                    //qDebug() << "WAYBACK IS FALSE X CURRENT: " << coords->getX() << " Y CURRENT: " << coords->getY() << journeyPos;
+                    //qDebug() << " X STOP: " << nextStop.getCoord()->getX() << " Y STOP: " << nextStop.getCoord()->getY();
+
                 }
 
                 stopNum = 1;
@@ -371,28 +386,37 @@ void vehicle::getJourney()
         }
     }
 
-    int stopCnt = 0;
-    for(coordinate jCoord : journey){
-        if(line->getRoute()[stopCnt].getCoord()->getX() == jCoord.getX()
-        && line->getRoute()[stopCnt].getCoord()->getY() == jCoord.getY()){
-            stopCnt++;
-        }
-
-
-
-        if(jCoord.getX() == journey[journeyPos].getX() && jCoord.getY() == journey[journeyPos].getY()){
-            stopNum = stopCnt;
-            qDebug() << stopNum << " HERE GOES NOTHING " << journeyPos;
-            qDebug() << jCoord.getX() << " " << jCoord.getY() << " HERE GOES NOTHING";
-            break;
-        }
-    }
-
     //qDebug() << "SIZE IS: " << journey.size() << " TIME IS in minutes: " << ((500.0 / 1000.0)/60) * (double)journey.size();
     //qDebug() << stopVec.size();
     //exit(0);
 
 
     //for (QVector<coordinate>::const_iterator i = journey.begin(); i != journey.end(); ++i)
-        //qDebug() << i->getX() << " " << i->getY() << ' ';
+    //qDebug() << i->getX() << " " << i->getY() << ' ';
+}
+
+void vehicle::setStopNum(){
+    int stopCnt = 0;
+    for(coordinate jCoord : journey){
+        if(stopVec[stopCnt].getCoord()->getX() == jCoord.getX()
+        && stopVec[stopCnt].getCoord()->getY() == jCoord.getY()){
+            stopCnt++;
+        }
+
+        if(jCoord.getX() == journey[journeyPos].getX() && jCoord.getY() == journey[journeyPos].getY()){
+            stopNum = stopCnt;
+            qDebug() << stopNum;
+            qDebug() << jCoord.getX() << " " << jCoord.getY();
+            break;
+        }
+    }
+
+    qDebug() << "STOPNUM " << stopNum;
+}
+
+
+void vehicle::reverseVectors()
+{
+    std::reverse(journey.begin(), journey.end());
+    std::reverse(stopVec.begin(), stopVec.end());
 }

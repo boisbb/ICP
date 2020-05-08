@@ -5,6 +5,9 @@
 #include <QColor>
 #include <QTime>
 #include <QVector>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QJsonArray>
 
 class stop;
 
@@ -21,7 +24,7 @@ public:
     QVector<QVector<QTime*>> getStopTime(int index);
     QColor getColor();
     /* */
-    void generateStopTimes();
+    void generateStopTimes(QJsonArray timetableArray);
     void addStop(stop busStop);
     void setColor(QColor color);
     QTime getDuration(double journeySize);
