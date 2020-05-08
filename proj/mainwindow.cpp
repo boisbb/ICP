@@ -82,7 +82,7 @@ void MainWindow::showInfo(vehicle veh, bool check, bool was)
                 }
                 else{
                     double width = 390;
-                    auto stopEll = info_box->addEllipse(20 - ratio * width - 2, 12 - 2, 4, 4);
+                    auto stopEll = info_box->addEllipse(-20 - ratio * width - 2, 12 - 2, 4, 4);
                     stopEll->setBrush(QBrush(QColor(0, 0, 0), Qt::SolidPattern));
                 }
             }
@@ -511,7 +511,7 @@ void MainWindow::spawnVehicles(){
         for (int k = swpSceneTime.hour(); k <= sceneTime.hour(); ++k) {
             for (int j = 0; j < stopTimes[k].size(); ++j) {
                 //qDebug()<< "TIMES " << stopTimes[i][j]->toString();
-                if(*stopTimes[k][j] >= swpSceneTime && *stopTimes[k][j] <= sceneTime){
+                if(*stopTimes[k][j] > swpSceneTime && *stopTimes[k][j] < sceneTime){
                     qDebug()<< "TIME IN INTERVAL: " << stopTimes[k][j]->toString();
                     QTime travelledTime = sceneTime.addSecs(-stopTimes[k][j]->hour() * 3600 -stopTimes[k][j]->minute() * 60 -stopTimes[k][j]->second());
                     //qDebug() << travelledTime.toString();
