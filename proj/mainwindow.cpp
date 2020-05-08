@@ -281,9 +281,6 @@ void MainWindow::speed_up()
 
     interval /= 2;
     speed /= 1.2;
-
-    qDebug() << "Interval in Main Window: " << interval;
-    //qDebug() << "Speed in Main Window: " << speed;
     timer->setInterval(interval);
 }
 
@@ -291,9 +288,6 @@ void MainWindow::slow_down()
 {
     interval *= 2;
     speed *= 1.2;
-
-    qDebug() << "Interval in Main Window: " << interval;
-    //qDebug() << "Speed in Main Window: " << speed;
     timer->setInterval(interval);
 }
 

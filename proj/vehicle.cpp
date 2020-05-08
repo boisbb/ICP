@@ -367,13 +367,19 @@ void vehicle::getJourney()
     int idx = 0;
     for(int j = 0; j < line->getRoute().size(); j++){
         k = 0;
+        //qDebug() << line->getRoute().at(j).getStopName();
+        //qDebug() << line->getRoute()[j].getCoord()->getX() << line->getRoute()[j].getCoord()->getY();
         for (coordinate journeyCoord : journey){
+
+            if(journeyCoord.getX() == 292);
+                //qDebug() << journeyCoord.getY();
+
             if(round(line->getRoute().at(j).getCoord()->getX()) == round(journeyCoord.getX())
             && round(line->getRoute().at(j).getCoord()->getY()) == round(journeyCoord.getY())){
-                //qDebug() << line->getRoute()[j].getCoord()->getX() << line->getRoute()[j].getCoord()->getY();
-                journey[k].setX(line->getRoute().at(j).getCoord()->getX());
-                journey[k].setY(line->getRoute().at(j).getCoord()->getY());
+
+                journey[k] = *line->getRoute().at(j).getCoord();
                 idx = k;
+
 
                 if(j == line->getRoute().size() - 1){
                     for(int l = journey.size() - 1; l > idx; l--){
@@ -400,12 +406,17 @@ void vehicle::setStopNum(){
     for(coordinate jCoord : journey){
         if(stopVec[stopCnt].getCoord()->getX() == jCoord.getX()
         && stopVec[stopCnt].getCoord()->getY() == jCoord.getY()){
+
+            //qDebug() << stopVec[stopCnt].getStopName();
+
             stopCnt++;
         }
 
         if(jCoord.getX() == journey[journeyPos].getX() && jCoord.getY() == journey[journeyPos].getY()){
+
+
             stopNum = stopCnt;
-            qDebug() << stopNum;
+            //qDebug() << stopNum;
             qDebug() << jCoord.getX() << " " << jCoord.getY();
             break;
         }

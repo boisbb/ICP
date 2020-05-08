@@ -121,6 +121,8 @@
                 "x": 698,
                 "y": 522
             },
+
+
             {
                 "name": "testStop14",
                 "street name": [
@@ -160,14 +162,6 @@
                 ],
                 "x": 262.832034,
                 "y": 522.643105
-            },
-            {
-                "name": "testStop19",
-                "street name": [
-                    "testStreet11"
-                ],
-                "x": 292.393804,
-                "y": 419.494023
             },
             {
                 "name": "testStop20",
@@ -289,6 +283,8 @@
                 "x": 714.883986,
                 "y": 465.959536
             },
+
+
             {
                 "name": "testStopExtra2",
                 "street name": [
@@ -566,6 +562,31 @@
                     "testStop42",
                     "testStopExtra3"
 
+                ]
+            },
+            {
+                "number": 12,
+                "stops": [
+                    "testStop14",
+		                "testStop15",
+		                "testStop16",
+                    "testStop17",
+                    "testStop18",
+		                "testStop20",
+                    "testStop21",
+                    "testStop22",
+		                "testStop23",
+		                "testStop24",
+                    "testStop25",
+                    "testStop26",
+		                "testStop27",
+		                "testStop28",
+                    "testStop29",
+                    "testStop30",
+                    "testStop31",
+                    "testStop32",
+		                "testStop33",
+		                "testStop34"
                 ]
             }
         ]
