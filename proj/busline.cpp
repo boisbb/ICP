@@ -1,3 +1,9 @@
+/*!
+ * @file
+ * @brief Tento soubor ohsahuje implementaci dané linky
+ *
+ * @author Boris Burkalo (xburka00), Jan Klusáček (xklusa14)
+ */
 #include "busline.h"
 #include "stop.h"
 #include "coordinate.h"
@@ -5,38 +11,63 @@
 #include <QDebug>
 
 
-
+/**
+ * @brief konstruktor
+ * @details který nastaví barvu dané lince
+ */
 busLine::busLine()
 {
     lineColor.setRgb(rand() % 256, rand() % 256, rand() % 256);
 }
 
+/**
+ * @brief konstruktor,
+ * @details nastaví barvu dané lince a id na základně parametru
+ * @param lineId číslo dané linky
+ */
 busLine::busLine(int lineId)
 {
     id = lineId;
     lineColor.setRgb(rand() % 256, rand() % 256, rand() % 256);
 }
 
+/**
+ * @brief TODO funkce sloužící pro zíkání čísla linky
+ * @return číslo linky
+ */
 int busLine::getId()
 {
     return id;
 }
 
+/**
+ * @brief funkce sloužící pro získání názvů zastávek linky
+ * @return názvy zastávek linky
+ */
 QVector<QString> busLine::getStopNames()
 {
     return stopNames;
 }
 
+/**
+ * @brief funkce sloužící pro získání barvy linky
+ * @return barva linky
+ */
 QColor busLine::getLineColor()
 {
     return lineColor;
 }
 
+/**
+ * @brief funkce sloužící k přidání zastávky
+ * @param busStop zastávka, kterou chceme přidat
+ */
 void busLine::addStop(stop busStop)
 {
     lineRoute.append(busStop);
 }
 
+//TODO smazat??
 /*
 void busLine::setColor(QColor color)
 {
@@ -44,6 +75,11 @@ void busLine::setColor(QColor color)
 }
 */
 
+/**
+ * @brief funkce sloužící pro zjištění časového intervalu trasy jedné linky
+ * @param journeySize délka trasy
+ * @return čas trvání
+ */
 QTime busLine::getDuration(double journeySize)
 {
     double seconds = ((double)((journeySize + 1 - (double)getRoute().size()) * 500 +
@@ -52,21 +88,38 @@ QTime busLine::getDuration(double journeySize)
     return QTime(0, seconds / 60, (int)seconds % 60);
 }
 
+/**
+ * @brief funkce sloužící pro získání trasy linky
+ * @return zastávky dané trasy
+ */
 QVector<stop> busLine::getRoute()
 {
     return lineRoute;
 }
 
+/**
+ * @brief funkce sloužící ke získání jízdního řádu na dané zastávce
+ * @param index index zastávky ve vektoru zastávek
+ * @return jízdní řád
+ */
 QVector<QVector<QTime *>> busLine::getStopTime(int index)
 {
     return stopTimes[index]->departureTime;
 }
 
+/**
+ * @brief funkce sloužící pro získání barvy linky
+ * @return barvu linky
+ */
 QColor busLine::getColor()
 {
     return lineColor;
 }
 
+/**
+ * @brief vygeneruje interní jízdní řád na základě vstupních dat
+ * @param timetableArray pole jízního řádu extrahované ze souboru .json
+ */
 void busLine::generateStopTimes(QJsonArray timetableArray)
 {
     for(stop busS : lineRoute){

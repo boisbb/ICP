@@ -1,3 +1,9 @@
+/*!
+ * @file
+ * @brief Tento soubor obsahuje implementaci třídy vehicle
+ *
+ * @author Boris Burkalo (xburka00), Jan Klusáček (xklusa14)
+ */
 #include "vehicle.h"
 #include <cmath>
 
@@ -10,37 +16,65 @@
 #include "street.h"
 #include "ellipse.h"
 
+/**
+ * @brief konstruktor
+ */
 vehicle::vehicle()
 {
 
 }
 
+/**
+ * @brief konstruktor s parametry
+ * @param vehicleCoords \ref coordinate vozidla
+ * @param vehicleNumber číslo linky
+ */
 vehicle::vehicle(coordinate vehicleCoords, int vehicleNumber)
 {
     coords = new coordinate(vehicleCoords.getX(), vehicleCoords.getY());
     number = vehicleNumber;
 }
 
+/**
+ * @brief funkce sloužící pro získání \ref coordinate vozidla
+ * @return souřadnice vozidla
+ */
 coordinate* vehicle::getCoords()
 {
     return coords;
 }
 
+/**
+ * @brief funkce sloužící pro získání linky na které vozdilo jede
+ * @return linka
+ */
 busLine* vehicle::getLine()
 {
     return line;
 }
 
+/**
+ * @brief funkce sloužící pro získání číslo linky daného vozidla
+ * @return číslo linky
+ */
 int vehicle::getNumber()
 {
     return number;
 }
 
+/**
+ * @brief funkce sloužící pro získání vektoru zastávek pro dané vozidlo
+ * @return zastávky
+ */
 QVector<stop> vehicle::getStopVec()
 {
     return stopVec;
 }
 
+/**
+ * @brief funkce sloužící pro získání poměru zastávek
+ * @return poměr zastávek s ohledem na trasu
+ */
 QVector<double> vehicle::getStopRatio()
 {
     QVector<double> retVec;
@@ -67,46 +101,82 @@ QVector<double> vehicle::getStopRatio()
     return retVec;
 }
 
+/**
+ * @brief funkce sloužící pro získání poozice vozidla ve vektoru trasy
+ * @return pozice vozidla
+ */
 int vehicle::getJourneyPos()
 {
     return journeyPos;
 }
 
+/**
+ * @brief funkce sloužící pro získání celé cesty
+ * @return vektor celé cesty
+ */
 QVector<coordinate> vehicle::getFullJourney()
 {
     return journey;
 }
 
+/**
+ * @brief funkce sloužící pro zjistění, jeslti jede vozidlo zpátky
+ * @return true/false
+ */
 bool vehicle::getWayBack()
 {
     return wayBack;
 }
 
+/**
+ * @brief funkce sloužící pro získání vzhledu (grafiky) vozidla
+ * @return QVector QGraphicsItemů
+ */
 QVector<QGraphicsItem *> vehicle::getGraphics() const
 {
     return vehicleGraphics;
 }
 
+/**
+ * @brief funkce sloužící pro získání barvy vozidla
+ * @return barva vozidla
+ */
 QColor vehicle::getColor()
 {
     return color;
 }
 
+/**
+ * @brief funkce sloužící pro zjištění, jestli se na dané vozidlo kliklo
+ * @return true/false
+ */
 bool vehicle::getClicked()
 {
     return clicked;
 }
 
+/**
+ * @brief funkce sloužící ke zjištění počtu zastávek dané linky
+ * @return počet zastávek
+ */
 int vehicle::get_stops_number()
 {
     return stopVec.size();
 }
 
+/**
+ * @brief funkce pro zjištění, jesltli má být nad vozidlem zavolán destruktor
+ * @return true/false
+ */
 bool vehicle::destruct()
 {
     return destr;
 }
 
+/**
+ * @brief funkce sloužící pro nastavení pozice vozidla
+ * @param pozice kam ho chceme nastavit
+ */
 void vehicle::setCoords(coordinate newCoord)
 {
     if(coords){
@@ -118,6 +188,10 @@ void vehicle::setCoords(coordinate newCoord)
     }
 }
 
+/**
+ * @brief funkce sloužící pro nastavení linky danému vozidlu
+ * @param bus autobus, který chceme nastavit
+ */
 void vehicle::setLine(busLine bus)
 {
     if(line){
@@ -131,6 +205,9 @@ void vehicle::setLine(busLine bus)
     }
 }
 
+/**
+ * @brief funkce sloužící pro nastavení vzhledu (grafiky) vozidla
+ */
 void vehicle::setGraphics()
 {
     ellipse *ellipseVeh = new ellipse();
@@ -142,24 +219,39 @@ void vehicle::setGraphics()
 }
 
 
+/**
+ * @brief funkce sloužící pro nastavení flagu kliknutí na vozidlo
+ * @param switchClicked true/false
+ */
 void vehicle::setClicked(bool switchClicked)
 {
     clicked = switchClicked;
 }
 
+/**
+ * @brief nastaví pozici vozidla ve vektoru cesty
+ * @param pos pozice
+ */
 void vehicle::setJourneyPos(int pos, int stop)
 {
     journeyPos = pos;
     //stopNum = stop;
 }
 
+/**
+ * @brief funkce, která nastaví flag, jeslti se u vozidla má nastavit cesta zpět
+ * @param wB true/false
+ */
 void vehicle::setWayback(bool wB)
 {
     wayBack = wB;
 }
 
 
-
+/**
+ * @brief funkce, která zajištujě pohyb vozidla
+ * @param sceneTime čas scény
+ */
 void vehicle::move(QTime sceneTime)
 {
     //qDebug() << speed;
@@ -215,7 +307,9 @@ double pointDistance(coordinate oldCoord, coordinate newCoord){
     return sqrt(pow(oldCoord.getX() - newCoord.getX(), 2) + pow( oldCoord.getY() - newCoord.getY(), 2));
 }
 
-
+/**
+ * @brief funkce, která vypočítá cestu, kterou pojede vozidlo v rámci linky
+ */
 void vehicle::getJourney()
 {
     stopNum = 1;
@@ -401,6 +495,9 @@ void vehicle::getJourney()
     //qDebug() << i->getX() << " " << i->getY() << ' ';
 }
 
+/**
+ * @brief funkce, která nastaví číslo následující zastávky
+ */
 void vehicle::setStopNum(){
     int stopCnt = 0;
     for(coordinate jCoord : journey){
@@ -425,7 +522,9 @@ void vehicle::setStopNum(){
     qDebug() << "STOPNUM " << stopNum;
 }
 
-
+/**
+ * @brief funkce sloužící k otočení vektoru cesty ->pro cestu zpět
+ */
 void vehicle::reverseVectors()
 {
     std::reverse(journey.begin(), journey.end());

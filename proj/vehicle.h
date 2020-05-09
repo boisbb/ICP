@@ -1,3 +1,9 @@
+/*!
+ * @file
+ * @brief Tento soubor obsahuje třídu \ref vehicle
+ *
+ * @author Boris Burkalo (xburka00), Jan Klusáček (xklusa14)
+ */
 #ifndef VEHICLE_H
 #define VEHICLE_H
 
@@ -44,20 +50,65 @@ public:
 
     void setStopNum();
 private:
+    /**
+     * @brief \ref coordinate vozidla
+     */
     coordinate* coords = NULL;
+
+    /**
+     * @brief číslo linky
+     */
     int number;
+    /**
+     * @brief barva vozidla
+     */
     QColor color;
+    /**
+     * @brief linka na které je vozdilo
+     */
     busLine* line = NULL;
+    /**
+     * @brief pozice následující zastávky ve vektoru zastávek
+     */
     int stopNum = 0;
+
+    //TODO smazat
     QVector<bool> traveledStops;
+    /**
+     * @brief celá cesta vozidla
+     */
     QVector<coordinate> journey;
+    /**
+     * @brief zastávky vozidla
+     */
     QVector<stop> stopVec;
+    /**
+     * @brief index aktuální pozice vozidla ve vektoru \ref journey
+     */
     int journeyPos = 0;
+    /**
+     * @brief flag jeslti je vozidlo v zastávce nebo ne
+     */
     bool stopBool = false;
+    /**
+     * @brief čas zastavení vozidla v zastávce
+     */
     QTime stopTime;
+    /**
+     * @brief flag jeslti vozidlo jede zpátky
+     */
     bool wayBack = false;
+    /**
+     * @brief vzhled (grafika) vozdila
+     */
     QVector<QGraphicsItem*> vehicleGraphics;
+    /**
+     * @brief flag vozdila, ukazující, jeslti na vozidlo bylo kliknuto
+     */
     bool clicked = false;
+    /**
+     * @brief flag jeslti se má smazat grafika v hlavním okně v mapě)
+     */
     bool destr = false;
 
 

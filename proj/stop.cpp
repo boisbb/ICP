@@ -1,3 +1,9 @@
+/*!
+ * @file
+ * @brief Tento soubor obsahuje implementaci
+ *
+ * @author Boris Burkalo (xburka00), Jan Klusáček (xklusa14)
+ */
 #include "stop.h"
 #include "coordinate.h"
 #include "street.h"
@@ -5,12 +11,19 @@
 #include <QBrush>
 #include <QDebug>
 
-
+/**
+ * @brief konstruktor
+ */
 stop::stop()
 {
 
 }
 
+/**
+ * @brief konstruktor s parametry
+ * @param stopName název zastávky
+ * @param stopPosition pozice zastávky
+ */
 stop::stop(QString stopName, coordinate stopPosition)
 {
     name = stopName;
@@ -18,45 +31,74 @@ stop::stop(QString stopName, coordinate stopPosition)
     *position = stopPosition;
 }
 
+/**
+ * @brief funkce sloužící k nastavení ulice
+ * @param s ulice
+ */
 void stop::setStreet(street s)
 {
     street *tmp = new street();
     *tmp = s;
     streets.append(tmp);
 }
+//TODO smazat
 /*
 QString stop::getStreetName() const
 {
     return Street->getName();
 }
 */
+
+/**
+ * @brief funkce sloužící pro získání jména zastávky
+ * @return název zastávky
+ */
 QString stop::getStopName() const
 {
     return name;
 }
 
+/**
+ * @brief funkce sloužící pro získání ulice
+ * @param i pozice ve vektoru ulic
+ * @return vrací ulici
+ */
 street *stop::getStreet(int i) const
 {
     return streets.at(i);
 }
 
 
-
+/**
+ * @brief funkce sloužící pro získání pozice zastávky
+ * @return zastávky
+ */
 coordinate* stop::getCoord() const
 {
     return position;
 }
 
+/**
+ * @brief funkce pro získání ulic
+ * @return ulice
+ */
 QVector<street *> stop::getStreets()
 {
     return streets;
 }
 
+/**
+ * @brief funkce sloužící pro získání grafiky zastávky
+ * @return grafika zastávky
+ */
 QVector<QGraphicsItem *> stop::getGraphics()
 {
     return stopGraphics;
 }
 
+/**
+ * @brief funkce sloužící pro nastavení vzhledu zastávky
+ */
 void stop::setGraphics()
 {
     stopGraphics.append(new QGraphicsEllipseItem(this->getCoord()->getX() - 4, this->getCoord()->getY() - 4, 8, 8));

@@ -1,3 +1,16 @@
+/*!
+ * @file
+ * @brief Tento soubor ohsahuje implementaci hlavního okna našeho programu
+ *
+ * @author Boris Burkalo (xburka00), Jan Klusáček (xklusa14)
+ */
+
+/*!
+ * \mainpage
+ * kecy nějaký TODO
+ * See \ref MainWindow
+ */
+
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
@@ -14,7 +27,10 @@
 #include <QGraphicsScene>//info dole
 #include <QDateTimeEdit>
 
-
+/**
+ * @brief Konstruktor MainWindow
+ * @param parent rodič
+ */
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -28,21 +44,24 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->slow_down, &QPushButton::clicked, this, &MainWindow::slow_down);
     connect(ui->time_changer, &QPushButton::clicked, this, &MainWindow::time_change);
 }
-
+/**
+ * @brief Destruktor MainWindow
+ */
 MainWindow::~MainWindow()
 {
     delete ui;
 }
 
-void MainWindow::onValueChange(int val)
-{
-    qDebug() << "value" << val;
-}
+/**
+ * @brief funkce na ukazování informací o zvolené trase
+ *
+ * @param veh vozidlo, na ktéré uživatel kliknul a chce o něm vědět bližší informace
+ * @param was říká nám jeslti už byly informace jednou vykreslené (aby se nepřekreslovaly pokaždé)
+ *
+ */
 
-//funkce na ukazování informací o zvolené trase
-void MainWindow::showInfo(vehicle veh, bool check, bool was)
+void MainWindow::showInfo(vehicle veh, bool was)
 {
-    //qDebug() << veh.getNumber();
     //aby se celý box stále nepřekresloval
     static bool was_here = false;
     //aby se bok "klikněte" stále nepřekresloval
@@ -53,7 +72,6 @@ void MainWindow::showInfo(vehicle veh, bool check, bool was)
     else{
         was_here = false;
     }
-    if(check){
         if(!was_here){
             was_here = true;
             showing = false;
@@ -116,31 +134,11 @@ void MainWindow::showInfo(vehicle veh, bool check, bool was)
             else
                 infoVehicle->setRect((-20 - ((double) veh.getJourneyPos()/(double) veh.getFullJourney().size()) * 390) -4, 12 - 4, 8, 8);
         }
-    }
-    /* fungovalo pro jedno vozidlo
-    else{
-        //vyčistí dolní box
-        if(!showing){
-            showing = true;
-            auto *info_box = new QGraphicsScene(ui->route_info);
-            ui->route_info->setScene(info_box);
-            was_here = false;
-            auto text = info_box->addText("klikněte na autobus pro zobrazení podrobností");
-        }
-    }
-    */
-
-
 }
-
-void MainWindow::draw_stops(QGraphicsScene *scene)
-{
-    /*
-    auto stop =  scene->addEllipse((-400*20), 6, 4, 4);
-    stop->setBrush(QBrush(QColor(0, 0, 0), Qt::SolidPattern));
-    */
-}
-
+/**
+ * @brief funkce na posunování vozidla
+ * @details mimo jiné funkce kontroluje, jeslti nebylo kliknuté na nějaké vozidlo a případně volá funkci \ref showInfo pro zobrazení informací
+ */
 void MainWindow::moveVeh()
 {
     //aby se "klikněte.." nepřekreslovalo
@@ -148,7 +146,6 @@ void MainWindow::moveVeh()
     //na zrušení výberu staréh vozidla při kliknutí na jiné
     static vehicle *prev;
     static bool was = false;
-    /// moving vehicles
 
     int counter = 0;
     int i = 0;
@@ -178,7 +175,7 @@ void MainWindow::moveVeh()
         for (vehicle *veh : vehicleVector) {
             //veh->move(sceneTime);
             if(veh->getClicked()){
-                MainWindow::showInfo(*veh, true, was);
+                MainWindow::showInfo(*veh, was);
                 //do prev nastaví vozidlo které je zrovna rozkliknuté
                 //když se klikne na další tak se tomuto vozidlu zruší flag clicked
                 was = true;
@@ -221,26 +218,7 @@ void MainWindow::moveVeh()
         }
 
     }
-    /*fungovalo pro jedno vozidlo
-    for (vehicle *veh : vehicleVector) {
-        veh->move(sceneTime);
-        if(!clicked){
-            clicked = true;
-            if(veh->getClicked()){
-                MainWindow::showInfo(*veh, true);
-                qDebug() << "tady";
-            }
-            else{
-                MainWindow::showInfo(*veh, false);
-                qDebug() << "here";
-                clicked = false;
-            }
-        }
-        else{
-            clicked = false;
-        }
-    }
-    */
+
     bool started = false;
     for(busLine line : lineVector){
         line.getStopTime(0)[0];
@@ -281,17 +259,25 @@ void MainWindow::moveVeh()
 
 
 }
-
+/**
+ * @brief slot propojený s tlačítekm "+", slouží k přiblížení mapy
+ */
 void MainWindow::zoom_in()
 {
     ui->graphicsView->scale(1.25, 1.25);
 }
 
+/**
+ * @brief slot propojený s tlačítkem "-", slouží k oddálění mapy
+ */
 void MainWindow::zoom_out()
 {
     ui->graphicsView->scale(0.8, 0.8);
 }
 
+/**
+ * @brief slot propojený s tlačítkem "speed up", slouží ke zrychlení času
+ */
 void MainWindow::speed_up()
 {
     //zrychlení
@@ -301,6 +287,9 @@ void MainWindow::speed_up()
     timer->setInterval(interval);
 }
 
+/**
+ * @brief slot propojený s tlačítkem "slow down", slouží ke zpomalení času
+ */
 void MainWindow::slow_down()
 {
     interval *= 2;
@@ -308,12 +297,12 @@ void MainWindow::slow_down()
     timer->setInterval(interval);
 }
 
+/**
+ * @brief slot probojený s tlačítkem "set time", slouží ke změně času
+ */
 void MainWindow::time_change()
 {
-
-
-
-    /// TODO OPRAVIT KDYZ JE TAM 00:05:00
+    // TODO OPRAVIT KDYZ JE TAM 00:05:00
     sceneTime = ui->timeEdit->time();
     for (int i = vehicleVector.size() - 1; i >= 0; i--) {
         delete vehicleVector[i]->getGraphics()[0];
@@ -323,6 +312,12 @@ void MainWindow::time_change()
     spawnVehicles();
 }
 
+/**
+ * @brief funkce propojená s eventem změny velikosti okna, slouží ke změně velikosti obsahu
+ * @param event event - změna velikosti okna (resize)
+ * @details změna probíhá na základě roztažení do šířky, jelikož při kdybychom scalovali i podle výšky, tak se mapa roztáhne nerovnoměrně což nechceme
+ * @details změna se počítá jako poměr staré šířky k nové šířce
+ */
 void MainWindow::resizeEvent(QResizeEvent *event)
 {
 
@@ -331,19 +326,7 @@ void MainWindow::resizeEvent(QResizeEvent *event)
     QSize size = QWidget::size();
 
     float width = (float)size.rwidth()/(float)old.rwidth();
-    //float height = (float)size.rheight()/(float)old.rheight();
-    /*
-    if(width == 1){
-        width = height;
-        qDebug() << "sirka";
-    }
-    else if(height == 1){
-        qDebug() << "vyska";
-    }
-    else{
-       height = width;
-    }
-    */
+
     ui->graphicsView->scale(width, width);
     //TODO upravit
     ui->route_info->scale(width, width);
@@ -361,6 +344,11 @@ void MainWindow::resizeEvent(QResizeEvent *event)
     QWidget::resizeEvent(event);
 
 }
+
+/**
+ * @brief funcke sloužící k vykreslení objektů hlavní scény (mapy)
+ * @param items vektor všech itemů které chceme vykreslit
+ */
 void MainWindow::drawStuff(QVector<QGraphicsItem*> items)
 {
     for(QGraphicsItem* item : items){
@@ -368,6 +356,10 @@ void MainWindow::drawStuff(QVector<QGraphicsItem*> items)
     }
 }
 
+/**
+ * @brief funkce, která zapne časovač
+ * @details mimo jiné funkce spojuje slot \ref moveVeh, a při tiku posunje vozidla v mapě
+ */
 void MainWindow::timerStart()
 {
     timer->setInterval(interval);
@@ -375,11 +367,9 @@ void MainWindow::timerStart()
     timer->start(100);
 }
 
-void MainWindow::see_info()
-{
-
-}
-
+/**
+ * @brief funkce pro vytvoření objektů mapového schématu na základě vstupních dat
+ */
 void MainWindow::deserialize()
 {
 
@@ -514,6 +504,9 @@ void MainWindow::deserialize()
     ui->graphicsView->scale(0.5, 0.5);
 }
 
+/**
+ * @brief funkce sloužící k vytvoření vozidel v daný čas
+ */
 void MainWindow::spawnVehicles(){
     // VEHICLES /
     // o pulnoci se to nejak jebe
@@ -597,6 +590,9 @@ void MainWindow::spawnVehicles(){
     }*/
 }
 
+/**
+ * @brief funkce sloužící k vytvoření celého okna
+ */
 void MainWindow::initScene()
 {
     myScene = new scene(ui->graphicsView);

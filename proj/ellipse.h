@@ -1,3 +1,9 @@
+/*!
+ * @file
+ * @brief Tento soubor obsahuje třídu \ref ellipse
+ *
+ * @author Boris Burkalo (xburka00), Jan Klusáček (xklusa14)
+ */
 #ifndef ELLIPSE_H
 #define ELLIPSE_H
 
@@ -14,6 +20,9 @@ public:
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *event);
 private:
+    /**
+     * @brief vozidlo
+     */
     vehicle* ellipseVehicle;
 
 };
