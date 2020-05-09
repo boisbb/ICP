@@ -24,6 +24,7 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+    void isChosen(street *streetInst);
 private slots:
     void onValueChange(int val);
     void showInfo(vehicle veh, bool check, bool was);
@@ -33,6 +34,9 @@ private slots:
     void speed_up();
     void slow_down();
     void time_change();
+    void delay_plus();
+    void delay_minus();
+    void delay_reset();
 
 protected:
     virtual void resizeEvent(QResizeEvent *event);
@@ -44,13 +48,14 @@ private:
     void timerStart();
     void see_info();//v dolním místě bude ukazovat informace o zvoleném vozidle
     void draw_stops(QGraphicsScene *scene);
+    void isChosen(street streetInst);
 
 
     QTime sceneTime = QTime(QTime::currentTime().hour(),QTime::currentTime().minute(), round(QTime::currentTime().second()));
     double interval = 500;
     double speed = 1000;
     QVector<busLine> lineVector;
-    QVector<street> streetVector;
+    QVector<street*> streetVector;
     QVector<stop> stopVector;
     QVector<vehicle*> vehicleVector;
     scene *myScene;
@@ -58,5 +63,6 @@ private:
     void deserialize();
     void spawnVehicles();
     QGraphicsEllipseItem *infoVehicle;
+    QVector<street*> chosenStreets;
 };
 #endif // MAINWINDOW_H

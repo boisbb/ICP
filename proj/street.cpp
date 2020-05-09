@@ -1,9 +1,11 @@
 #include "street.h"
 #include "stop.h"
 #include "coordinate.h"
+#include "line.h"
 
 #include <QGraphicsLineItem>
 #include <QDebug>
+#include <QPen>
 
 street::street()
 {
@@ -45,8 +47,33 @@ QVector<QGraphicsItem*> street::getGraphics()
     return streetGraphics;
 }
 
+void street::setDelay(int delay)
+{
+    delayMsec = delay;
+}
+
+int street::getDelay()
+{
+    return delayMsec;
+}
+
+bool street::getDelayed()
+{
+    return delayed;
+}
+
 void street::setGraphics()
 {
-    streetGraphics.append(new QGraphicsLineItem(this->getStart().getX(), this->getStart().getY(), this->getEnd().getX(), this->getEnd().getY()));
-    qDebug() << this->getStart().getX() << " StartX";
+    line* graphicsLine = new line();
+    graphicsLine->setLineStreet(this);
+    QPen pen;
+    pen.setWidth(2);
+    graphicsLine->setPen(pen);
+    graphicsLine->setLine(this->getStart().getX(), this->getStart().getY(), this->getEnd().getX(), this->getEnd().getY());
+    streetGraphics.append(graphicsLine);
+}
+
+void street::setDelayed(bool del)
+{
+    delayed = del;
 }

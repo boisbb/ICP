@@ -53,6 +53,7 @@ OBJECTS_DIR   = ./
 SOURCES       = ../proj/busline.cpp \
 		../proj/coordinate.cpp \
 		../proj/ellipse.cpp \
+		../proj/line.cpp \
 		../proj/main.cpp \
 		../proj/mainwindow.cpp \
 		../proj/scene.cpp \
@@ -63,6 +64,7 @@ SOURCES       = ../proj/busline.cpp \
 OBJECTS       = busline.o \
 		coordinate.o \
 		ellipse.o \
+		line.o \
 		main.o \
 		mainwindow.o \
 		scene.o \
@@ -255,6 +257,7 @@ DIST          = /home/boris/Qt5.9.9/5.9.9/gcc_64/mkspecs/features/spec_pre.prf \
 		../proj/proj.pro ../proj/busline.h \
 		../proj/coordinate.h \
 		../proj/ellipse.h \
+		../proj/line.h \
 		../proj/mainwindow.h \
 		../proj/scene.h \
 		../proj/stop.h \
@@ -262,6 +265,7 @@ DIST          = /home/boris/Qt5.9.9/5.9.9/gcc_64/mkspecs/features/spec_pre.prf \
 		../proj/vehicle.h ../proj/busline.cpp \
 		../proj/coordinate.cpp \
 		../proj/ellipse.cpp \
+		../proj/line.cpp \
 		../proj/main.cpp \
 		../proj/mainwindow.cpp \
 		../proj/scene.cpp \
@@ -665,8 +669,8 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents /home/boris/Qt5.9.9/5.9.9/gcc_64/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents ../proj/busline.h ../proj/coordinate.h ../proj/ellipse.h ../proj/mainwindow.h ../proj/scene.h ../proj/stop.h ../proj/street.h ../proj/vehicle.h $(DISTDIR)/
-	$(COPY_FILE) --parents ../proj/busline.cpp ../proj/coordinate.cpp ../proj/ellipse.cpp ../proj/main.cpp ../proj/mainwindow.cpp ../proj/scene.cpp ../proj/stop.cpp ../proj/street.cpp ../proj/vehicle.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents ../proj/busline.h ../proj/coordinate.h ../proj/ellipse.h ../proj/line.h ../proj/mainwindow.h ../proj/scene.h ../proj/stop.h ../proj/street.h ../proj/vehicle.h $(DISTDIR)/
+	$(COPY_FILE) --parents ../proj/busline.cpp ../proj/coordinate.cpp ../proj/ellipse.cpp ../proj/line.cpp ../proj/main.cpp ../proj/mainwindow.cpp ../proj/scene.cpp ../proj/stop.cpp ../proj/street.cpp ../proj/vehicle.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents ../proj/mainwindow.ui $(DISTDIR)/
 	$(COPY_FILE) --parents proj_cs_CZ.ts $(DISTDIR)/
 
@@ -814,14 +818,21 @@ moc_mainwindow.cpp: /home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtWidgets/QMainWind
 		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtWidgets/QWidget \
 		../proj/busline.h \
 		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtGui/QColor \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/QTime \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qdatetime.h \
 		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/QVector \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/QJsonDocument \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qjsondocument.h \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qjsonvalue.h \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/QJsonObject \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qjsonobject.h \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/QJsonArray \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qjsonarray.h \
 		../proj/coordinate.h \
 		../proj/stop.h \
 		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/QString \
 		../proj/street.h \
 		../proj/vehicle.h \
-		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/QTime \
-		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qdatetime.h \
 		../proj/scene.h \
 		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtWidgets/QGraphicsScene \
 		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtWidgets/qgraphicsscene.h \
@@ -980,9 +991,20 @@ busline.o: ../proj/busline.cpp ../proj/busline.h \
 		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qregexp.h \
 		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qstringmatcher.h \
 		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtGui/qrgba64.h \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/QTime \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qdatetime.h \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qshareddata.h \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qhash.h \
 		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/QVector \
 		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qvector.h \
 		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qpoint.h \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/QJsonDocument \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qjsondocument.h \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qjsonvalue.h \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/QJsonObject \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qjsonobject.h \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/QJsonArray \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qjsonarray.h \
 		../proj/stop.h \
 		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtWidgets/QGraphicsItem \
 		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtWidgets/qgraphicsitem.h \
@@ -1000,11 +1022,9 @@ busline.o: ../proj/busline.cpp ../proj/busline.h \
 		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qvariant.h \
 		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qmap.h \
 		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qdebug.h \
-		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qhash.h \
 		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qtextstream.h \
 		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qiodevice.h \
 		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qlocale.h \
-		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qshareddata.h \
 		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qset.h \
 		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qcontiguouscache.h \
 		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qsharedpointer.h \
@@ -1025,7 +1045,9 @@ busline.o: ../proj/busline.cpp ../proj/busline.h \
 		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtGui/qimage.h \
 		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtGui/qpixelformat.h \
 		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtGui/qtransform.h \
-		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/QString
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/QString \
+		../proj/coordinate.h \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/QDebug
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o busline.o ../proj/busline.cpp
 
 coordinate.o: ../proj/coordinate.cpp ../proj/coordinate.h
@@ -1125,6 +1147,101 @@ ellipse.o: ../proj/ellipse.cpp ../proj/ellipse.h \
 		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtWidgets/QGraphicsEllipseItem \
 		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/QDebug
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o ellipse.o ../proj/ellipse.cpp
+
+line.o: ../proj/line.cpp ../proj/line.h \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtWidgets/QGraphicsLineItem \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtWidgets/qgraphicsitem.h \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtGui/qtguiglobal.h \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qglobal.h \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qconfig-bootstrapped.h \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qconfig.h \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qtcore-config.h \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qsystemdetection.h \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qprocessordetection.h \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qcompilerdetection.h \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qtypeinfo.h \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qsysinfo.h \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qlogging.h \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qflags.h \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qatomic.h \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qbasicatomic.h \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qatomic_bootstrap.h \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qgenericatomic.h \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qatomic_cxx11.h \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qatomic_msvc.h \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qglobalstatic.h \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qmutex.h \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qnumeric.h \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qversiontagging.h \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtGui/qtgui-config.h \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtWidgets/qtwidgets-config.h \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qobject.h \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qobjectdefs.h \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qnamespace.h \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qobjectdefs_impl.h \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qstring.h \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qchar.h \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qbytearray.h \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qrefcount.h \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qarraydata.h \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qstringbuilder.h \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qlist.h \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qalgorithms.h \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qiterator.h \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qhashfunctions.h \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qpair.h \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qbytearraylist.h \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qstringlist.h \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qregexp.h \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qstringmatcher.h \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qcoreevent.h \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qscopedpointer.h \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qmetatype.h \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qvarlengtharray.h \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qcontainerfwd.h \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qobject_impl.h \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qvariant.h \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qmap.h \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qdebug.h \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qhash.h \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qtextstream.h \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qiodevice.h \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qlocale.h \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qshareddata.h \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qvector.h \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qpoint.h \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qset.h \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qcontiguouscache.h \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qsharedpointer.h \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qsharedpointer_impl.h \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qrect.h \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qmargins.h \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qsize.h \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtGui/qpainterpath.h \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtGui/qmatrix.h \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtGui/qpolygon.h \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtGui/qregion.h \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtGui/qwindowdefs.h \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtGui/qwindowdefs_win.h \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qdatastream.h \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qline.h \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtGui/qpixmap.h \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtGui/qpaintdevice.h \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtGui/qcolor.h \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtGui/qrgb.h \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtGui/qrgba64.h \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtGui/qimage.h \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtGui/qpixelformat.h \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtGui/qtransform.h \
+		../proj/street.h \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtWidgets/QGraphicsItem \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/QString \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/QDebug \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtGui/QPen \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtGui/qpen.h \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtGui/qbrush.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o line.o ../proj/line.cpp
 
 main.o: ../proj/main.cpp ../proj/mainwindow.h \
 		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtWidgets/QMainWindow \
@@ -1238,14 +1355,21 @@ main.o: ../proj/main.cpp ../proj/mainwindow.h \
 		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtWidgets/QWidget \
 		../proj/busline.h \
 		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtGui/QColor \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/QTime \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qdatetime.h \
 		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/QVector \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/QJsonDocument \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qjsondocument.h \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qjsonvalue.h \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/QJsonObject \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qjsonobject.h \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/QJsonArray \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qjsonarray.h \
 		../proj/coordinate.h \
 		../proj/stop.h \
 		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/QString \
 		../proj/street.h \
 		../proj/vehicle.h \
-		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/QTime \
-		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qdatetime.h \
 		../proj/scene.h \
 		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtWidgets/QGraphicsScene \
 		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtWidgets/qgraphicsscene.h \
@@ -1371,14 +1495,21 @@ mainwindow.o: ../proj/mainwindow.cpp ../proj/mainwindow.h \
 		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtWidgets/QWidget \
 		../proj/busline.h \
 		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtGui/QColor \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/QTime \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qdatetime.h \
 		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/QVector \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/QJsonDocument \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qjsondocument.h \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qjsonvalue.h \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/QJsonObject \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qjsonobject.h \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/QJsonArray \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qjsonarray.h \
 		../proj/coordinate.h \
 		../proj/stop.h \
 		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/QString \
 		../proj/street.h \
 		../proj/vehicle.h \
-		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/QTime \
-		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qdatetime.h \
 		../proj/scene.h \
 		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtWidgets/QGraphicsScene \
 		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtWidgets/qgraphicsscene.h \
@@ -1429,19 +1560,16 @@ mainwindow.o: ../proj/mainwindow.cpp ../proj/mainwindow.h \
 		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtWidgets/QPushButton \
 		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtWidgets/qpushbutton.h \
 		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtWidgets/qabstractbutton.h \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtWidgets/QTimeEdit \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtWidgets/qdatetimeedit.h \
 		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtWidgets/QVBoxLayout \
 		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/QDebug \
 		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtWidgets/QGraphicsLineItem \
 		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtWidgets/QGraphicsEllipseItem \
 		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtWidgets/QGraphicsTextItem \
-		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/QJsonDocument \
-		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qjsondocument.h \
-		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qjsonvalue.h \
-		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/QJsonObject \
-		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qjsonobject.h \
-		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/QJsonArray \
-		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qjsonarray.h \
-		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/QFile
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/QFile \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtWidgets/QDateTimeEdit \
+		../proj/line.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o mainwindow.o ../proj/mainwindow.cpp
 
 scene.o: ../proj/scene.cpp ../proj/scene.h \
@@ -1725,8 +1853,12 @@ street.o: ../proj/street.cpp ../proj/street.h \
 		../proj/stop.h \
 		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/QVector \
 		../proj/coordinate.h \
+		../proj/line.h \
 		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtWidgets/QGraphicsLineItem \
-		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/QDebug
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/QDebug \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtGui/QPen \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtGui/qpen.h \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtGui/qbrush.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o street.o ../proj/street.cpp
 
 vehicle.o: ../proj/vehicle.cpp ../proj/vehicle.h \
@@ -1823,12 +1955,21 @@ vehicle.o: ../proj/vehicle.cpp ../proj/vehicle.h \
 		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtGui/qbrush.h \
 		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/QDebug \
 		../proj/busline.h \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/QJsonDocument \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qjsondocument.h \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qjsonvalue.h \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/QJsonObject \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qjsonobject.h \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/QJsonArray \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qjsonarray.h \
 		../proj/coordinate.h \
 		../proj/stop.h \
 		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/QString \
 		../proj/street.h \
 		../proj/ellipse.h \
-		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtWidgets/QGraphicsEllipseItem
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtWidgets/QGraphicsEllipseItem \
+		../proj/line.h \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtWidgets/QGraphicsLineItem
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o vehicle.o ../proj/vehicle.cpp
 
 moc_mainwindow.o: moc_mainwindow.cpp 

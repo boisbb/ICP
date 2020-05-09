@@ -14,7 +14,7 @@ class stop
 public:
     stop();
     stop(QString stopName, coordinate stopPosition);
-    void setStreet(street s);
+    void setStreet(street *s);
     //QString getStreetName() const;
     QString getStopName() const;
     street* getStreet(int i) const;

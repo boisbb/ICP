@@ -19,6 +19,7 @@ SOURCES += \
     busline.cpp \
     coordinate.cpp \
     ellipse.cpp \
+    line.cpp \
     main.cpp \
     mainwindow.cpp \
     scene.cpp \
@@ -30,6 +31,7 @@ HEADERS += \
     busline.h \
     coordinate.h \
     ellipse.h \
+    line.h \
     mainwindow.h \
     scene.h \
     stop.h \

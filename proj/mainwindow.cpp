@@ -13,6 +13,7 @@
 #include <QString>//jen na ukázku pro clock v moveVeh
 #include <QGraphicsScene>//info dole
 #include <QDateTimeEdit>
+#include <line.h>
 
 
 MainWindow::MainWindow(QWidget *parent)
@@ -27,6 +28,9 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->speed_up, &QPushButton::clicked, this, &MainWindow::speed_up);
     connect(ui->slow_down, &QPushButton::clicked, this, &MainWindow::slow_down);
     connect(ui->time_changer, &QPushButton::clicked, this, &MainWindow::time_change);
+    connect(ui->delay_plus, &QPushButton::clicked, this, &MainWindow::delay_plus);
+    connect(ui->delay_minus, &QPushButton::clicked, this, &MainWindow::delay_minus);
+    connect(ui->delay_reset, &QPushButton::clicked, this, &MainWindow::delay_reset);
 }
 
 MainWindow::~MainWindow()
@@ -141,8 +145,28 @@ void MainWindow::draw_stops(QGraphicsScene *scene)
     */
 }
 
+void MainWindow::isChosen(street* streetInst)
+{
+    if(dynamic_cast<class line*>(streetInst->getGraphics()[0])->getChosen()){
+        if(chosenStreets.size() != 0 && chosenStreets[0]->getName().compare(streetInst->getName())){
+            dynamic_cast<class line*>(chosenStreets[0]->getGraphics()[0])->unChoose();
+            chosenStreets.pop_front();
+            chosenStreets.append(streetInst);
+        }
+        else if(chosenStreets.size() == 0){
+            chosenStreets.append(streetInst);
+        }
+    }
+}
+
 void MainWindow::moveVeh()
 {
+    for(street *Street : streetVector){
+        isChosen(Street);
+    }
+
+
+
     //aby se "klikněte.." nepřekreslovalo
     static bool was_here = false;
     //na zrušení výberu staréh vozidla při kliknutí na jiné
@@ -217,7 +241,7 @@ void MainWindow::moveVeh()
 
             auto *info_box = new QGraphicsScene(ui->route_info);
             ui->route_info->setScene(info_box);
-            auto text = info_box->addText("klikněte na autobus pro zobrazení podrobností");
+            info_box->addText("klikněte na autobus pro zobrazení podrobností");
         }
 
     }
@@ -241,7 +265,6 @@ void MainWindow::moveVeh()
         }
     }
     */
-    bool started = false;
     for(busLine line : lineVector){
         line.getStopTime(0)[0];
         for(int i = 0; i < line.getStopTime(0)[sceneTime.hour()].size(); i++){
@@ -322,6 +345,46 @@ void MainWindow::time_change()
 
     spawnVehicles();
 }
+
+void MainWindow::delay_plus()
+{
+    qDebug() << "Delay plus";
+    if(chosenStreets.size() > 0){
+        if(!chosenStreets[0]->getDelayed()){
+            chosenStreets[0]->setDelayed(true);
+            chosenStreets[0]->setDelay(chosenStreets[0]->getDelay() + 1000);
+        }
+        else{
+            chosenStreets[0]->setDelay(chosenStreets[0]->getDelay() + 1000);
+        }
+    }
+}
+
+void MainWindow::delay_minus()
+{
+    qDebug() << "Delay minus";
+    if(chosenStreets.size() > 0){
+        if(chosenStreets[0]->getDelayed() && chosenStreets[0]->getDelay() == 1000){
+                chosenStreets[0]->setDelayed(false);
+        }
+        else if(chosenStreets[0]->getDelayed()){
+            //chosenStreets[0]->setDelayed(true);
+            chosenStreets[0]->setDelay(chosenStreets[0]->getDelay() - 1000);
+        }
+    }
+}
+
+void MainWindow::delay_reset()
+{
+    qDebug() << "reset";
+    if(chosenStreets.size() > 0){
+        chosenStreets[0]->setDelay(0);
+        chosenStreets[0]->setDelayed(false);
+    }
+
+}
+
+
 
 void MainWindow::resizeEvent(QResizeEvent *event)
 {
@@ -410,7 +473,7 @@ void MainWindow::deserialize()
     timetable.write(timetableDoc.toJson());
     */
 
-    QFile timetable("../examples/timetable.json");
+    QFile timetable("../examples/timetable2.json");
     if(!timetable.open(QIODevice::ReadWrite))
         exit(1);
 
@@ -420,7 +483,7 @@ void MainWindow::deserialize()
     timetableDoc = QJsonDocument::fromJson(timetableString.toUtf8());
     QJsonArray timetableArray = timetableDoc.array();
 
-    QFile input("../examples/map_base.json");
+    QFile input("../examples/map_base2.json");
     if(!input.open(QIODevice::ReadWrite)){
         exit(1);
     }
@@ -434,6 +497,7 @@ void MainWindow::deserialize()
 
 
     QString inputData = input.readAll();
+    qDebug() << inputData;
     doc = QJsonDocument::fromJson(inputData.toUtf8());
     QJsonArray fileArray = doc.array();
 
@@ -451,9 +515,9 @@ void MainWindow::deserialize()
         coordinate start(streetObj.find("start x")->toDouble(), streetObj.find("start y")->toDouble());
         coordinate end(streetObj.find("end x")->toDouble(), streetObj.find("end y")->toDouble());
         QString name = streetObj.find("name")->toString();
-        streetVector.append(street(start, end, name));
-        streetVector[streetVector.size() - 1].setGraphics();
-        drawStuff(streetVector[streetVector.size() - 1].getGraphics());
+        streetVector.append(new street(start, end, name));
+        streetVector[streetVector.size() - 1]->setGraphics();
+        drawStuff(streetVector[streetVector.size() - 1]->getGraphics());
 
 
     }
@@ -469,9 +533,9 @@ void MainWindow::deserialize()
         stopVector[stopVector.size() - 1].setGraphics();
         drawStuff(stopVector[stopVector.size() - 1].getGraphics());
 
-        for (street streetStop : streetVector) {
+        for (street *streetStop : streetVector) {
             for (QJsonValue streetName : streetArray) {
-                if(streetStop.getName() == streetName.toString()){
+                if(streetStop->getName() == streetName.toString()){
                     stopVector[stopVector.size() - 1].setStreet(streetStop);
                 }
             }
@@ -497,43 +561,46 @@ void MainWindow::deserialize()
        QJsonObject testObj;
        for (int i = 0; i < timetableArray.size(); i++) {
            testObj = timetableArray[i].toObject();
+           qDebug() << testObj;
            if(testObj.find(QString::number(lineVector[lineVector.size() - 1].getId())) != testObj.end()){
-               qDebug() << QString::number(lineVector[lineVector.size() - 1].getId());
+               //qDebug() << QString::number(lineVector[lineVector.size() - 1].getId());
                lineVector[lineVector.size() - 1].generateStopTimes(testObj.find(QString::number(lineVector[lineVector.size() - 1].getId())).value().toArray());
+               qDebug() << lineVector[lineVector.size() - 1].getId() << " ID";
            }
        }
     }
 
-    //lineVector[lineVector.size() - 1].generateStopTimes();
+    qDebug() << lineVector[lineVector.size() - 1].getRoute().size() << " SIZE";
     //exit(1);
 
 
     spawnVehicles();
     //exit(1);
 
-    ui->graphicsView->scale(0.5, 0.5);
+    ui->graphicsView->scale(0.41, 0.41);
 }
 
 void MainWindow::spawnVehicles(){
     // VEHICLES /
     // o pulnoci se to nejak jebe
     // create blank vehicle just to compute the journey
-    for (int i = 0; i < lineVector.size(); i++) {
+    for (int i = 0; i < lineVector.size(); ++i) {
         vehicle blankVeh(*lineVector[i].getRoute()[0].getCoord(), -200);
         blankVeh.setLine(lineVector[i]);
         blankVeh.getJourney();
         QTime duration = lineVector[i].getDuration(blankVeh.getFullJourney().size());
-        qDebug() << "Before " << sceneTime.toString();
-        qDebug() << duration.toString();
+        //qDebug() << "Before " << sceneTime.toString();
+        //qDebug() << duration.toString();
         QTime swpSceneTime = sceneTime.addSecs((-duration.second() - duration.minute() * 60 - duration.hour() * 3600)*2);
 
-        qDebug() << "After " << swpSceneTime.addSecs(-duration.second() - duration.minute() * 60 - duration.hour() * 3600).toString();
+        //qDebug() << "After " << swpSceneTime.addSecs(-duration.second() - duration.minute() * 60 - duration.hour() * 3600).toString();
+
         QVector<QVector<QTime*>> stopTimes = lineVector[i].getStopTime(0);
         for (int k = swpSceneTime.hour(); k <= sceneTime.hour(); ++k) {
             for (int j = 0; j < stopTimes[k].size(); ++j) {
                 //qDebug()<< "TIMES " << stopTimes[i][j]->toString();
                 if(*stopTimes[k][j] > swpSceneTime && *stopTimes[k][j] < sceneTime){
-                    qDebug()<< "TIME IN INTERVAL: " << stopTimes[k][j]->toString();
+                    //qDebug()<< "TIME IN INTERVAL: " << stopTimes[k][j]->toString();
                     QTime travelledTime = sceneTime.addSecs(-stopTimes[k][j]->hour() * 3600 -stopTimes[k][j]->minute() * 60 -stopTimes[k][j]->second());
                     //qDebug() << travelledTime.toString();
                     double travelledMinsToDouble = travelledTime.minute() + (double)((double)travelledTime.second() / 60.0);
@@ -546,14 +613,14 @@ void MainWindow::spawnVehicles(){
 
 
                     if(travelRatio > 1){
-                        qDebug() << "BIGGER TIME IN INTERVAL: " << stopTimes[k][j]->toString();
+                        //qDebug() << "BIGGER TIME IN INTERVAL: " << stopTimes[k][j]->toString();
                         position = blankVeh.getFullJourney().size() * (travelRatio - 1);
                         //stopPosition = (lineVector[i].getRoute().size()) * (travelRatio - 1);
                     }
 
 
                     //qDebug() << lineVector[i].getRoute().size();
-                    qDebug() << "JoureyPos: " << position;
+                    //qDebug() << "JoureyPos: " << position;
                     vehicle *newVehicle = new vehicle(blankVeh.getFullJourney()[position], lineVector[i].getId());
 
 

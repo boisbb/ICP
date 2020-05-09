@@ -41,7 +41,7 @@ public:
     void move(QTime sceneTime);
     void getJourney();
     void reverseVectors();
-
+    double pointDistance(coordinate oldCoord, coordinate newCoord);
     void setStopNum();
 private:
     coordinate* coords = NULL;
@@ -55,10 +55,12 @@ private:
     int journeyPos = 0;
     bool stopBool = false;
     QTime stopTime;
+    QTime preDelay;
     bool wayBack = false;
     QVector<QGraphicsItem*> vehicleGraphics;
     bool clicked = false;
     bool destr = false;
+    bool isDelayed = false;
 
 
 

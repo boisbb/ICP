@@ -9,6 +9,7 @@
 #include "stop.h"
 #include "street.h"
 #include "ellipse.h"
+#include "line.h"
 
 vehicle::vehicle()
 {
@@ -134,7 +135,7 @@ void vehicle::setLine(busLine bus)
 void vehicle::setGraphics()
 {
     ellipse *ellipseVeh = new ellipse();
-    ellipseVeh->setRect(this->getCoords()->getX() - 6, this->getCoords()->getY() - 6, 12, 12);
+    ellipseVeh->setRect(this->getCoords()->getX() - 7, this->getCoords()->getY() - 7, 14, 14);
     ellipseVeh->setVehicle(this);
     vehicleGraphics.append(ellipseVeh);
     dynamic_cast<QGraphicsEllipseItem*>(vehicleGraphics.at(0))->setBrush(QBrush(color, Qt::SolidPattern));
@@ -158,7 +159,24 @@ void vehicle::setWayback(bool wB)
     wayBack = wB;
 }
 
+bool isBetween(coordinate start, coordinate end, coordinate point){
+    double crossproduct = (point.getY() - start.getY()) * (end.getX() - start.getX()) - (point.getX() - start.getX()) * (end.getY() - start.getY());
+    if(abs(crossproduct) > 0.1){
+        return false;
+    }
 
+    double dotproduct = (point.getX() - start.getX()) * (end.getX() - start.getX()) + (point.getY() - start.getY()) * (end.getY() - start.getY());
+    if(dotproduct < 0){
+        return false;
+    }
+
+    double squaredlen = (end.getX() - start.getX()) * (end.getX() - start.getX()) + (end.getY() - start.getY()) * (end.getY() - start.getY());
+    if(dotproduct > squaredlen){
+        return false;
+    }
+
+    return true;
+}
 
 void vehicle::move(QTime sceneTime)
 {
@@ -166,6 +184,37 @@ void vehicle::move(QTime sceneTime)
     //qDebug() << "Speed in Move: " << speed;
     if(!stopBool || sceneTime >= stopTime.addMSecs(10000)){
         stop nextStop = stopVec.at(stopNum);
+
+
+        if((!stopVec[stopNum - 1].getStreets()[0]->getDelayed() && isBetween(stopVec[stopNum - 1].getStreets()[0]->getStart(), stopVec[stopNum - 1].getStreets()[0]->getEnd(), journey[journeyPos]))
+        && (!stopVec[stopNum].getStreets()[0]->getDelayed() && isBetween(stopVec[stopNum].getStreets()[0]->getStart(), stopVec[stopNum].getStreets()[0]->getEnd(), journey[journeyPos]))){
+            preDelay = sceneTime;
+        }
+
+        if((stopVec[stopNum - 1].getStreets()[0]->getDelayed() && isBetween(stopVec[stopNum - 1].getStreets()[0]->getStart(), stopVec[stopNum - 1].getStreets()[0]->getEnd(), journey[journeyPos]))
+        || (stopVec[stopNum].getStreets()[0]->getDelayed() && isBetween(stopVec[stopNum].getStreets()[0]->getStart(), stopVec[stopNum].getStreets()[0]->getEnd(), journey[journeyPos]))){
+
+            int delay = 0;
+            if((stopVec[stopNum - 1].getStreets()[0]->getDelayed() && isBetween(stopVec[stopNum - 1].getStreets()[0]->getStart(), stopVec[stopNum - 1].getStreets()[0]->getEnd(), journey[journeyPos]))){
+                delay = stopVec[stopNum - 1].getStreets()[0]->getDelay();
+            }
+            else if (stopVec[stopNum].getStreets()[0]->getDelayed() && isBetween(stopVec[stopNum].getStreets()[0]->getStart(), stopVec[stopNum].getStreets()[0]->getEnd(), journey[journeyPos])){
+                delay = stopVec[stopNum].getStreets()[0]->getDelay();
+            }
+
+
+            if(sceneTime < preDelay.addMSecs(delay)){
+                //qDebug() << "Vehicle is delayed here, Street " << nextStop.getStreets()[0]->getName() << " Delay: " << nextStop.getStreets()[0]->getDelay();
+
+                //qDebug() << "Not going";
+                return;
+            }
+
+            //qDebug() << "Going";
+            preDelay = sceneTime;
+        }
+
+
 
         /*qDebug() << " X CURRENT: " << coords->getX() << " Y CURRENT: " << coords->getY() << journeyPos;
         qDebug() << " X STOP: " << nextStop.getCoord()->getX() << " Y STOP: " << nextStop.getCoord()->getY();
@@ -211,7 +260,7 @@ void vehicle::move(QTime sceneTime)
     //
 }
 
-double pointDistance(coordinate oldCoord, coordinate newCoord){
+double vehicle::pointDistance(coordinate oldCoord, coordinate newCoord){
     return sqrt(pow(oldCoord.getX() - newCoord.getX(), 2) + pow( oldCoord.getY() - newCoord.getY(), 2));
 }
 
@@ -348,6 +397,12 @@ void vehicle::getJourney()
                     }
                 }
 
+
+                if(line->getRoute().at(j).getStreet(0)->getName().compare("testStreet23") == 0){
+                    //qDebug() << journey.at(i).getX() << " :X Y: " << journey.at(i).getY();
+                }
+
+
                 /*
                 qDebug() << "X: " << journey.at(i).getX() << " Y: " << journey.at(i).getY();
                 qDebug() << "X: " << line->getRoute().at(j).getStreet(stopStreetNum)->getEnd().getX() << " Y: " << line->getRoute().at(j).getStreet(stopStreetNum)->getEnd().getY();
@@ -380,6 +435,7 @@ void vehicle::getJourney()
                 journey[k] = *line->getRoute().at(j).getCoord();
                 idx = k;
 
+                qDebug() << line->getRoute().at(j).getStopName();
 
                 if(j == line->getRoute().size() - 1){
                     for(int l = journey.size() - 1; l > idx; l--){
@@ -417,12 +473,12 @@ void vehicle::setStopNum(){
 
             stopNum = stopCnt;
             //qDebug() << stopNum;
-            qDebug() << jCoord.getX() << " " << jCoord.getY();
+            //qDebug() << jCoord.getX() << " " << jCoord.getY();
             break;
         }
     }
 
-    qDebug() << "STOPNUM " << stopNum;
+    //qDebug() << "STOPNUM " << stopNum;
 }
 
 

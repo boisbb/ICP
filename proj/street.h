@@ -19,13 +19,19 @@ public:
     coordinate getEnd();
     QVector<QGraphicsItem*> getGraphics();
     /**/
+    void setDelay(int delay);
+    int getDelay();
+    bool getDelayed();
     void setGraphics();
+    void setDelayed(bool del);
 
 private:
     coordinate *start;
     coordinate *end;
     QString name;
     QVector<QGraphicsItem*> streetGraphics;
+    bool delayed = false;
+    int delayMsec = 0;
 
 
 };

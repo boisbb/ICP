@@ -43,6 +43,27 @@
         </property>
        </widget>
       </item>
+      <item>
+       <widget class="QPushButton" name="delay_plus">
+        <property name="text">
+         <string>Delay +</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="delay_minus">
+        <property name="text">
+         <string>Delay -</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="delay_reset">
+        <property name="text">
+         <string>Reset Delay</string>
+        </property>
+       </widget>
+      </item>
       <item alignment="Qt::AlignBottom">
        <widget class="QPushButton" name="button_plus">
         <property name="sizePolicy">
