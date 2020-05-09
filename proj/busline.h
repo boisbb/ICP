@@ -1,3 +1,9 @@
+/*!
+ * @file
+ * @brief Tento soubor obsahuje třídu \ref busLine
+ *
+ * @author Boris Burkalo (xburka00), Jan Klusáček (xklusa14)
+ */
 #ifndef BUSLINE_H
 #define BUSLINE_H
 
@@ -32,15 +38,35 @@ private:
 
     class timetableClass {
       public:
+        /**
+         * @brief zastávka
+         */
         stop *busStop;
+        /**
+         * @brief obsahuje časy odjedzu
+         */
         QVector<QVector<QTime*>> departureTime;
     };
 
-
+    /**
+     * @brief obsahuje id linky
+     */
     int id;
+    /**
+     * @brief obsahuje názvy zastávek
+     */
     QVector<QString> stopNames;
+    /**
+     * @brief obsahuje zastávky linky
+     */
     QVector<stop> lineRoute;
+    /**
+     * @brief barva linky
+     */
     QColor lineColor;
+    /**
+     * @brief obsahuje časy odjezdů pro každou zastávku
+     */
     QVector<timetableClass*> stopTimes;
 
 

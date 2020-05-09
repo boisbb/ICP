@@ -1,3 +1,9 @@
+/*!
+ * @file
+ * @brief Tento soubor obsahuje třídu \ref coordinate
+ *
+ * @author Boris Burkalo (xburka00), Jan Klusáček (xklusa14)
+ */
 #ifndef COORDINATES_H
 #define COORDINATES_H
 
@@ -14,7 +20,13 @@ public:
 
 
 private:
+    /**
+     * @brief souřadnice X
+     */
     double x;
+    /**
+     * @brief souřadnice Y
+     */
     double y;
 };
 

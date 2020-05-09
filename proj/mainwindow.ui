@@ -103,13 +103,13 @@
       <item>
        <widget class="QPushButton" name="time_changer">
         <property name="sizePolicy">
-         <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+         <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
         <property name="text">
-         <string>Nastavit čas</string>
+         <string>set time</string>
         </property>
        </widget>
       </item>

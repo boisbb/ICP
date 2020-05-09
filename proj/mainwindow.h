@@ -1,3 +1,9 @@
+/*!
+ * @file
+ * @brief Tento soubor obsahuje třídu \ref MainWindow
+ *
+ * @author Boris Burkalo (xburka00), Jan Klusáček (xklusa14)
+ */
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 #include <QMainWindow>
@@ -26,8 +32,7 @@ public:
     ~MainWindow();
     void isChosen(street *streetInst);
 private slots:
-    void onValueChange(int val);
-    void showInfo(vehicle veh, bool check, bool was);
+    void showInfo(vehicle veh, bool was);
     void moveVeh();
     void zoom_in();
     void zoom_out();
@@ -42,6 +47,9 @@ protected:
     virtual void resizeEvent(QResizeEvent *event);
 
 private:
+    /**
+     * @brief celé okno
+     */
     Ui::MainWindow *ui;
     void initScene();
     void drawStuff(QVector<QGraphicsItem*> items);
@@ -50,18 +58,54 @@ private:
     void draw_stops(QGraphicsScene *scene);
     void isChosen(street streetInst);
 
-
+    /**
+     * @brief čas scény, vychází z reálného času při spuštění
+     */
     QTime sceneTime = QTime(QTime::currentTime().hour(),QTime::currentTime().minute(), round(QTime::currentTime().second()));
+
+    /**
+     * @brief čas v ms po kterém se aktualizuje timer
+     */
     double interval = 500;
+
+//TODO smazat
     double speed = 1000;
+
+    /**
+     * @brief vektor linek
+     */
     QVector<busLine> lineVector;
+
+    /**
+     * @brief vektor ulic
+     */
     QVector<street*> streetVector;
+
+    /**
+     * @brief vektor zastávek
+     */
     QVector<stop> stopVector;
+
+    /**
+     * @brief vektor vozidel
+     */
     QVector<vehicle*> vehicleVector;
+
+    /**
+     * @brief hlavní scéna (mapa)
+     */
     scene *myScene;
+
+    /**
+     * @brief měřič času, slouží k aktualizaci scény a pohybu v ní
+     */
     QTimer *timer = new QTimer(this);
     void deserialize();
     void spawnVehicles();
+
+    /**
+     * @brief vozidlo v informačním boxu dole
+     */
     QGraphicsEllipseItem *infoVehicle;
     QVector<street*> chosenStreets;
 };

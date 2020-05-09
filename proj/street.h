@@ -1,3 +1,9 @@
+/*!
+ * @file
+ * @brief Tento soubor obsahuje třídu \ref street
+ *
+ * @author Boris Burkalo (xburka00), Jan Klusáček (xklusa14)
+ */
 #ifndef STREET_H
 #define STREET_H
 
@@ -26,9 +32,21 @@ public:
     void setDelayed(bool del);
 
 private:
+    /**
+     * @brief začátek ulice
+     */
     coordinate *start;
+    /**
+     * @brief konec ulice
+     */
     coordinate *end;
+    /**
+     * @brief název ulice
+     */
     QString name;
+    /**
+     * @brief vzhled (grafika) ulice
+     */
     QVector<QGraphicsItem*> streetGraphics;
     bool delayed = false;
     int delayMsec = 0;
