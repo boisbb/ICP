@@ -1,27 +1,34 @@
 #include "line.h"
 #include "street.h"
 #include <QDebug>
+#include <QGraphicsSceneMouseEvent>
 #include <QPen>
 
 
 void line::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
     //qDebug() << lineStreet->getName();
-    QPen pen;
-    if(!chosen)
-        pen.setColor(QColor(255,0,0));
-    else
-        pen.setColor(QColor(0,0,0));
 
     chosen = !chosen;
-    pen.setWidth(2);
-    setPen(pen);
+    event->ignore();
     //lineStreet-
 }
 
 void line::setLineStreet(street *value)
 {
     lineStreet = value;
+}
+
+void line::Choose()
+{
+    QPen pen;
+    if(chosen)
+        pen.setColor(QColor(255,0,0));
+    else
+        pen.setColor(QColor(0,0,0));
+
+    pen.setWidth(2);
+    this->setPen(pen);
 }
 
 void line::unChoose()

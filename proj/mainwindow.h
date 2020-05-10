@@ -32,7 +32,7 @@ public:
     ~MainWindow();
     void isChosen(street *streetInst);
 private slots:
-    void showInfo(vehicle veh, bool was);
+    void showInfo(vehicle *veh, bool was);
     void moveVeh();
     void zoom_in();
     void zoom_out();
@@ -42,6 +42,7 @@ private slots:
     void delay_plus();
     void delay_minus();
     void delay_reset();
+    void showTimetable();
 
 protected:
     virtual void resizeEvent(QResizeEvent *event);
@@ -108,5 +109,6 @@ private:
      */
     QGraphicsEllipseItem *infoVehicle;
     QVector<street*> chosenStreets;
+    bool justClicked = false;
 };
 #endif // MAINWINDOW_H

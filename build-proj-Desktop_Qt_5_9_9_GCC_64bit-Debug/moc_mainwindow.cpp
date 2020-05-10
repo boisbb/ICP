@@ -21,8 +21,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_MainWindow_t {
-    QByteArrayData data[18];
-    char stringdata0[152];
+    QByteArrayData data[16];
+    char stringdata0[143];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -32,29 +32,27 @@ struct qt_meta_stringdata_MainWindow_t {
 static const qt_meta_stringdata_MainWindow_t qt_meta_stringdata_MainWindow = {
     {
 QT_MOC_LITERAL(0, 0, 10), // "MainWindow"
-QT_MOC_LITERAL(1, 11, 13), // "onValueChange"
-QT_MOC_LITERAL(2, 25, 0), // ""
-QT_MOC_LITERAL(3, 26, 3), // "val"
-QT_MOC_LITERAL(4, 30, 8), // "showInfo"
-QT_MOC_LITERAL(5, 39, 7), // "vehicle"
-QT_MOC_LITERAL(6, 47, 3), // "veh"
-QT_MOC_LITERAL(7, 51, 5), // "check"
-QT_MOC_LITERAL(8, 57, 3), // "was"
-QT_MOC_LITERAL(9, 61, 7), // "moveVeh"
-QT_MOC_LITERAL(10, 69, 7), // "zoom_in"
-QT_MOC_LITERAL(11, 77, 8), // "zoom_out"
-QT_MOC_LITERAL(12, 86, 8), // "speed_up"
-QT_MOC_LITERAL(13, 95, 9), // "slow_down"
-QT_MOC_LITERAL(14, 105, 11), // "time_change"
-QT_MOC_LITERAL(15, 117, 10), // "delay_plus"
-QT_MOC_LITERAL(16, 128, 11), // "delay_minus"
-QT_MOC_LITERAL(17, 140, 11) // "delay_reset"
+QT_MOC_LITERAL(1, 11, 8), // "showInfo"
+QT_MOC_LITERAL(2, 20, 0), // ""
+QT_MOC_LITERAL(3, 21, 8), // "vehicle*"
+QT_MOC_LITERAL(4, 30, 3), // "veh"
+QT_MOC_LITERAL(5, 34, 3), // "was"
+QT_MOC_LITERAL(6, 38, 7), // "moveVeh"
+QT_MOC_LITERAL(7, 46, 7), // "zoom_in"
+QT_MOC_LITERAL(8, 54, 8), // "zoom_out"
+QT_MOC_LITERAL(9, 63, 8), // "speed_up"
+QT_MOC_LITERAL(10, 72, 9), // "slow_down"
+QT_MOC_LITERAL(11, 82, 11), // "time_change"
+QT_MOC_LITERAL(12, 94, 10), // "delay_plus"
+QT_MOC_LITERAL(13, 105, 11), // "delay_minus"
+QT_MOC_LITERAL(14, 117, 11), // "delay_reset"
+QT_MOC_LITERAL(15, 129, 13) // "showTimetable"
 
     },
-    "MainWindow\0onValueChange\0\0val\0showInfo\0"
-    "vehicle\0veh\0check\0was\0moveVeh\0zoom_in\0"
-    "zoom_out\0speed_up\0slow_down\0time_change\0"
-    "delay_plus\0delay_minus\0delay_reset"
+    "MainWindow\0showInfo\0\0vehicle*\0veh\0was\0"
+    "moveVeh\0zoom_in\0zoom_out\0speed_up\0"
+    "slow_down\0time_change\0delay_plus\0"
+    "delay_minus\0delay_reset\0showTimetable"
 };
 #undef QT_MOC_LITERAL
 
@@ -72,21 +70,21 @@ static const uint qt_meta_data_MainWindow[] = {
        0,       // signalCount
 
  // slots: name, argc, parameters, tag, flags
-       1,    1,   69,    2, 0x08 /* Private */,
-       4,    3,   72,    2, 0x08 /* Private */,
-       9,    0,   79,    2, 0x08 /* Private */,
-      10,    0,   80,    2, 0x08 /* Private */,
-      11,    0,   81,    2, 0x08 /* Private */,
-      12,    0,   82,    2, 0x08 /* Private */,
-      13,    0,   83,    2, 0x08 /* Private */,
-      14,    0,   84,    2, 0x08 /* Private */,
-      15,    0,   85,    2, 0x08 /* Private */,
-      16,    0,   86,    2, 0x08 /* Private */,
-      17,    0,   87,    2, 0x08 /* Private */,
+       1,    2,   69,    2, 0x08 /* Private */,
+       6,    0,   74,    2, 0x08 /* Private */,
+       7,    0,   75,    2, 0x08 /* Private */,
+       8,    0,   76,    2, 0x08 /* Private */,
+       9,    0,   77,    2, 0x08 /* Private */,
+      10,    0,   78,    2, 0x08 /* Private */,
+      11,    0,   79,    2, 0x08 /* Private */,
+      12,    0,   80,    2, 0x08 /* Private */,
+      13,    0,   81,    2, 0x08 /* Private */,
+      14,    0,   82,    2, 0x08 /* Private */,
+      15,    0,   83,    2, 0x08 /* Private */,
 
  // slots: parameters
-    QMetaType::Void, QMetaType::Int,    3,
-    QMetaType::Void, 0x80000000 | 5, QMetaType::Bool, QMetaType::Bool,    6,    7,    8,
+    QMetaType::Void, 0x80000000 | 3, QMetaType::Bool,    4,    5,
+    QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
@@ -106,17 +104,17 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         MainWindow *_t = static_cast<MainWindow *>(_o);
         Q_UNUSED(_t)
         switch (_id) {
-        case 0: _t->onValueChange((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 1: _t->showInfo((*reinterpret_cast< vehicle(*)>(_a[1])),(*reinterpret_cast< bool(*)>(_a[2])),(*reinterpret_cast< bool(*)>(_a[3]))); break;
-        case 2: _t->moveVeh(); break;
-        case 3: _t->zoom_in(); break;
-        case 4: _t->zoom_out(); break;
-        case 5: _t->speed_up(); break;
-        case 6: _t->slow_down(); break;
-        case 7: _t->time_change(); break;
-        case 8: _t->delay_plus(); break;
-        case 9: _t->delay_minus(); break;
-        case 10: _t->delay_reset(); break;
+        case 0: _t->showInfo((*reinterpret_cast< vehicle*(*)>(_a[1])),(*reinterpret_cast< bool(*)>(_a[2]))); break;
+        case 1: _t->moveVeh(); break;
+        case 2: _t->zoom_in(); break;
+        case 3: _t->zoom_out(); break;
+        case 4: _t->speed_up(); break;
+        case 5: _t->slow_down(); break;
+        case 6: _t->time_change(); break;
+        case 7: _t->delay_plus(); break;
+        case 8: _t->delay_minus(); break;
+        case 9: _t->delay_reset(); break;
+        case 10: _t->showTimetable(); break;
         default: ;
         }
     }

@@ -27,6 +27,8 @@
 #include <QGraphicsScene>//info dole
 #include <QDateTimeEdit>
 #include <line.h>
+#include "ellipse.h"
+#include <QDialog>
 
 /**
  * @brief Konstruktor MainWindow
@@ -39,6 +41,8 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
     initScene();
 
+    ui->timetable->setVisible(false);
+    connect(ui->timetable, &QPushButton::clicked, this, &MainWindow::showTimetable);
     connect(ui->button_plus, &QPushButton::clicked, this, &MainWindow::zoom_in);
     connect(ui->button_minus,&QPushButton::clicked, this, &MainWindow::zoom_out);
     connect(ui->speed_up, &QPushButton::clicked, this, &MainWindow::speed_up);
@@ -64,83 +68,92 @@ MainWindow::~MainWindow()
  *
  */
 
-void MainWindow::showInfo(vehicle veh, bool was)
+void MainWindow::showInfo(vehicle *veh, bool was)
 {
-    //qDebug() << veh.getNumber();
+    ////qDebug() << veh.getNumber();
     //aby se celý box stále nepřekresloval
     static bool was_here = false;
     //aby se bok "klikněte" stále nepřekresloval
-    static bool showing = false;
+    //static bool showing = false;
     if(was){
         was_here = true;
     }
     else{
         was_here = false;
     }
-    if(check){
-        if(!was_here){
-            was_here = true;
-            showing = false;
-            auto *info_box = new QGraphicsScene(ui->route_info);
-            ui->route_info->setScene(info_box);
-
-            auto cas = info_box ->addSimpleText("3:50");
-            cas->setPos(-500, -20);
-
-            auto linka = info_box->addSimpleText("Linka:");
-            linka->setPos(-500, 0);
-
-            QString number = QString::number(veh.getNumber());
-            //qDebug() << number;
-            //auto cislo = info_box->addText(number);
-            auto cislo = info_box->addSimpleText(number);
-            cislo->setPos(-450, 0);
-
-            auto route = info_box->addLine(-60,12,330, 12);
-            route->setPos(-350, 0);
+    if(!was_here){
 
 
-            QVector<double> stopRatio = veh.getStopRatio();
-            int counter = 0;//pro průchod vektoru zastávek
-            for (double ratio : stopRatio) {
-                QVector<stop> current_stop = veh.getStopVec();
-                if(!veh.getWayBack()){
-                    // Nememlo by byt natvrdo
-                    double width = 390;
-                    auto stopEll = info_box->addEllipse(-410 + ratio * width - 2, 12 - 2, 4, 4);
-                    stopEll->setBrush(QBrush(QColor(0, 0, 0), Qt::SolidPattern));
+        justClicked = true;
+        was_here = true;
+        //showing = false;
+        auto *info_box = new QGraphicsScene(ui->route_info);
+        ui->route_info->setScene(info_box);
+        ui->timetable->setVisible(true);
 
-                    auto stop_name = info_box->addText(current_stop[counter].getStopName());
-                    stop_name->setPos(-415 + ratio * width - 2, 12 - 2);
-                    stop_name->setRotation(-90);
-                    stop_name->setScale(0.5);
-                }
-                else{
-                    double width = 390;
-                    auto stopEll = info_box->addEllipse(-20 - ratio * width - 2, 12 - 2, 4, 4);
-                    stopEll->setBrush(QBrush(QColor(0, 0, 0), Qt::SolidPattern));
+        auto cas = info_box ->addSimpleText("3:50");
+        cas->setPos(-500, -20);
 
-                    auto stop_name = info_box->addText(current_stop[veh.get_stops_number()-1-counter].getStopName());
-                    stop_name->setPos(-25 - ratio * width - 2, 12 - 2);
-                    stop_name->setRotation(-90);
-                    stop_name->setScale(0.5);
-                }
-                counter++;
+        auto linka = info_box->addSimpleText("Linka:");
+        linka->setPos(-500, 0);
+
+        QString number = QString::number(veh->getNumber());
+        ////qDebug() << number;
+        //auto cislo = info_box->addText(number);
+        auto cislo = info_box->addSimpleText(number);
+        cislo->setPos(-450, 0);
+
+        auto route = info_box->addLine(-60,12,330, 12);
+        route->setPos(-350, 0);
+
+
+        QVector<double> stopRatio = veh->getStopRatio();
+        int counter = 0;//pro průchod vektoru zastávek
+        for (double ratio : stopRatio) {
+            QVector<stop> current_stop = veh->getStopVec();
+            if(!veh->getWayBack()){
+                // Nememlo by byt natvrdo
+                double width = 390;
+                ellipse *stopEll = new ellipse();
+                stopEll->setRect(-410 + ratio * width - 2, 12 - 2, 4, 4);
+                info_box->addItem(stopEll);
+                stopEll->setStop(current_stop[counter], veh->getLine());
+                stopEll->setBrush(QBrush(QColor(0, 0, 0), Qt::SolidPattern));
+
+                auto stop_name = info_box->addText(current_stop[counter].getStopName());
+                stop_name->setPos(-415 + ratio * width - 2, 12 - 2);
+                stopEll->setVehicle(veh);
+                stop_name->setRotation(-90);
+                stop_name->setScale(0.5);
             }
+            else{
+                double width = 390;
+                ellipse *stopEll = new ellipse();
+                stopEll->setRect(-20 - ratio * width - 2, 12 - 2, 4, 4);
+                stopEll->setVehicle(veh);
+                info_box->addItem(stopEll);
+                stopEll->setBrush(QBrush(QColor(0, 0, 0), Qt::SolidPattern));
+
+                auto stop_name = info_box->addText(current_stop[veh->get_stops_number()-1-counter].getStopName());
+                stop_name->setPos(-25 - ratio * width - 2, 12 - 2);
+                stop_name->setRotation(-90);
+                stop_name->setScale(0.5);
+            }
+            counter++;
+        }
 
 
             ui->route_info->setRenderHint(QPainter::Antialiasing);
-            infoVehicle = new QGraphicsEllipseItem((-410 + ((double) veh.getJourneyPos()/(double) veh.getFullJourney().size()) * 390) - 4, 12 - 4, 8, 8);
+            infoVehicle = new QGraphicsEllipseItem((-410 + ((double) veh->getJourneyPos()/(double) veh->getFullJourney().size()) * 390) - 4, 12 - 4, 8, 8);
             info_box->addItem(infoVehicle);
-            infoVehicle->setBrush(QBrush(veh.getColor(), Qt::SolidPattern));
+            infoVehicle->setBrush(QBrush(veh->getColor(), Qt::SolidPattern));
         }
        else{
-            if(!veh.getWayBack())
-                infoVehicle->setRect((-410 + ((double) veh.getJourneyPos()/(double) veh.getFullJourney().size()) * 390) - 4, 12 - 4, 8, 8);
+            if(!veh->getWayBack())
+                infoVehicle->setRect((-410 + ((double) veh->getJourneyPos()/(double) veh->getFullJourney().size()) * 390) - 4, 12 - 4, 8, 8);
             else
-                infoVehicle->setRect((-20 - ((double) veh.getJourneyPos()/(double) veh.getFullJourney().size()) * 390) -4, 12 - 4, 8, 8);
+                infoVehicle->setRect((-20 - ((double) veh->getJourneyPos()/(double) veh->getFullJourney().size()) * 390) -4, 12 - 4, 8, 8);
         }
-    }
     /* fungovalo pro jedno vozidlo
     else{
         //vyčistí dolní box
@@ -156,38 +169,39 @@ void MainWindow::showInfo(vehicle veh, bool was)
 
 
 }
-/**
- * @brief funkce na posunování vozidla
- * @details mimo jiné funkce kontroluje, jeslti nebylo kliknuté na nějaké vozidlo a případně volá funkci \ref showInfo pro zobrazení informací
- */
-
-void MainWindow::draw_stops(QGraphicsScene *scene)
-{
-    /*
-    auto stop =  scene->addEllipse((-400*20), 6, 4, 4);
-    stop->setBrush(QBrush(QColor(0, 0, 0), Qt::SolidPattern));
-    */
-}
 
 void MainWindow::isChosen(street* streetInst)
 {
     if(dynamic_cast<class line*>(streetInst->getGraphics()[0])->getChosen()){
         if(chosenStreets.size() != 0 && chosenStreets[0]->getName().compare(streetInst->getName())){
             dynamic_cast<class line*>(chosenStreets[0]->getGraphics()[0])->unChoose();
-            chosenStreets.pop_front();
+
             chosenStreets.append(streetInst);
+            dynamic_cast<class line*>(chosenStreets[1]->getGraphics()[0])->Choose();
+
+            chosenStreets.pop_front();
         }
         else if(chosenStreets.size() == 0){
             chosenStreets.append(streetInst);
+            dynamic_cast<class line*>(chosenStreets[0]->getGraphics()[0])->Choose();
         }
+    }
+    else {
+
+        dynamic_cast<class line*>(streetInst->getGraphics()[0])->unChoose();
     }
 }
 
+/**
+ * @brief funkce na posunování vozidla
+ * @details mimo jiné funkce kontroluje, jeslti nebylo kliknuté na nějaké vozidlo a případně volá funkci \ref showInfo pro zobrazení informací
+ */
+
 void MainWindow::moveVeh()
 {
-    for(street *Street : streetVector){
-        isChosen(Street);
-    }
+
+
+    justClicked = false;
 
 
 
@@ -216,7 +230,6 @@ void MainWindow::moveVeh()
     }
 
     for(int dest : toBeDestr){
-        qDebug() << "To be destructed: " << dest;
         vehicleVector.remove(dest);
     }
 
@@ -226,7 +239,7 @@ void MainWindow::moveVeh()
         for (vehicle *veh : vehicleVector) {
             //veh->move(sceneTime);
             if(veh->getClicked()){
-                MainWindow::showInfo(*veh, was);
+                MainWindow::showInfo(veh, was);
                 //do prev nastaví vozidlo které je zrovna rozkliknuté
                 //když se klikne na další tak se tomuto vozidlu zruší flag clicked
                 was = true;
@@ -242,12 +255,14 @@ void MainWindow::moveVeh()
     //jedno vozidlo je rozkliknuté a klikne se na další
     else if(counter > 1){
         //zrušení flagu předchozího vozidla
-        prev->setClicked(false);
-        was = false;
-        //Tady odmazat zvýrazněné zastávky přes prev
-        for(int i = 0; i < prev->get_stops_number(); i++){
-            QGraphicsItem *stop = prev->getStopVec()[i].getGraphics()[0];
-            dynamic_cast<QGraphicsEllipseItem*>(stop)->setBrush(QBrush(QColor(0, 0, 0), Qt::SolidPattern));
+        if(prev){
+            prev->setClicked(false);
+            was = false;
+            //Tady odmazat zvýrazněné zastávky přes prev
+            for(int i = 0; i < prev->get_stops_number(); i++){
+                QGraphicsItem *stop = prev->getStopVec()[i].getGraphics()[0];
+                dynamic_cast<QGraphicsEllipseItem*>(stop)->setBrush(QBrush(QColor(0, 0, 0), Qt::SolidPattern));
+            }
         }
     }
     //Žádné vozidlo není rozkliknuté
@@ -257,6 +272,7 @@ void MainWindow::moveVeh()
             was = false;
             //Tady odmazat zvýrazněné zastávky přes prev
             if(prev){
+                ui->timetable->setVisible(false);
                 for(int i = 0; i < prev->get_stops_number(); i++){
                     QGraphicsItem *stop = prev->getStopVec()[i].getGraphics()[0];
                     dynamic_cast<QGraphicsEllipseItem*>(stop)->setBrush(QBrush(QColor(0, 0, 0), Qt::SolidPattern));
@@ -265,18 +281,15 @@ void MainWindow::moveVeh()
 
             auto *info_box = new QGraphicsScene(ui->route_info);
             ui->route_info->setScene(info_box);
-            auto text = info_box->addText("klikněte na autobus pro zobrazení podrobností");
+            info_box->addText("klikněte na autobus pro zobrazení podrobností");
         }
 
     }
 
-    bool started = false;
     for(busLine line : lineVector){
         line.getStopTime(0)[0];
         for(int i = 0; i < line.getStopTime(0)[sceneTime.hour()].size(); i++){
             if(sceneTime > *line.getStopTime(0)[sceneTime.hour()][i] && sceneTime < line.getStopTime(0)[sceneTime.hour()][i]->addSecs(1)){
-                qDebug() << "Start a vehicle";
-                qDebug() << sceneTime.toString();
 
                 /* vehicle creation */
                 int number = line.getId();
@@ -293,7 +306,6 @@ void MainWindow::moveVeh()
                 }
 
 
-                qDebug() << "SETTING SPEED TO: " << speed;
                 vehicleVector[vehicleVector.size() - 1]->getJourney();
                 vehicleVector[vehicleVector.size() - 1]->setWayback(false);
                 vehicleVector[vehicleVector.size() - 1]->setStopNum();
@@ -305,6 +317,15 @@ void MainWindow::moveVeh()
             }
         }
     }
+
+    if(!justClicked){
+        for(street *Street : streetVector){
+            isChosen(Street);
+        }
+    }
+
+
+
     sceneTime = sceneTime.addMSecs(500);
     ui->clock->setText(sceneTime.toString());
 
@@ -368,7 +389,7 @@ void MainWindow::time_change()
 
 void MainWindow::delay_plus()
 {
-    qDebug() << "Delay plus";
+    //qDebug() << "Delay plus";
     if(chosenStreets.size() > 0){
         if(!chosenStreets[0]->getDelayed()){
             chosenStreets[0]->setDelayed(true);
@@ -382,7 +403,7 @@ void MainWindow::delay_plus()
 
 void MainWindow::delay_minus()
 {
-    qDebug() << "Delay minus";
+    //qDebug() << "Delay minus";
     if(chosenStreets.size() > 0){
         if(chosenStreets[0]->getDelayed() && chosenStreets[0]->getDelay() == 1000){
                 chosenStreets[0]->setDelayed(false);
@@ -396,11 +417,54 @@ void MainWindow::delay_minus()
 
 void MainWindow::delay_reset()
 {
-    qDebug() << "reset";
+    //qDebug() << "reset";
     if(chosenStreets.size() > 0){
         chosenStreets[0]->setDelay(0);
         chosenStreets[0]->setDelayed(false);
     }
+
+}
+
+void MainWindow::showTimetable()
+{
+    QDialog *timetableDialog = new QDialog();
+    timetableDialog->setWindowTitle("Timetable");
+    QLabel *timetableLabel = new QLabel(timetableDialog);
+    QString timetableString;
+
+    for(vehicle *active : vehicleVector){
+        if(active->getClicked()){
+            QVector<double> stopRatio = active->getStopRatio();
+            QTime time = active->getLine()->getDuration(active->getFullJourney().size());
+            qDebug() << time.toString();
+            double secs = time.hour() * 3600 + time.minute() * 60 + time.second();
+            for(int i = -1; i < 24; i++){
+                if(i >= 0){
+                    timetableString = timetableString + QString::number(i) + "          ";
+                }
+                for (int j = 0; j < active->getStopVec().size(); j++) {
+                    if(i == -1){
+                        timetableString = timetableString + "           " + active->getStopVec()[j].getStopName();
+                    }
+                    else{
+
+                        for(int l = 0; l < active->getLine()->getStopTime(0)[i].size(); l++){
+                            //qDebug() << active->getLine()->getStopTime(0)[i][l]->minute() + (secs/60) * stopRatio[j];
+                            timetableString = timetableString + ", " + QString::number(round(active->getLine()->getStopTime(0)[i][l]->minute() + (secs/60) * stopRatio[j]));
+                        }
+
+                    }
+                }
+                timetableString = timetableString + "   \n\n";
+            }
+            break;
+        }
+    }
+
+
+    timetableLabel->setText(timetableString + "\n");
+    timetableLabel->adjustSize();
+    timetableDialog->show();
 
 }
 
@@ -428,7 +492,7 @@ void MainWindow::resizeEvent(QResizeEvent *event)
     if(items.size()>1){
         for(QGraphicsItem *item : items){
             //dynamic_cast<QGraphicsTextItem*>(item);
-            if(QGraphicsTextItem* text = dynamic_cast<QGraphicsTextItem*>(item)){
+            if(dynamic_cast<QGraphicsTextItem*>(item)){
               item->setScale(0.5);
             }
         }
@@ -581,7 +645,7 @@ void MainWindow::deserialize()
        for (int i = 0; i < timetableArray.size(); i++) {
            testObj = timetableArray[i].toObject();
            if(testObj.find(QString::number(lineVector[lineVector.size() - 1].getId())) != testObj.end()){
-               qDebug() << QString::number(lineVector[lineVector.size() - 1].getId());
+               ////qDebug() << QString::number(lineVector[lineVector.size() - 1].getId());
                lineVector[lineVector.size() - 1].generateStopTimes(testObj.find(QString::number(lineVector[lineVector.size() - 1].getId())).value().toArray());
            }
        }
@@ -609,43 +673,43 @@ void MainWindow::spawnVehicles(){
         blankVeh.setLine(lineVector[i]);
         blankVeh.getJourney();
         QTime duration = lineVector[i].getDuration(blankVeh.getFullJourney().size());
-        //qDebug() << "Before " << sceneTime.toString();
-        //qDebug() << duration.toString();
+        ////qDebug() << "Before " << sceneTime.toString();
+        ////qDebug() << duration.toString();
         QTime swpSceneTime = sceneTime.addSecs((-duration.second() - duration.minute() * 60 - duration.hour() * 3600)*2);
 
-        //qDebug() << "After " << swpSceneTime.addSecs(-duration.second() - duration.minute() * 60 - duration.hour() * 3600).toString();
+        ////qDebug() << "After " << swpSceneTime.addSecs(-duration.second() - duration.minute() * 60 - duration.hour() * 3600).toString();
 
         QVector<QVector<QTime*>> stopTimes = lineVector[i].getStopTime(0);
         for (int k = swpSceneTime.hour(); k <= sceneTime.hour(); ++k) {
             for (int j = 0; j < stopTimes[k].size(); ++j) {
-                //qDebug()<< "TIMES " << stopTimes[i][j]->toString();
+                ////qDebug()<< "TIMES " << stopTimes[i][j]->toString();
                 if(*stopTimes[k][j] > swpSceneTime && *stopTimes[k][j] < sceneTime){
-                    //qDebug()<< "TIME IN INTERVAL: " << stopTimes[k][j]->toString();
+                    ////qDebug()<< "TIME IN INTERVAL: " << stopTimes[k][j]->toString();
                     QTime travelledTime = sceneTime.addSecs(-stopTimes[k][j]->hour() * 3600 -stopTimes[k][j]->minute() * 60 -stopTimes[k][j]->second());
-                    //qDebug() << travelledTime.toString();
+                    ////qDebug() << travelledTime.toString();
                     double travelledMinsToDouble = travelledTime.minute() + (double)((double)travelledTime.second() / 60.0);
                     double durationMinsToDouble = duration.minute() + (double)((double)duration.second() / 60.0);
                     double travelRatio = travelledMinsToDouble / durationMinsToDouble;
-                    //qDebug() << "Travelled: " << travelledMinsToDouble << " Duration: " << durationMinsToDouble << " Travel ratio: " << travelRatio;
+                    ////qDebug() << "Travelled: " << travelledMinsToDouble << " Duration: " << durationMinsToDouble << " Travel ratio: " << travelRatio;
 
                     int position = blankVeh.getFullJourney().size() * travelRatio;
                     //int stopPosition = (lineVector[i].getRoute().size()) * travelRatio;
 
 
                     if(travelRatio > 1){
-                        //qDebug() << "BIGGER TIME IN INTERVAL: " << stopTimes[k][j]->toString();
+                        ////qDebug() << "BIGGER TIME IN INTERVAL: " << stopTimes[k][j]->toString();
                         position = blankVeh.getFullJourney().size() * (travelRatio - 1);
                         //stopPosition = (lineVector[i].getRoute().size()) * (travelRatio - 1);
                     }
 
 
-                    //qDebug() << lineVector[i].getRoute().size();
-                    //qDebug() << "JoureyPos: " << position;
+                    ////qDebug() << lineVector[i].getRoute().size();
+                    ////qDebug() << "JoureyPos: " << position;
                     vehicle *newVehicle = new vehicle(blankVeh.getFullJourney()[position], lineVector[i].getId());
 
 
                     newVehicle->setLine(lineVector[i]);
-                    newVehicle->setJourneyPos(position, 0);
+                    newVehicle->setJourneyPos(position);
                     newVehicle->getJourney();
 
                     if(travelRatio > 1){

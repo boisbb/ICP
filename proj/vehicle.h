@@ -41,7 +41,7 @@ public:
     void setLine(busLine bus);
     void setGraphics();
     void setClicked(bool switchClicked);
-    void setJourneyPos(int pos, int stop);
+    void setJourneyPos(int pos);
     void setWayback(bool wB);
     /* */
     void move(QTime sceneTime);

@@ -84,7 +84,6 @@ QTime busLine::getDuration(double journeySize)
 {
     double seconds = ((double)((journeySize + 1 - (double)getRoute().size()) * 500 +
                     ((double) getRoute().size() - 2) * (double)10000) / (double) 1000);
-    qDebug() << seconds;
     return QTime(0, seconds / 60, (int)seconds % 60);
 }
 

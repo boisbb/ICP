@@ -9,6 +9,7 @@ class line : public QGraphicsLineItem
 {
 public:
     void setLineStreet(street *value);
+    void Choose();
     void unChoose();
     bool getChosen();
 protected:

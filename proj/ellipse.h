@@ -7,6 +7,8 @@
 #ifndef ELLIPSE_H
 #define ELLIPSE_H
 
+#include "busline.h"
+#include "stop.h"
 #include "vehicle.h"
 
 #include <QGraphicsEllipseItem>
@@ -17,6 +19,8 @@ class ellipse : public QGraphicsEllipseItem
 {
 public:
     void setVehicle(vehicle *ellVeh);
+    void setStop(stop eStop, busLine *line);
+
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *event);
 private:
@@ -24,6 +28,8 @@ private:
      * @brief vozidlo
      */
     vehicle* ellipseVehicle;
+    stop ellStop;
+    busLine *ellLine;
 
 };
 

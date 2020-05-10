@@ -100,7 +100,6 @@ QVector<QGraphicsItem *> stop::getGraphics()
 void stop::setGraphics()
 {
     stopGraphics.append(new QGraphicsEllipseItem(this->getCoord()->getX() - 5, this->getCoord()->getY() - 5, 10, 10));
-    qDebug() << this->getCoord()->getX() << " "<< this->getCoord()->getY();
     dynamic_cast<QGraphicsEllipseItem*>(stopGraphics.at(0))->setBrush(QBrush(QColor(0, 0, 0), Qt::SolidPattern));
     QGraphicsTextItem *text = new QGraphicsTextItem(name);
     text->setPos(getCoord()->getX(), getCoord()->getY());

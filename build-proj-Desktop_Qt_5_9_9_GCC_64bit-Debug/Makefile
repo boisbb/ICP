@@ -1145,7 +1145,9 @@ ellipse.o: ../proj/ellipse.cpp ../proj/ellipse.h \
 		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qdatetime.h \
 		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/QVector \
 		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtWidgets/QGraphicsEllipseItem \
-		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/QDebug
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/QDebug \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtWidgets/QGraphicsSceneMouseEvent \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtWidgets/qgraphicssceneevent.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o ellipse.o ../proj/ellipse.cpp
 
 line.o: ../proj/line.cpp ../proj/line.h \
