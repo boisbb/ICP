@@ -42,7 +42,9 @@ private slots:
     void delay_plus();
     void delay_minus();
     void delay_reset();
-    void showTimetable();
+    void close_down();
+    void set_detour();
+    void reset();
 
 protected:
     virtual void resizeEvent(QResizeEvent *event);

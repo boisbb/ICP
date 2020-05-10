@@ -12,11 +12,13 @@ public:
     void Choose();
     void unChoose();
     bool getChosen();
+    void setClosed();
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *event);
 private:
     street *lineStreet;
     bool chosen = false;
+    bool closed = false;
 
 };
 

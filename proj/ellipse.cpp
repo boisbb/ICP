@@ -1,6 +1,6 @@
 /*!
  * @file
- * @brief Tento soubor obsahuje implementaci třídy ellipse
+ * @brief Slouží pro zachytávání klikání na vozidlo
  *
  * @author Boris Burkalo (xburka00), Jan Klusáček (xklusa14)
  */
@@ -9,6 +9,7 @@
 #include <QDialog>
 #include <QGraphicsSceneMouseEvent>
 #include <QLabel>
+#include <cmath>
 
 #include "coordinate.h"
 
@@ -51,37 +52,36 @@ void ellipse::mousePressEvent(QGraphicsSceneMouseEvent *event)
         timetableDialog->setWindowTitle("Timetable");
         QLabel *timetableLabel = new QLabel(timetableDialog);
         QString timetableString;
-        QTime durationTime = ellipseVehicle->getLine()->getDuration(ellipseVehicle->getFullJourney().size());
+        QTime durationTime = ellipseVehicle->getLine()->getDuration(ellipseVehicle->getFullJourney().size() - 1);
         double durationSecs = durationTime.hour() * 3600 + durationTime.minute() * 60 + durationTime.second();
         int stopPos = 0;
         QVector<double> stopRatio = ellipseVehicle->getStopRatio();
         for(int j = 0; j < ellipseVehicle->getStopVec().size(); j++){
             if(!ellStop.getStopName().compare(ellipseVehicle->getStopVec()[j].getStopName())){
-                //qDebug() << "Found" << ellipseVehicle->getNumber();
                 stopPos = j;
                 timetableString = timetableString + "       " + ellStop.getStopName() + "\n\n";
                 QVector<QTime> departures;
                 for(int i = 0; i < ellLine->getStopTime(0).size(); i++){
-                    //timetableString = timetableString + "       " + QString::number(i) + "      ";
-                    //qDebug() << QString::number(i);
                     for(int k = 0; k < ellLine->getStopTime(0)[i].size(); k++){
-                        //QTime time =
+                        if(ellipseVehicle->getWayBack())
+                            stopRatio[j] = 1 - stopRatio[j] + 1;
 
-                        //qDebug() << durationTime << " PREV";
-                        //qDebug() << ellLine->getStopTime(0)[i][k]->addSecs(durationSecs * stopRatio[j]).toString();
                         departures.append(ellLine->getStopTime(0)[i][k]->addSecs(durationSecs * stopRatio[j]));
-
-                      //  timetableString = timetableString + "       " + ellLine->getStopTime(0)[i][k]->toString() + "      ";
                     }
 
-
-                    //timetableString = timetableString + "\n\n";
                 }
 
                 int prev = 0;
-                timetableString = timetableString + "       " + "0" + " ";
-                for(int l = 0; l < departures.size(); l++){
-                    if(prev == departures[l].hour()){
+                for(int l = 0; l < 23; l++){
+                    timetableString = timetableString + "       " + QString::number(l) + " ";
+                    for(int m = 0; m < departures.size(); m++){
+                        if(l == departures[m].hour()){
+                            timetableString = timetableString + "  " + QString::number(round(((double)departures[m].minute() + (double)((double)departures[m].second()/60.0))));
+                        }
+                    }
+                    timetableString = timetableString + "    \n\n";
+
+                    /*if(prev == departures[l].hour()){
                         //timetableString = timetableString +
                         qDebug() << departures[l].toString();
                         timetableString = timetableString + "  " + QString::number(departures[l].minute());
@@ -92,7 +92,7 @@ void ellipse::mousePressEvent(QGraphicsSceneMouseEvent *event)
                         prev = departures[l].hour();
                         timetableString = timetableString + "    \n\n       " + QString::number(departures[l].hour());
                         timetableString = timetableString + "   " + QString::number(departures[l].minute());
-                    }
+                    }*/
                 }
             }
             //break;

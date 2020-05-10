@@ -1,6 +1,6 @@
 /*!
  * @file
- * @brief Tento soubor ohsahuje implementaci dané linky
+ * @brief Slouží k obsluze dané linky
  *
  * @author Boris Burkalo (xburka00), Jan Klusáček (xklusa14)
  */

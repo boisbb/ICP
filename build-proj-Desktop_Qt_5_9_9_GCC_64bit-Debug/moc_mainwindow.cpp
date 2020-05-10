@@ -21,8 +21,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_MainWindow_t {
-    QByteArrayData data[16];
-    char stringdata0[143];
+    QByteArrayData data[18];
+    char stringdata0[157];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -46,13 +46,16 @@ QT_MOC_LITERAL(11, 82, 11), // "time_change"
 QT_MOC_LITERAL(12, 94, 10), // "delay_plus"
 QT_MOC_LITERAL(13, 105, 11), // "delay_minus"
 QT_MOC_LITERAL(14, 117, 11), // "delay_reset"
-QT_MOC_LITERAL(15, 129, 13) // "showTimetable"
+QT_MOC_LITERAL(15, 129, 10), // "close_down"
+QT_MOC_LITERAL(16, 140, 10), // "set_detour"
+QT_MOC_LITERAL(17, 151, 5) // "reset"
 
     },
     "MainWindow\0showInfo\0\0vehicle*\0veh\0was\0"
     "moveVeh\0zoom_in\0zoom_out\0speed_up\0"
     "slow_down\0time_change\0delay_plus\0"
-    "delay_minus\0delay_reset\0showTimetable"
+    "delay_minus\0delay_reset\0close_down\0"
+    "set_detour\0reset"
 };
 #undef QT_MOC_LITERAL
 
@@ -62,7 +65,7 @@ static const uint qt_meta_data_MainWindow[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-      11,   14, // methods
+      13,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -70,20 +73,24 @@ static const uint qt_meta_data_MainWindow[] = {
        0,       // signalCount
 
  // slots: name, argc, parameters, tag, flags
-       1,    2,   69,    2, 0x08 /* Private */,
-       6,    0,   74,    2, 0x08 /* Private */,
-       7,    0,   75,    2, 0x08 /* Private */,
-       8,    0,   76,    2, 0x08 /* Private */,
-       9,    0,   77,    2, 0x08 /* Private */,
-      10,    0,   78,    2, 0x08 /* Private */,
-      11,    0,   79,    2, 0x08 /* Private */,
-      12,    0,   80,    2, 0x08 /* Private */,
-      13,    0,   81,    2, 0x08 /* Private */,
-      14,    0,   82,    2, 0x08 /* Private */,
-      15,    0,   83,    2, 0x08 /* Private */,
+       1,    2,   79,    2, 0x08 /* Private */,
+       6,    0,   84,    2, 0x08 /* Private */,
+       7,    0,   85,    2, 0x08 /* Private */,
+       8,    0,   86,    2, 0x08 /* Private */,
+       9,    0,   87,    2, 0x08 /* Private */,
+      10,    0,   88,    2, 0x08 /* Private */,
+      11,    0,   89,    2, 0x08 /* Private */,
+      12,    0,   90,    2, 0x08 /* Private */,
+      13,    0,   91,    2, 0x08 /* Private */,
+      14,    0,   92,    2, 0x08 /* Private */,
+      15,    0,   93,    2, 0x08 /* Private */,
+      16,    0,   94,    2, 0x08 /* Private */,
+      17,    0,   95,    2, 0x08 /* Private */,
 
  // slots: parameters
     QMetaType::Void, 0x80000000 | 3, QMetaType::Bool,    4,    5,
+    QMetaType::Void,
+    QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
@@ -114,7 +121,9 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         case 7: _t->delay_plus(); break;
         case 8: _t->delay_minus(); break;
         case 9: _t->delay_reset(); break;
-        case 10: _t->showTimetable(); break;
+        case 10: _t->close_down(); break;
+        case 11: _t->set_detour(); break;
+        case 12: _t->reset(); break;
         default: ;
         }
     }
@@ -145,13 +154,13 @@ int MainWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 11)
+        if (_id < 13)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 11;
+        _id -= 13;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 11)
+        if (_id < 13)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 11;
+        _id -= 13;
     }
     return _id;
 }

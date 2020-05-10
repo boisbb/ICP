@@ -1,6 +1,6 @@
 /*!
  * @file
- * @brief Tento soubor obsahuje implementaci třídy street
+ * @brief Slouží k práci s ulicemi
  *
  * @author Boris Burkalo (xburka00), Jan Klusáček (xklusa14)
  */
@@ -79,6 +79,11 @@ QVector<QGraphicsItem*> street::getGraphics()
     return streetGraphics;
 }
 
+bool street::getClosedDown()
+{
+    return closedDown;
+}
+
 void street::setDelay(int delay)
 {
     delayMsec = delay;
@@ -111,4 +116,9 @@ void street::setGraphics()
 void street::setDelayed(bool del)
 {
     delayed = del;
+}
+
+void street::setClosedDown(bool newCls)
+{
+    closedDown = newCls;
 }

@@ -1,6 +1,6 @@
 /*!
  * @file
- * @brief Tento soubor ohsahuje implementaci coordinate
+ * @brief Slouží k práci se souřadnicemi
  *
  * @author Boris Burkalo (xburka00), Jan Klusáček (xklusa14)
  */

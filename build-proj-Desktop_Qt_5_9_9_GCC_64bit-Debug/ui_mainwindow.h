@@ -33,13 +33,15 @@ public:
     QLabel *clock;
     QVBoxLayout *verticalLayout_2;
     QGraphicsView *route_info;
-    QPushButton *timetable;
     QVBoxLayout *verticalLayout_4;
     QPushButton *speed_up;
     QPushButton *slow_down;
     QPushButton *delay_plus;
     QPushButton *delay_minus;
     QPushButton *delay_reset;
+    QPushButton *close_down;
+    QPushButton *set_detour;
+    QPushButton *reset;
     QPushButton *button_plus;
     QPushButton *button_minus;
     QTimeEdit *timeEdit;
@@ -83,11 +85,6 @@ public:
 
         verticalLayout_2->addWidget(route_info, 0, Qt::AlignTop);
 
-        timetable = new QPushButton(centralwidget);
-        timetable->setObjectName(QStringLiteral("timetable"));
-
-        verticalLayout_2->addWidget(timetable);
-
 
         gridLayout->addLayout(verticalLayout_2, 2, 0, 1, 1);
 
@@ -124,6 +121,21 @@ public:
         delay_reset->setObjectName(QStringLiteral("delay_reset"));
 
         verticalLayout_4->addWidget(delay_reset);
+
+        close_down = new QPushButton(centralwidget);
+        close_down->setObjectName(QStringLiteral("close_down"));
+
+        verticalLayout_4->addWidget(close_down);
+
+        set_detour = new QPushButton(centralwidget);
+        set_detour->setObjectName(QStringLiteral("set_detour"));
+
+        verticalLayout_4->addWidget(set_detour);
+
+        reset = new QPushButton(centralwidget);
+        reset->setObjectName(QStringLiteral("reset"));
+
+        verticalLayout_4->addWidget(reset);
 
         button_plus = new QPushButton(centralwidget);
         button_plus->setObjectName(QStringLiteral("button_plus"));
@@ -177,12 +189,14 @@ public:
     {
         MainWindow->setWindowTitle(QApplication::translate("MainWindow", "MainWindow", Q_NULLPTR));
         clock->setText(QApplication::translate("MainWindow", "HODINY", Q_NULLPTR));
-        timetable->setText(QApplication::translate("MainWindow", "Time table", Q_NULLPTR));
         speed_up->setText(QApplication::translate("MainWindow", "speed up", Q_NULLPTR));
         slow_down->setText(QApplication::translate("MainWindow", "slow down", Q_NULLPTR));
-        delay_plus->setText(QApplication::translate("MainWindow", "Delay +", Q_NULLPTR));
-        delay_minus->setText(QApplication::translate("MainWindow", "Delay -", Q_NULLPTR));
-        delay_reset->setText(QApplication::translate("MainWindow", "Reset Delay", Q_NULLPTR));
+        delay_plus->setText(QApplication::translate("MainWindow", "delay +", Q_NULLPTR));
+        delay_minus->setText(QApplication::translate("MainWindow", "delay -", Q_NULLPTR));
+        delay_reset->setText(QApplication::translate("MainWindow", "reset delay", Q_NULLPTR));
+        close_down->setText(QApplication::translate("MainWindow", "close down", Q_NULLPTR));
+        set_detour->setText(QApplication::translate("MainWindow", "set detour", Q_NULLPTR));
+        reset->setText(QApplication::translate("MainWindow", "reset ", Q_NULLPTR));
         button_plus->setText(QApplication::translate("MainWindow", "+", Q_NULLPTR));
         button_minus->setText(QApplication::translate("MainWindow", "-", Q_NULLPTR));
         time_changer->setText(QApplication::translate("MainWindow", "set time", Q_NULLPTR));

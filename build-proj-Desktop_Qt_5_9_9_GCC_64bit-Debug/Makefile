@@ -1054,7 +1054,7 @@ coordinate.o: ../proj/coordinate.cpp ../proj/coordinate.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o coordinate.o ../proj/coordinate.cpp
 
 ellipse.o: ../proj/ellipse.cpp ../proj/ellipse.h \
-		../proj/vehicle.h \
+		../proj/busline.h \
 		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtGui/QColor \
 		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtGui/qcolor.h \
 		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtGui/qtguiglobal.h \
@@ -1098,6 +1098,21 @@ ellipse.o: ../proj/ellipse.cpp ../proj/ellipse.h \
 		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qregexp.h \
 		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qstringmatcher.h \
 		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtGui/qrgba64.h \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/QTime \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qdatetime.h \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qshareddata.h \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qhash.h \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/QVector \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qvector.h \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qpoint.h \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/QJsonDocument \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qjsondocument.h \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qjsonvalue.h \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/QJsonObject \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qjsonobject.h \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/QJsonArray \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qjsonarray.h \
+		../proj/stop.h \
 		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtWidgets/QGraphicsItem \
 		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtWidgets/qgraphicsitem.h \
 		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtWidgets/qtwidgetsglobal.h \
@@ -1114,13 +1129,9 @@ ellipse.o: ../proj/ellipse.cpp ../proj/ellipse.h \
 		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qvariant.h \
 		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qmap.h \
 		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qdebug.h \
-		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qhash.h \
 		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qtextstream.h \
 		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qiodevice.h \
 		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qlocale.h \
-		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qshareddata.h \
-		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qvector.h \
-		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qpoint.h \
 		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qset.h \
 		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qcontiguouscache.h \
 		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qsharedpointer.h \
@@ -1141,13 +1152,34 @@ ellipse.o: ../proj/ellipse.cpp ../proj/ellipse.h \
 		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtGui/qimage.h \
 		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtGui/qpixelformat.h \
 		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtGui/qtransform.h \
-		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/QTime \
-		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qdatetime.h \
-		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/QVector \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/QString \
+		../proj/vehicle.h \
 		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtWidgets/QGraphicsEllipseItem \
 		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/QDebug \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtWidgets/QDialog \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtWidgets/qdialog.h \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtWidgets/qwidget.h \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtGui/qpalette.h \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtGui/qbrush.h \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtGui/qfont.h \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtGui/qfontmetrics.h \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtGui/qfontinfo.h \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtWidgets/qsizepolicy.h \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtGui/qcursor.h \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtGui/qkeysequence.h \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtGui/qevent.h \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qurl.h \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qurlquery.h \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qfile.h \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qfiledevice.h \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtGui/qvector2d.h \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtGui/qtouchdevice.h \
 		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtWidgets/QGraphicsSceneMouseEvent \
-		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtWidgets/qgraphicssceneevent.h
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtWidgets/qgraphicssceneevent.h \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtWidgets/QLabel \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtWidgets/qlabel.h \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtWidgets/qframe.h \
+		../proj/coordinate.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o ellipse.o ../proj/ellipse.cpp
 
 line.o: ../proj/line.cpp ../proj/line.h \
@@ -1240,6 +1272,8 @@ line.o: ../proj/line.cpp ../proj/line.h \
 		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtWidgets/QGraphicsItem \
 		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/QString \
 		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/QDebug \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtWidgets/QGraphicsSceneMouseEvent \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtWidgets/qgraphicssceneevent.h \
 		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtGui/QPen \
 		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtGui/qpen.h \
 		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtGui/qbrush.h
@@ -1571,7 +1605,10 @@ mainwindow.o: ../proj/mainwindow.cpp ../proj/mainwindow.h \
 		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtWidgets/QGraphicsTextItem \
 		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/QFile \
 		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtWidgets/QDateTimeEdit \
-		../proj/line.h
+		../proj/line.h \
+		../proj/ellipse.h \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtWidgets/QDialog \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtWidgets/qdialog.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o mainwindow.o ../proj/mainwindow.cpp
 
 scene.o: ../proj/scene.cpp ../proj/scene.h \

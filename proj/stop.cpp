@@ -1,6 +1,6 @@
 /*!
  * @file
- * @brief Tento soubor obsahuje implementaci
+ * @brief Slouží k práci se zastávkami
  *
  * @author Boris Burkalo (xburka00), Jan Klusáček (xklusa14)
  */

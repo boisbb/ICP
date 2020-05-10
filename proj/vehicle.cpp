@@ -1,6 +1,6 @@
 /*!
  * @file
- * @brief Tento soubor obsahuje implementaci třídy vehicle
+ * @brief Slouží k práci s vozidly, zajištuje jejich pohyb
  *
  * @author Boris Burkalo (xburka00), Jan Klusáček (xklusa14)
  */

@@ -24,12 +24,14 @@ public:
     coordinate getStart();
     coordinate getEnd();
     QVector<QGraphicsItem*> getGraphics();
+    bool getClosedDown();
     /**/
     void setDelay(int delay);
     int getDelay();
     bool getDelayed();
     void setGraphics();
     void setDelayed(bool del);
+    void setClosedDown(bool newCls);
 
 private:
     /**
@@ -50,6 +52,7 @@ private:
     QVector<QGraphicsItem*> streetGraphics;
     bool delayed = false;
     int delayMsec = 0;
+    bool closedDown = false;
 
 
 };

@@ -8,9 +8,14 @@
 void line::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
     //qDebug() << lineStreet->getName();
-
-    chosen = !chosen;
-    event->ignore();
+    if(event->button() == Qt::LeftButton)
+    {
+        chosen = !chosen;
+        event->ignore();
+    }
+    else if(event->button() == Qt::RightButton){
+        qDebug() << "Road of obstruction";
+    }
     //lineStreet-
 }
 
@@ -46,4 +51,21 @@ void line::unChoose()
 bool line::getChosen()
 {
     return chosen;
+}
+
+void line::setClosed()
+{
+    QPen pen;
+    if(!closed){
+        closed = !closed;
+        pen.setColor(QColor(255, 0, 0));
+        pen.setStyle(Qt::DashDotLine);
+    }
+    else{
+        closed = !closed;
+        pen.setColor(QColor(0, 0, 0));
+        pen.setStyle(Qt::SolidLine);
+    }
+    pen.setWidth(2);
+    setPen(pen);
 }
