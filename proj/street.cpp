@@ -1,6 +1,6 @@
 /*!
  * @file
- * @brief Tento soubor obsahuje implementaci třídy street
+ * @brief Slouží k práci s ulicemi
  *
  * @author Boris Burkalo (xburka00), Jan Klusáček (xklusa14)
  */

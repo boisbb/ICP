@@ -1,15 +1,10 @@
 /*!
  * @file
- * @brief Tento soubor ohsahuje implementaci hlavního okna našeho programu
+ * @brief Souží k práci s vzhledem celého programu
  *
  * @author Boris Burkalo (xburka00), Jan Klusáček (xklusa14)
  */
 
-/*!
- * \mainpage
- * kecy nějaký TODO
- * See \ref MainWindow
- */
 
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
@@ -77,7 +72,7 @@ void MainWindow::showInfo(vehicle veh, bool was)
     else{
         was_here = false;
     }
-    if(check){
+    //if(check){
         if(!was_here){
             was_here = true;
             showing = false;
@@ -140,7 +135,7 @@ void MainWindow::showInfo(vehicle veh, bool was)
             else
                 infoVehicle->setRect((-20 - ((double) veh.getJourneyPos()/(double) veh.getFullJourney().size()) * 390) -4, 12 - 4, 8, 8);
         }
-    }
+    //}
     /* fungovalo pro jedno vozidlo
     else{
         //vyčistí dolní box

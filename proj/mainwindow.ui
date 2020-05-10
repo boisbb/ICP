@@ -46,21 +46,21 @@
       <item>
        <widget class="QPushButton" name="delay_plus">
         <property name="text">
-         <string>Delay +</string>
+         <string>delay +</string>
         </property>
        </widget>
       </item>
       <item>
        <widget class="QPushButton" name="delay_minus">
         <property name="text">
-         <string>Delay -</string>
+         <string>delay -</string>
         </property>
        </widget>
       </item>
       <item>
        <widget class="QPushButton" name="delay_reset">
         <property name="text">
-         <string>Reset Delay</string>
+         <string>reset delay</string>
         </property>
        </widget>
       </item>

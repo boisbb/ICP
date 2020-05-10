@@ -1,6 +1,6 @@
 /*!
  * @file
- * @brief Tento soubor obsahuje implementaci třídy ellipse
+ * @brief Slouží pro zachytávání klikání na vozidlo
  *
  * @author Boris Burkalo (xburka00), Jan Klusáček (xklusa14)
  */
