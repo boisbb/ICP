@@ -26,14 +26,15 @@ public:
     int getId();
     QVector<QString> getStopNames();
     QColor getLineColor();
-    QVector<stop> getRoute();
+    QVector<stop*> getRoute();
     QVector<QVector<QTime*>> getStopTime(int index);
     QColor getColor();
     /* */
     void generateStopTimes(QJsonArray timetableArray);
-    void addStop(stop busStop);
+    void addStop(stop *busStop);
     void setColor(QColor color);
     QTime getDuration(double journeySize);
+    void deleteStops();
 private:
 
     class timetableClass {
@@ -59,7 +60,7 @@ private:
     /**
      * @brief obsahuje zastávky linky
      */
-    QVector<stop> lineRoute;
+    QVector<stop*> lineRoute;
     /**
      * @brief barva linky
      */

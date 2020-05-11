@@ -80,20 +80,20 @@ void MainWindow::showInfo(vehicle *veh, bool was)
         }
         if(!was_here){
 
-
-            justClicked = true;
             was_here = true;
             //showing = false;
             auto *info_box = new QGraphicsScene(ui->route_info);
             ui->route_info->setScene(info_box);
 
-            auto linka = info_box->addSimpleText("Linka:");
+            auto linka = info_box->addText("Linka:");
+            linka->setDefaultTextColor(QColor(190, 190, 190));
             linka->setPos(-500, 0);
 
             QString number = QString::number(veh->getNumber());
             ////qDebug() << number;
             //auto cislo = info_box->addText(number);
-            auto cislo = info_box->addSimpleText(number);
+            auto cislo = info_box->addText(number);
+            cislo->setDefaultTextColor(QColor(190, 190, 190));
             cislo->setPos(-450, 0);
 
             auto route = info_box->addLine(-60,12,330, 12);
@@ -101,19 +101,25 @@ void MainWindow::showInfo(vehicle *veh, bool was)
 
 
             QVector<double> stopRatio = veh->getStopRatio();
+            QPen pen;
+            pen.setColor(veh->getColor());
+            pen.setWidth(2);
             int counter = 0;//pro průchod vektoru zastávek
             for (double ratio : stopRatio) {
-                QVector<stop> current_stop = veh->getStopVec();
+                QVector<stop*> current_stop = veh->getStopVec();
+                //dynamic_cast<line*>(veh->getStopVec()[counter].getStreets()[0]->getGraphics()[0])->setPen(pen);
                 if(!veh->getWayBack()){
                     // Nememlo by byt natvrdo
                     double width = 390;
                     ellipse *stopEll = new ellipse();
                     stopEll->setRect(-410 + ratio * width - 2, 12 - 2, 4, 4);
                     info_box->addItem(stopEll);
-                    stopEll->setStop(current_stop[counter], veh->getLine());
+                    stopEll->setStop(*current_stop[counter], veh->getLine());
                     stopEll->setBrush(QBrush(QColor(0, 0, 0), Qt::SolidPattern));
 
-                    auto stop_name = info_box->addText(current_stop[counter].getStopName());
+
+                    auto stop_name = info_box->addText(current_stop[counter]->getStopName());
+                    stop_name->setDefaultTextColor(QColor(190, 190, 190));
                     stop_name->setPos(-415 + ratio * width - 2, 12 - 2);
                     stopEll->setVehicle(veh);
                     stop_name->setRotation(-90);
@@ -124,11 +130,12 @@ void MainWindow::showInfo(vehicle *veh, bool was)
                     ellipse *stopEll = new ellipse();
                     stopEll->setRect(-20 - ratio * width - 2, 12 - 2, 4, 4);
                     stopEll->setVehicle(veh);
-                    stopEll->setStop(current_stop[current_stop.size() - 1 - counter], veh->getLine());
+                    stopEll->setStop(*current_stop[current_stop.size() - 1 - counter], veh->getLine());
                     info_box->addItem(stopEll);
                     stopEll->setBrush(QBrush(QColor(0, 0, 0), Qt::SolidPattern));
 
-                    auto stop_name = info_box->addText(current_stop[veh->get_stops_number()-1-counter].getStopName());
+                    auto stop_name = info_box->addText(current_stop[veh->get_stops_number()-1-counter]->getStopName());
+                    stop_name->setDefaultTextColor(QColor(190, 190, 190));
                     stop_name->setPos(-25 - ratio * width - 2, 12 - 2);
                     stop_name->setRotation(-90);
                     stop_name->setScale(0.5);
@@ -137,17 +144,17 @@ void MainWindow::showInfo(vehicle *veh, bool was)
             }
 
 
-                ui->route_info->setRenderHint(QPainter::Antialiasing);
-                infoVehicle = new QGraphicsEllipseItem((-410 + ((double) veh->getJourneyPos()/(double) veh->getFullJourney().size()) * 390) - 4, 12 - 4, 8, 8);
-                info_box->addItem(infoVehicle);
-                infoVehicle->setBrush(QBrush(veh->getColor(), Qt::SolidPattern));
+            ui->route_info->setRenderHint(QPainter::Antialiasing);
+            infoVehicle = new QGraphicsEllipseItem((-410 + ((double) veh->getJourneyPos()/(double) veh->getFullJourney().size()) * 390) - 4, 12 - 4, 8, 8);
+            info_box->addItem(infoVehicle);
+            infoVehicle->setBrush(QBrush(veh->getColor(), Qt::SolidPattern));
             }
-           else{
+            else{
                 if(!veh->getWayBack())
                     infoVehicle->setRect((-410 + ((double) veh->getJourneyPos()/(double) veh->getFullJourney().size()) * 390) - 4, 12 - 4, 8, 8);
                 else
                     infoVehicle->setRect((-20 - ((double) veh->getJourneyPos()/(double) veh->getFullJourney().size()) * 390) -4, 12 - 4, 8, 8);
-            }
+        }
         /* fungovalo pro jedno vozidlo
         else{
             //vyčistí dolní box
@@ -166,14 +173,15 @@ void MainWindow::showInfo(vehicle *veh, bool was)
 void MainWindow::isChosen(street* streetInst)
 {
     if(dynamic_cast<class line*>(streetInst->getGraphics()[0])->getChosen()){
+        //qDebug() << chosenStreets.size() << " SIZE";
         if(chosenStreets.size() != 0 && chosenStreets[0]->getName().compare(streetInst->getName())){
             dynamic_cast<class line*>(chosenStreets[0]->getGraphics()[0])->unChoose();
 
             chosenStreets.append(streetInst);
             dynamic_cast<class line*>(chosenStreets[1]->getGraphics()[0])->Choose();
 
-            chosenStreets.pop_front();
-            chosenStreets.append(streetInst);
+            chosenStreets.remove(0);
+            //chosenStreets.append(streetInst);
         }
         else if(chosenStreets.size() == 0){
             chosenStreets.append(streetInst);
@@ -181,8 +189,11 @@ void MainWindow::isChosen(street* streetInst)
         }
     }
     else {
-
-        dynamic_cast<class line*>(streetInst->getGraphics()[0])->unChoose();
+        if(chosenStreets.size() != 0 && !chosenStreets[0]->getName().compare(streetInst->getName())){
+            if(!dynamic_cast<class line*>(chosenStreets[0]->getGraphics()[0])->getChosen())
+                chosenStreets.remove(0);
+            dynamic_cast<class line*>(streetInst->getGraphics()[0])->unChoose();
+        }
     }
 }
 
@@ -211,16 +222,18 @@ void MainWindow::moveVeh()
     QVector<int> toBeDestr;
     //zjistí počet vybraných vozidel
     for (vehicle *veh : vehicleVector) {
-        veh->move(sceneTime);
 
         if(veh->destruct()){
             toBeDestr.append(i);
         }
 
         if(veh->getClicked()){
-            counter++;
+            justClicked = true;
+            ++counter;
         }
         i++;
+
+        veh->move(sceneTime);
     }
 
     for(int dest : toBeDestr){
@@ -231,6 +244,7 @@ void MainWindow::moveVeh()
     //vozidlo je rozklikntué
     if(counter == 1){
         was_here = false;
+        justClicked = false;
         for (vehicle *veh : vehicleVector) {
             //veh->move(sceneTime);
             if(veh->getClicked()){
@@ -241,7 +255,7 @@ void MainWindow::moveVeh()
                 prev = veh;
 
                 for(int i = 0; i < veh->get_stops_number(); i++){
-                    QGraphicsItem *stop = veh->getStopVec()[i].getGraphics()[0];
+                    QGraphicsItem *stop = veh->getStopVec()[i]->getGraphics()[0];
                     dynamic_cast<QGraphicsEllipseItem*>(stop)->setBrush(QBrush(veh->getLine()->getColor(), Qt::SolidPattern));
                 }
             }
@@ -255,7 +269,7 @@ void MainWindow::moveVeh()
             was = false;
             //Tady odmazat zvýrazněné zastávky přes prev
             for(int i = 0; i < prev->get_stops_number(); i++){
-                QGraphicsItem *stop = prev->getStopVec()[i].getGraphics()[0];
+                QGraphicsItem *stop = prev->getStopVec()[i]->getGraphics()[0];
                 dynamic_cast<QGraphicsEllipseItem*>(stop)->setBrush(QBrush(QColor(0, 0, 0), Qt::SolidPattern));
             }
         }
@@ -268,33 +282,34 @@ void MainWindow::moveVeh()
             //Tady odmazat zvýrazněné zastávky přes prev
             if(prev){
                 for(int i = 0; i < prev->get_stops_number(); i++){
-                    QGraphicsItem *stop = prev->getStopVec()[i].getGraphics()[0];
+                    QGraphicsItem *stop = prev->getStopVec()[i]->getGraphics()[0];
                     dynamic_cast<QGraphicsEllipseItem*>(stop)->setBrush(QBrush(QColor(0, 0, 0), Qt::SolidPattern));
                 }
             }
 
             auto *info_box = new QGraphicsScene(ui->route_info);
             ui->route_info->setScene(info_box);
-            info_box->addText("klikněte na autobus pro zobrazení podrobností");
+            auto text_box = info_box->addText("klikněte na autobus pro zobrazení podrobností");
+            text_box->setDefaultTextColor(QColor(160, 160, 160));
         }
 
     }
 
-    for(busLine line : lineVector){
-        line.getStopTime(0)[0];
-        for(int i = 0; i < line.getStopTime(0)[sceneTime.hour()].size(); i++){
-            if(sceneTime > *line.getStopTime(0)[sceneTime.hour()][i] && sceneTime < line.getStopTime(0)[sceneTime.hour()][i]->addSecs(1)){
+    for(busLine *line : lineVector){
+        line->getStopTime(0)[0];
+        for(int i = 0; i < line->getStopTime(0)[sceneTime.hour()].size(); i++){
+            if(sceneTime > *line->getStopTime(0)[sceneTime.hour()][i] && sceneTime < line->getStopTime(0)[sceneTime.hour()][i]->addSecs(1)){
                 qDebug() << "Start a vehicle";
                 qDebug() << sceneTime.toString();
 
                 /* vehicle creation */
-                int number = line.getId();
-                coordinate position(line.getRoute()[0].getCoord()->getX(), line.getRoute()[0].getCoord()->getY());
+                int number = line->getId();
+                coordinate position(line->getRoute()[0]->getCoord()->getX(), line->getRoute()[0]->getCoord()->getY());
                 vehicleVector.append(new vehicle(position, number));
 
                 int i = 0;
-                for(busLine line : lineVector){
-                    if(line.getId() == number){
+                for(busLine *line : lineVector){
+                    if(line->getId() == number){
                         vehicleVector[vehicleVector.size() - 1]->setLine(line);
                         //lineVector[i].setColor(vehicleVector[vehicleVector.size() - 1]->getColor());
                     }
@@ -315,6 +330,7 @@ void MainWindow::moveVeh()
         }
     }
 
+    //qDebug() << justClicked;
     if(!justClicked){
         for(street *Street : streetVector){
             isChosen(Street);
@@ -435,7 +451,52 @@ void MainWindow::close_down()
 
 void MainWindow::set_detour()
 {
-    qDebug() << "Set this as detour pls";
+    if(chosenStreets.size() != 0)
+    {
+        QVector<street*> detourStreets;
+        qDebug() << "Set this as detour pls";
+        for(street *Street : streetVector){
+            if(dynamic_cast<line*>(Street->getGraphics()[0])->getDetour()){
+                detourStreets.append(Street);
+                qDebug() << "Street, thats a detour: " << Street->getName();
+            }
+        }
+
+        for (busLine *lineS : lineVector) {
+            int startIdx = 0;
+            int continueIdx = 0;
+            int idx = 0;
+            for (stop *lineStop : lineS->getRoute()) {
+                if(lineStop->getStreets()[0] == chosenStreets[0]){
+                    qDebug() << "Line no." << QString::number(lineS->getId());
+                    QVector<stop*> swp = lineS->getRoute();
+                    lineS->deleteStops();
+                    qDebug() << lineS->getRoute().size() << " " << swp.size();
+
+                    for(int j = 0; j < swp.size(); j++){
+                        if(swp[j]->getStreets()[0]->getEnd().getX() == detourStreets[0]->getStart().getX()
+                        && swp[j]->getStreets()[0]->getEnd().getX() == detourStreets[0]->getStart().getX()){
+                            qDebug() << "Here starts the detour";
+                            startIdx = idx;
+                        }
+
+                        if(swp[j]->getStreets()[0]->getStart().getX() == detourStreets[0]->getEnd().getX()
+                        && swp[j]->getStreets()[0]->getStart().getX() == detourStreets[0]->getEnd().getX()){
+                            qDebug() << "Here ends the detour";
+                            startIdx = idx;
+                        }
+
+                        lineS->addStop(swp[j]);
+                    }
+
+                }
+                idx++;
+            }
+        }
+
+    }
+
+
 }
 
 void MainWindow::reset()
@@ -447,7 +508,7 @@ void MainWindow::reset()
 /**
  * @brief funkce propojená s eventem změny velikosti okna, slouží ke změně velikosti obsahu
  * @param event event - změna velikosti okna (resize)
- * @details změna probíhá na základě roztažení do šířky, jelikož při kdybychom scalovali i podle výšky, tak se mapa roztáhne nerovnoměrně což nechceme
+ * @details změna probíhá na základě roztažení do šířky, jelikož při kdybyUnchom scalovali i podle výšky, tak se mapa roztáhne nerovnoměrně což nechceme
  * @details změna se počítá jako poměr staré šířky k nové šířce
  */
 void MainWindow::resizeEvent(QResizeEvent *event)
@@ -587,17 +648,27 @@ void MainWindow::deserialize()
         coordinate stopCoord = coordinate(stopObj.find("x").value().toDouble(), stopObj.find("y").value().toDouble());
         QJsonArray streetArray = stopObj.find("street name")->toArray();
 
-        stopVector.append(stop(stopObj.find("name").value().toString(), stopCoord));
-        stopVector[stopVector.size() - 1].setGraphics();
-        drawStuff(stopVector[stopVector.size() - 1].getGraphics());
+        stopVector.append(new stop(stopObj.find("name").value().toString(), stopCoord));
+        stopVector[stopVector.size() - 1]->setGraphics();
+        drawStuff(stopVector[stopVector.size() - 1]->getGraphics());
 
         for (street *streetStop : streetVector) {
             for (QJsonValue streetName : streetArray) {
                 if(streetStop->getName() == streetName.toString()){
-                    stopVector[stopVector.size() - 1].setStreet(streetStop);
+                    stopVector[stopVector.size() - 1]->setStreet(streetStop);
                 }
             }
 
+        }
+    }
+
+
+    for (street *streetS : streetVector) {
+        for (stop *stopS : stopVector) {
+            if(stopS->getStreets()[0]->getName() == streetS->getName()){
+                streetS->addStop(stopS);
+                qDebug() << streetS->getName() << " :Street Stop:" << stopS->getStopName();
+            }
         }
     }
 
@@ -607,11 +678,11 @@ void MainWindow::deserialize()
        QJsonObject lineObj = lineVal.toObject();
        int number = lineObj.find("number")->toInt();
        QJsonArray stops = lineObj.find("stops")->toArray();
-       lineVector.append(busLine(number));
-       for (stop lineStop : stopVector) {
+       lineVector.append(new busLine(number));
+       for (stop *lineStop : stopVector) {
             for(QJsonValue stopName : stops){
-                if(stopName.toString() == lineStop.getStopName()){
-                    lineVector[lineVector.size() - 1].addStop(lineStop);
+                if(stopName.toString() == lineStop->getStopName()){
+                    lineVector[lineVector.size() - 1]->addStop(lineStop);
                 }
             }
        }
@@ -619,9 +690,9 @@ void MainWindow::deserialize()
        QJsonObject testObj;
        for (int i = 0; i < timetableArray.size(); i++) {
            testObj = timetableArray[i].toObject();
-           if(testObj.find(QString::number(lineVector[lineVector.size() - 1].getId())) != testObj.end()){
+           if(testObj.find(QString::number(lineVector[lineVector.size() - 1]->getId())) != testObj.end()){
                ////qDebug() << QString::number(lineVector[lineVector.size() - 1].getId());
-               lineVector[lineVector.size() - 1].generateStopTimes(testObj.find(QString::number(lineVector[lineVector.size() - 1].getId())).value().toArray());
+               lineVector[lineVector.size() - 1]->generateStopTimes(testObj.find(QString::number(lineVector[lineVector.size() - 1]->getId())).value().toArray());
            }
        }
     }
@@ -644,17 +715,17 @@ void MainWindow::spawnVehicles(){
     // o pulnoci se to nejak jebe
     // create blank vehicle just to compute the journey
     for (int i = 0; i < lineVector.size(); ++i) {
-        vehicle blankVeh(*lineVector[i].getRoute()[0].getCoord(), -200);
+        vehicle blankVeh(*lineVector[i]->getRoute()[0]->getCoord(), -200);
         blankVeh.setLine(lineVector[i]);
         blankVeh.getJourney();
-        QTime duration = lineVector[i].getDuration(blankVeh.getFullJourney().size());
+        QTime duration = lineVector[i]->getDuration(blankVeh.getFullJourney().size());
         ////qDebug() << "Before " << sceneTime.toString();
         ////qDebug() << duration.toString();
         QTime swpSceneTime = sceneTime.addSecs((-duration.second() - duration.minute() * 60 - duration.hour() * 3600)*2);
 
         ////qDebug() << "After " << swpSceneTime.addSecs(-duration.second() - duration.minute() * 60 - duration.hour() * 3600).toString();
 
-        QVector<QVector<QTime*>> stopTimes = lineVector[i].getStopTime(0);
+        QVector<QVector<QTime*>> stopTimes = lineVector[i]->getStopTime(0);
         for (int k = swpSceneTime.hour(); k <= sceneTime.hour(); ++k) {
             for (int j = 0; j < stopTimes[k].size(); ++j) {
                 ////qDebug()<< "TIMES " << stopTimes[i][j]->toString();
@@ -680,7 +751,7 @@ void MainWindow::spawnVehicles(){
 
                     ////qDebug() << lineVector[i].getRoute().size();
                     ////qDebug() << "JoureyPos: " << position;
-                    vehicle *newVehicle = new vehicle(blankVeh.getFullJourney()[position], lineVector[i].getId());
+                    vehicle *newVehicle = new vehicle(blankVeh.getFullJourney()[position], lineVector[i]->getId());
 
 
                     newVehicle->setLine(lineVector[i]);

@@ -59,7 +59,8 @@ SOURCES       = ../proj/busline.cpp \
 		../proj/scene.cpp \
 		../proj/stop.cpp \
 		../proj/street.cpp \
-		../proj/vehicle.cpp moc_mainwindow.cpp \
+		../proj/vehicle.cpp qrc_breeze.cpp \
+		moc_mainwindow.cpp \
 		moc_scene.cpp
 OBJECTS       = busline.o \
 		coordinate.o \
@@ -71,6 +72,7 @@ OBJECTS       = busline.o \
 		stop.o \
 		street.o \
 		vehicle.o \
+		qrc_breeze.o \
 		moc_mainwindow.o \
 		moc_scene.o
 DIST          = /home/boris/Qt5.9.9/5.9.9/gcc_64/mkspecs/features/spec_pre.prf \
@@ -465,6 +467,7 @@ Makefile: ../proj/proj.pro /home/boris/Qt5.9.9/5.9.9/gcc_64/mkspecs/linux-g++/qm
 		/home/boris/Qt5.9.9/5.9.9/gcc_64/mkspecs/features/yacc.prf \
 		/home/boris/Qt5.9.9/5.9.9/gcc_64/mkspecs/features/lex.prf \
 		../proj/proj.pro \
+		../proj/breeze.qrc \
 		/home/boris/Qt5.9.9/5.9.9/gcc_64/lib/libQt5Widgets.prl \
 		/home/boris/Qt5.9.9/5.9.9/gcc_64/lib/libQt5Gui.prl \
 		/home/boris/Qt5.9.9/5.9.9/gcc_64/lib/libQt5Core.prl
@@ -651,6 +654,7 @@ Makefile: ../proj/proj.pro /home/boris/Qt5.9.9/5.9.9/gcc_64/mkspecs/linux-g++/qm
 /home/boris/Qt5.9.9/5.9.9/gcc_64/mkspecs/features/yacc.prf:
 /home/boris/Qt5.9.9/5.9.9/gcc_64/mkspecs/features/lex.prf:
 ../proj/proj.pro:
+../proj/breeze.qrc:
 /home/boris/Qt5.9.9/5.9.9/gcc_64/lib/libQt5Widgets.prl:
 /home/boris/Qt5.9.9/5.9.9/gcc_64/lib/libQt5Gui.prl:
 /home/boris/Qt5.9.9/5.9.9/gcc_64/lib/libQt5Core.prl:
@@ -668,6 +672,7 @@ dist: distdir FORCE
 distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
+	$(COPY_FILE) --parents ../proj/breeze.qrc $(DISTDIR)/
 	$(COPY_FILE) --parents /home/boris/Qt5.9.9/5.9.9/gcc_64/mkspecs/features/data/dummy.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents ../proj/busline.h ../proj/coordinate.h ../proj/ellipse.h ../proj/line.h ../proj/mainwindow.h ../proj/scene.h ../proj/stop.h ../proj/street.h ../proj/vehicle.h $(DISTDIR)/
 	$(COPY_FILE) --parents ../proj/busline.cpp ../proj/coordinate.cpp ../proj/ellipse.cpp ../proj/line.cpp ../proj/main.cpp ../proj/mainwindow.cpp ../proj/scene.cpp ../proj/stop.cpp ../proj/street.cpp ../proj/vehicle.cpp $(DISTDIR)/
@@ -696,8 +701,98 @@ check: first
 
 benchmark: first
 
-compiler_rcc_make_all:
+compiler_rcc_make_all: qrc_breeze.cpp
 compiler_rcc_clean:
+	-$(DEL_FILE) qrc_breeze.cpp
+qrc_breeze.cpp: ../proj/breeze.qrc \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/bin/rcc \
+		../proj/light.qss \
+		../proj/dark.qss \
+		../proj/light/checkbox_checked_disabled.svg \
+		../proj/light/sizegrip.svg \
+		../proj/light/radio_checked-hover.svg \
+		../proj/light/undock-hover.svg \
+		../proj/light/stylesheet-branch-more.svg \
+		../proj/light/down_arrow.svg \
+		../proj/light/branch_closed-on.svg \
+		../proj/light/checkbox_unchecked_disabled.svg \
+		../proj/light/branch_open.svg \
+		../proj/light/left_arrow.svg \
+		../proj/light/stylesheet-branch-end.svg \
+		../proj/light/stylesheet-branch-end-open.svg \
+		../proj/light/undock.svg \
+		../proj/light/checkbox_indeterminate_disabled.svg \
+		../proj/light/hsepartoolbar.svg \
+		../proj/light/right_arrow.svg \
+		../proj/light/checkbox_indeterminate-hover.svg \
+		../proj/light/checkbox_unchecked-hover.svg \
+		../proj/light/checkbox_indeterminate.svg \
+		../proj/light/stylesheet-vline.svg \
+		../proj/light/branch_closed.svg \
+		../proj/light/down_arrow_disabled.svg \
+		../proj/light/right_arrow_disabled.svg \
+		../proj/light/down_arrow-hover.svg \
+		../proj/light/branch_open-on.svg \
+		../proj/light/stylesheet-branch-end-closed.svg \
+		../proj/light/up_arrow-hover.svg \
+		../proj/light/checkbox_checked-hover.svg \
+		../proj/light/vsepartoolbars.svg \
+		../proj/light/transparent.svg \
+		../proj/light/close.svg \
+		../proj/light/radio_unchecked-hover.svg \
+		../proj/light/vmovetoolbar.svg \
+		../proj/light/radio_checked_disabled.svg \
+		../proj/light/checkbox_checked.svg \
+		../proj/light/up_arrow_disabled.svg \
+		../proj/light/close-pressed.svg \
+		../proj/light/up_arrow.svg \
+		../proj/light/left_arrow_disabled.svg \
+		../proj/light/close-hover.svg \
+		../proj/light/radio_unchecked_disabled.svg \
+		../proj/light/hmovetoolbar.svg \
+		../proj/light/radio_checked.svg \
+		../proj/dark/checkbox_checked_disabled.svg \
+		../proj/dark/sizegrip.svg \
+		../proj/dark/undock-hover.svg \
+		../proj/dark/stylesheet-branch-more.svg \
+		../proj/dark/down_arrow.svg \
+		../proj/dark/radio_unchecked.svg \
+		../proj/dark/branch_closed-on.svg \
+		../proj/dark/checkbox_unchecked_disabled.svg \
+		../proj/dark/branch_open.svg \
+		../proj/dark/left_arrow.svg \
+		../proj/dark/stylesheet-branch-end.svg \
+		../proj/dark/stylesheet-branch-end-open.svg \
+		../proj/dark/undock.svg \
+		../proj/dark/checkbox_indeterminate_disabled.svg \
+		../proj/dark/hsepartoolbar.svg \
+		../proj/dark/right_arrow.svg \
+		../proj/dark/checkbox_indeterminate.svg \
+		../proj/dark/stylesheet-vline.svg \
+		../proj/dark/branch_closed.svg \
+		../proj/dark/down_arrow_disabled.svg \
+		../proj/dark/right_arrow_disabled.svg \
+		../proj/dark/down_arrow-hover.svg \
+		../proj/dark/branch_open-on.svg \
+		../proj/dark/stylesheet-branch-end-closed.svg \
+		../proj/dark/up_arrow-hover.svg \
+		../proj/dark/vsepartoolbars.svg \
+		../proj/dark/transparent.svg \
+		../proj/dark/close.svg \
+		../proj/dark/vmovetoolbar.svg \
+		../proj/dark/radio_checked_disabled.svg \
+		../proj/dark/checkbox_checked.svg \
+		../proj/dark/up_arrow_disabled.svg \
+		../proj/dark/close-pressed.svg \
+		../proj/dark/up_arrow.svg \
+		../proj/dark/left_arrow_disabled.svg \
+		../proj/dark/close-hover.svg \
+		../proj/dark/checkbox_unchecked.svg \
+		../proj/dark/radio_unchecked_disabled.svg \
+		../proj/dark/radio_checked.svg \
+		../proj/dark/hmovetoolbar.svg
+	/home/boris/Qt5.9.9/5.9.9/gcc_64/bin/rcc -name breeze ../proj/breeze.qrc -o qrc_breeze.cpp
+
 compiler_moc_predefs_make_all: moc_predefs.h
 compiler_moc_predefs_clean:
 	-$(DEL_FILE) moc_predefs.h
@@ -943,7 +1038,7 @@ compiler_yacc_impl_make_all:
 compiler_yacc_impl_clean:
 compiler_lex_make_all:
 compiler_lex_clean:
-compiler_clean: compiler_moc_predefs_clean compiler_moc_header_clean compiler_uic_clean 
+compiler_clean: compiler_rcc_clean compiler_moc_predefs_clean compiler_moc_header_clean compiler_uic_clean 
 
 ####### Compile
 
@@ -1416,7 +1511,9 @@ main.o: ../proj/main.cpp ../proj/mainwindow.h \
 		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/qeventloop.h \
 		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtWidgets/qdesktopwidget.h \
 		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtGui/qguiapplication.h \
-		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtGui/qinputmethod.h
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtGui/qinputmethod.h \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/QFile \
+		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtCore/QTextStream
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o ../proj/main.cpp
 
 mainwindow.o: ../proj/mainwindow.cpp ../proj/mainwindow.h \
@@ -2010,6 +2107,9 @@ vehicle.o: ../proj/vehicle.cpp ../proj/vehicle.h \
 		../proj/line.h \
 		/home/boris/Qt5.9.9/5.9.9/gcc_64/include/QtWidgets/QGraphicsLineItem
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o vehicle.o ../proj/vehicle.cpp
+
+qrc_breeze.o: qrc_breeze.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o qrc_breeze.o qrc_breeze.cpp
 
 moc_mainwindow.o: moc_mainwindow.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_mainwindow.o moc_mainwindow.cpp

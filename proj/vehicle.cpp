@@ -67,7 +67,7 @@ int vehicle::getNumber()
  * @brief funkce sloužící pro získání vektoru zastávek pro dané vozidlo
  * @return zastávky
  */
-QVector<stop> vehicle::getStopVec()
+QVector<stop*> vehicle::getStopVec()
 {
     return stopVec;
 }
@@ -81,8 +81,8 @@ QVector<double> vehicle::getStopRatio()
     QVector<double> retVec;
     for(int j = 0; j < getLine()->getRoute().size(); j++){
         for(int i = 0; i < journey.size(); i++){
-            if(getLine()->getRoute()[j].getCoord()->getX() == journey[i].getX()
-            && getLine()->getRoute()[j].getCoord()->getY() == journey[i].getY()){
+            if(getLine()->getRoute()[j]->getCoord()->getX() == journey[i].getX()
+            && getLine()->getRoute()[j]->getCoord()->getY() == journey[i].getY()){
                 retVec.append((double) i / journey.size());
                 break;
             }
@@ -193,17 +193,10 @@ void vehicle::setCoords(coordinate newCoord)
  * @brief funkce sloužící pro nastavení linky danému vozidlu
  * @param bus autobus, který chceme nastavit
  */
-void vehicle::setLine(busLine bus)
+void vehicle::setLine(busLine *bus)
 {
-    if(line){
-        *line = bus;
-        color = line->getColor();
-    }
-    else{
-        line = new busLine();
-        *line = bus;
-        color = line->getColor();
-    }
+    line = bus;
+    color = line->getColor();
 }
 
 /**
@@ -273,38 +266,38 @@ bool isBetween(coordinate start, coordinate end, coordinate point){
  */
 void vehicle::move(QTime sceneTime)
 {
-    ////qDebug() << speed;
-    ////qDebug() << "Speed in Move: " << speed;
     if(!stopBool || sceneTime >= stopTime.addMSecs(10000)){
-        stop nextStop = stopVec.at(stopNum);
+        stop *nextStop = stopVec.at(stopNum);
 
 
-        if((!stopVec[stopNum - 1].getStreets()[0]->getDelayed() && isBetween(stopVec[stopNum - 1].getStreets()[0]->getStart(), stopVec[stopNum - 1].getStreets()[0]->getEnd(), journey[journeyPos]))
-        && (!stopVec[stopNum].getStreets()[0]->getDelayed() && isBetween(stopVec[stopNum].getStreets()[0]->getStart(), stopVec[stopNum].getStreets()[0]->getEnd(), journey[journeyPos]))){
+        if((!stopVec[stopNum - 1]->getStreets()[0]->getDelayed() && isBetween(stopVec[stopNum - 1]->getStreets()[0]->getStart(), stopVec[stopNum - 1]->getStreets()[0]->getEnd(), journey[journeyPos]))
+        && (!stopVec[stopNum]->getStreets()[0]->getDelayed() && isBetween(stopVec[stopNum]->getStreets()[0]->getStart(), stopVec[stopNum]->getStreets()[0]->getEnd(), journey[journeyPos]))){
             preDelay = sceneTime;
         }
 
-        if((stopVec[stopNum - 1].getStreets()[0]->getDelayed() && isBetween(stopVec[stopNum - 1].getStreets()[0]->getStart(), stopVec[stopNum - 1].getStreets()[0]->getEnd(), journey[journeyPos]))
-        || (stopVec[stopNum].getStreets()[0]->getDelayed() && isBetween(stopVec[stopNum].getStreets()[0]->getStart(), stopVec[stopNum].getStreets()[0]->getEnd(), journey[journeyPos]))){
+        if((stopVec[stopNum - 1]->getStreets()[0]->getDelayed() && isBetween(stopVec[stopNum - 1]->getStreets()[0]->getStart(), stopVec[stopNum - 1]->getStreets()[0]->getEnd(), journey[journeyPos]))
+        || (stopVec[stopNum]->getStreets()[0]->getDelayed() && isBetween(stopVec[stopNum]->getStreets()[0]->getStart(), stopVec[stopNum]->getStreets()[0]->getEnd(), journey[journeyPos]))){
 
             int delay = 0;
-            if((stopVec[stopNum - 1].getStreets()[0]->getDelayed() && isBetween(stopVec[stopNum - 1].getStreets()[0]->getStart(), stopVec[stopNum - 1].getStreets()[0]->getEnd(), journey[journeyPos]))){
-                delay = stopVec[stopNum - 1].getStreets()[0]->getDelay();
+            if((stopVec[stopNum - 1]->getStreets()[0]->getDelayed() && isBetween(stopVec[stopNum - 1]->getStreets()[0]->getStart(), stopVec[stopNum - 1]->getStreets()[0]->getEnd(), journey[journeyPos]))){
+                delay = stopVec[stopNum - 1]->getStreets()[0]->getDelay();
             }
-            else if (stopVec[stopNum].getStreets()[0]->getDelayed() && isBetween(stopVec[stopNum].getStreets()[0]->getStart(), stopVec[stopNum].getStreets()[0]->getEnd(), journey[journeyPos])){
-                delay = stopVec[stopNum].getStreets()[0]->getDelay();
+            else if (stopVec[stopNum]->getStreets()[0]->getDelayed() && isBetween(stopVec[stopNum]->getStreets()[0]->getStart(), stopVec[stopNum]->getStreets()[0]->getEnd(), journey[journeyPos])){
+                delay = stopVec[stopNum]->getStreets()[0]->getDelay();
             }
 
 
             if(sceneTime < preDelay.addMSecs(delay)){
-                ////qDebug() << "Vehicle is delayed here, Street " << nextStop.getStreets()[0]->getName() << " Delay: " << nextStop.getStreets()[0]->getDelay();
-
-                ////qDebug() << "Not going";
                 return;
             }
 
-            ////qDebug() << "Going";
             preDelay = sceneTime;
+        }
+
+        if((stopVec[stopNum - 1]->getStreets()[0]->getClosedDown() && isBetween(stopVec[stopNum - 1]->getStreets()[0]->getStart(), stopVec[stopNum - 1]->getStreets()[0]->getEnd(), journey[journeyPos]))
+        || (stopVec[stopNum]->getStreets()[0]->getClosedDown() && isBetween(stopVec[stopNum]->getStreets()[0]->getStart(), stopVec[stopNum]->getStreets()[0]->getEnd(), journey[journeyPos]))){
+            //qDebug() << "Cannot go through here.";
+            return;
         }
 
 
@@ -323,7 +316,7 @@ void vehicle::move(QTime sceneTime)
         stopBool = false;
 
 
-        if(nextStop.getCoord()->getX() == coords->getX() && nextStop.getCoord()->getY() == coords->getY()){
+        if(nextStop->getCoord()->getX() == coords->getX() && nextStop->getCoord()->getY() == coords->getY()){
             stopBool = true;
             stopTime = sceneTime;
             stopNum++;
@@ -371,7 +364,7 @@ void vehicle::getJourney()
     double c_pow = 0.0;
     double ratio = 0.0;
     stop *swpStop = NULL;
-    stop current;
+    stop *current;
     coordinate *swpEnd = NULL;
     coordinate oldCoordinate;
     int i = 0;
@@ -381,12 +374,12 @@ void vehicle::getJourney()
     for(int j = 0; j < line->getRoute().size(); j++){
         stopVec.append(line->getRoute().at(j));
         current = line->getRoute().at(j);
-        if((swpStop == NULL || swpEnd == NULL) || (swpStop->getStreet(stopStreetNum)->getStart().getX() != current.getStreet(stopStreetNum)->getStart().getX()
-                                               ||  swpStop->getStreet(stopStreetNum)->getStart().getY() != current.getStreet(stopStreetNum)->getStart().getY()
-                                               ||  swpStop->getStreet(stopStreetNum)->getEnd().getX() != current.getStreet(stopStreetNum)->getEnd().getX()
-                                               ||  swpStop->getStreet(stopStreetNum)->getEnd().getX() != current.getStreet(stopStreetNum)->getEnd().getX())){
+        if((swpStop == NULL || swpEnd == NULL) || (swpStop->getStreet(stopStreetNum)->getStart().getX() != current->getStreet(stopStreetNum)->getStart().getX()
+                                               ||  swpStop->getStreet(stopStreetNum)->getStart().getY() != current->getStreet(stopStreetNum)->getStart().getY()
+                                               ||  swpStop->getStreet(stopStreetNum)->getEnd().getX() != current->getStreet(stopStreetNum)->getEnd().getX()
+                                               ||  swpStop->getStreet(stopStreetNum)->getEnd().getX() != current->getStreet(stopStreetNum)->getEnd().getX())){
             if(journey.size() == 0){
-                journey.append(coordinate(current.getStreet(stopStreetNum)->getStart().getX(), current.getStreet(stopStreetNum)->getStart().getY()));
+                journey.append(coordinate(current->getStreet(stopStreetNum)->getStart().getX(), current->getStreet(stopStreetNum)->getStart().getY()));
             }
             else{
                 //i--;
@@ -395,8 +388,8 @@ void vehicle::getJourney()
             do{
                 //++i;
 
-                a = abs(oldCoordinate.getY() - line->getRoute().at(j).getStreet(stopStreetNum)->getEnd().getY());
-                b = abs(oldCoordinate.getX() - line->getRoute().at(j).getStreet(stopStreetNum)->getEnd().getX());
+                a = abs(oldCoordinate.getY() - line->getRoute().at(j)->getStreet(stopStreetNum)->getEnd().getY());
+                b = abs(oldCoordinate.getX() - line->getRoute().at(j)->getStreet(stopStreetNum)->getEnd().getX());
 
                 b_pow = pow(b, 2);
                 a_pow = pow(a, 2);
@@ -405,8 +398,8 @@ void vehicle::getJourney()
                 c = sqrt(c_pow);
                 ratio = 0.75 / c;
 
-                if(oldCoordinate.getX() > line->getRoute().at(j).getStreet(stopStreetNum)->getEnd().getX()){
-                    if(oldCoordinate.getY() > line->getRoute().at(j).getStreet(stopStreetNum)->getEnd().getY()){
+                if(oldCoordinate.getX() > line->getRoute().at(j)->getStreet(stopStreetNum)->getEnd().getX()){
+                    if(oldCoordinate.getY() > line->getRoute().at(j)->getStreet(stopStreetNum)->getEnd().getY()){
                         coordinate newCoord(oldCoordinate.getX() - ratio * b, oldCoordinate.getY() - ratio * a);
                         if(pointDistance(journey.at(i), newCoord) >= 0.5){
                             journey.append(newCoord);
@@ -416,7 +409,7 @@ void vehicle::getJourney()
                             oldCoordinate = newCoord;
                         }
                     }
-                    else if(oldCoordinate.getY() < line->getRoute().at(j).getStreet(stopStreetNum)->getEnd().getY()){
+                    else if(oldCoordinate.getY() < line->getRoute().at(j)->getStreet(stopStreetNum)->getEnd().getY()){
                         coordinate newCoord(oldCoordinate.getX() - ratio * b, oldCoordinate.getY() + ratio * a);
                         if(pointDistance(journey.at(i), newCoord) >= 0.5){
                             journey.append(newCoord);
@@ -426,7 +419,7 @@ void vehicle::getJourney()
                             oldCoordinate = newCoord;
                         }
                     }
-                    else if(oldCoordinate.getY() == line->getRoute().at(j).getStreet(stopStreetNum)->getEnd().getY()){
+                    else if(oldCoordinate.getY() == line->getRoute().at(j)->getStreet(stopStreetNum)->getEnd().getY()){
                         coordinate newCoord(oldCoordinate.getX() - ratio * b, oldCoordinate.getY());
                         if(pointDistance(journey.at(i), newCoord) >= 0.5){
                             journey.append(newCoord);
@@ -437,8 +430,8 @@ void vehicle::getJourney()
                         }
                     }
                 }
-                else if(oldCoordinate.getX() < line->getRoute().at(j).getStreet(stopStreetNum)->getEnd().getX()){
-                    if(oldCoordinate.getY() > line->getRoute().at(j).getStreet(stopStreetNum)->getEnd().getY()){
+                else if(oldCoordinate.getX() < line->getRoute().at(j)->getStreet(stopStreetNum)->getEnd().getX()){
+                    if(oldCoordinate.getY() > line->getRoute().at(j)->getStreet(stopStreetNum)->getEnd().getY()){
                         coordinate newCoord(oldCoordinate.getX() + ratio * b, oldCoordinate.getY() - ratio * a);
                         if(pointDistance(journey.at(i), newCoord) >= 0.5){
                             journey.append(newCoord);
@@ -448,7 +441,7 @@ void vehicle::getJourney()
                             oldCoordinate = newCoord;
                         }
                     }
-                    else if(oldCoordinate.getY() < line->getRoute().at(j).getStreet(stopStreetNum)->getEnd().getY()){
+                    else if(oldCoordinate.getY() < line->getRoute().at(j)->getStreet(stopStreetNum)->getEnd().getY()){
                         coordinate newCoord(oldCoordinate.getX() + ratio * b, oldCoordinate.getY() + ratio * a);
                         if(pointDistance(journey.at(i), newCoord) >= 0.5){
                             journey.append(newCoord);
@@ -458,7 +451,7 @@ void vehicle::getJourney()
                             oldCoordinate = newCoord;
                         }
                     }
-                    else if(oldCoordinate.getY() == line->getRoute().at(j).getStreet(stopStreetNum)->getEnd().getY()){
+                    else if(oldCoordinate.getY() == line->getRoute().at(j)->getStreet(stopStreetNum)->getEnd().getY()){
                         coordinate newCoord(oldCoordinate.getX() + ratio * b, oldCoordinate.getY());
                         if(pointDistance(journey.at(i), newCoord) >= 0.5){
                             journey.append(newCoord);
@@ -469,8 +462,8 @@ void vehicle::getJourney()
                         }
                     }
                 }
-                else if(oldCoordinate.getX() == line->getRoute().at(j).getStreet(stopStreetNum)->getEnd().getX()){
-                    if(oldCoordinate.getY() > line->getRoute().at(j).getStreet(stopStreetNum)->getEnd().getY()){
+                else if(oldCoordinate.getX() == line->getRoute().at(j)->getStreet(stopStreetNum)->getEnd().getX()){
+                    if(oldCoordinate.getY() > line->getRoute().at(j)->getStreet(stopStreetNum)->getEnd().getY()){
                         coordinate newCoord(oldCoordinate.getX(), oldCoordinate.getY() - ratio * a);
                         if(pointDistance(journey.at(i), newCoord) >= 0.5){
                             journey.append(newCoord);
@@ -480,7 +473,7 @@ void vehicle::getJourney()
                             oldCoordinate = newCoord;
                         }
                     }
-                    else if(oldCoordinate.getY() < line->getRoute().at(j).getStreet(stopStreetNum)->getEnd().getY()){
+                    else if(oldCoordinate.getY() < line->getRoute().at(j)->getStreet(stopStreetNum)->getEnd().getY()){
                         coordinate newCoord(oldCoordinate.getX(), oldCoordinate.getY() + ratio * a);
                         if(pointDistance(journey.at(i), newCoord) >= 0.5){
                             journey.append(newCoord);
@@ -493,7 +486,7 @@ void vehicle::getJourney()
                 }
 
 
-                if(line->getRoute().at(j).getStreet(0)->getName().compare("testStreet23") == 0){
+                if(line->getRoute().at(j)->getStreet(0)->getName().compare("testStreet23") == 0){
                     ////qDebug() << journey.at(i).getX() << " :X Y: " << journey.at(i).getY();
                 }
 
@@ -504,12 +497,12 @@ void vehicle::getJourney()
                 //qDebug() << "X: " << journey.at(i).getX() << " Y: " << journey.at(i).getY();
                 */
 
-            }while(pointDistance(journey.at(i), line->getRoute().at(j).getStreet(stopStreetNum)->getEnd()) > 0.5);
+            }while(pointDistance(journey.at(i), line->getRoute().at(j)->getStreet(stopStreetNum)->getEnd()) > 0.5);
             //journey.append(coordinate(line->getRoute().at(j).getStreet(stopStreetNum)->getEnd().getX(), line->getRoute().at(j).getStreet(stopStreetNum)->getEnd().getY()));
-            journey[journey.size() - 1] = coordinate(line->getRoute().at(j).getStreet(stopStreetNum)->getEnd().getX(), line->getRoute().at(j).getStreet(stopStreetNum)->getEnd().getY());
+            journey[journey.size() - 1] = coordinate(line->getRoute().at(j)->getStreet(stopStreetNum)->getEnd().getX(), line->getRoute().at(j)->getStreet(stopStreetNum)->getEnd().getY());
             //i++;
             swpStop = new stop();
-            *swpStop = line->getRoute().at(j);
+            swpStop = line->getRoute().at(j);
         }
     }
 
@@ -517,15 +510,23 @@ void vehicle::getJourney()
     int idx = 0;
     for(int j = 0; j < line->getRoute().size(); j++){
         k = 0;
-        ////qDebug() << line->getRoute().at(j).getStopName();
-        ////qDebug() << line->getRoute()[j].getCoord()->getX() << line->getRoute()[j].getCoord()->getY();
+
         for (coordinate journeyCoord : journey){
 
+            if(getNumber() == 14)
+            {
 
-            if(round(line->getRoute().at(j).getCoord()->getX()) == round(journeyCoord.getX())
-            && round(line->getRoute().at(j).getCoord()->getY()) == round(journeyCoord.getY())){
+                //qDebug() << journeyCoord.getX() << journeyCoord.getY();
+            }
 
-                journey[k] = *line->getRoute().at(j).getCoord();
+
+            if(round(line->getRoute().at(j)->getCoord()->getX()) == round(journeyCoord.getX())
+            && round(line->getRoute().at(j)->getCoord()->getY()) == round(journeyCoord.getY())){
+                //qDebug() << line->getRoute().at(j).getStopName();
+
+
+
+                journey[k] = *line->getRoute().at(j)->getCoord();
                 idx = k;
 
                 //qDebug() << line->getRoute().at(j).getStopName();
@@ -556,8 +557,8 @@ void vehicle::getJourney()
 void vehicle::setStopNum(){
     int stopCnt = 0;
     for(coordinate jCoord : journey){
-        if(stopVec[stopCnt].getCoord()->getX() == jCoord.getX()
-        && stopVec[stopCnt].getCoord()->getY() == jCoord.getY()){
+        if(stopVec[stopCnt]->getCoord()->getX() == jCoord.getX()
+        && stopVec[stopCnt]->getCoord()->getY() == jCoord.getY()){
 
             ////qDebug() << stopVec[stopCnt].getStopName();
 

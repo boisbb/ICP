@@ -62,7 +62,7 @@ QColor busLine::getLineColor()
  * @brief funkce sloužící k přidání zastávky
  * @param busStop zastávka, kterou chceme přidat
  */
-void busLine::addStop(stop busStop)
+void busLine::addStop(stop *busStop)
 {
     lineRoute.append(busStop);
 }
@@ -87,11 +87,18 @@ QTime busLine::getDuration(double journeySize)
     return QTime(0, seconds / 60, (int)seconds % 60);
 }
 
+void busLine::deleteStops()
+{
+    for(int i = lineRoute.size() - 1; i >= 0; i--){
+        lineRoute.remove(i);
+    }
+}
+
 /**
  * @brief funkce sloužící pro získání trasy linky
  * @return zastávky dané trasy
  */
-QVector<stop> busLine::getRoute()
+QVector<stop*> busLine::getRoute()
 {
     return lineRoute;
 }
@@ -121,14 +128,14 @@ QColor busLine::getColor()
  */
 void busLine::generateStopTimes(QJsonArray timetableArray)
 {
-    for(stop busS : lineRoute){
+    for(stop *busS : lineRoute){
         stopTimes.append(new timetableClass());
     }
 
     //qDebug() << timetableArray[2].toObject().find("night").value().toArray();
 
     stopTimes.append(new timetableClass());
-    stopTimes[0]->busStop = new stop(lineRoute[0].getStopName(),*lineRoute[0].getCoord());
+    stopTimes[0]->busStop = new stop(lineRoute[0]->getStopName(),*lineRoute[0]->getCoord());
 
     QJsonArray morning = timetableArray[0].toObject().find("morning").value().toArray();
     QJsonArray day = timetableArray[1].toObject().find("day").value().toArray();

@@ -25,7 +25,7 @@ public:
     coordinate* getCoords();
     busLine* getLine();
     int getNumber();
-    QVector<stop> getStopVec();
+    QVector<stop*> getStopVec();
     QVector<double> getStopRatio();
     int getJourneyPos();
     QVector<coordinate> getFullJourney();
@@ -38,7 +38,7 @@ public:
     /* */
     /* setters */
     void setCoords(coordinate newCoord);
-    void setLine(busLine bus);
+    void setLine(busLine *bus);
     void setGraphics();
     void setClicked(bool switchClicked);
     void setJourneyPos(int pos);
@@ -81,7 +81,7 @@ private:
     /**
      * @brief zastávky vozidla
      */
-    QVector<stop> stopVec;
+    QVector<stop*> stopVec;
     /**
      * @brief index aktuální pozice vozidla ve vektoru \ref journey
      */
@@ -94,7 +94,7 @@ private:
      * @brief čas zastavení vozidla v zastávce
      */
     QTime stopTime;
-QTime preDelay;
+    QTime preDelay;
     /**
      * @brief flag jeslti vozidlo jede zpátky
      */

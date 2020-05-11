@@ -77,7 +77,7 @@ private:
     /**
      * @brief vektor linek
      */
-    QVector<busLine> lineVector;
+    QVector<busLine*> lineVector;
 
     /**
      * @brief vektor ulic
@@ -87,7 +87,7 @@ private:
     /**
      * @brief vektor zastávek
      */
-    QVector<stop> stopVector;
+    QVector<stop*> stopVector;
 
     /**
      * @brief vektor vozidel
@@ -98,6 +98,8 @@ private:
      * @brief hlavní scéna (mapa)
      */
     scene *myScene;
+
+    bool lineClicked = false;
 
     /**
      * @brief měřič času, slouží k aktualizaci scény a pohybu v ní

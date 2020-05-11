@@ -108,6 +108,7 @@ void street::setGraphics()
     graphicsLine->setLineStreet(this);
     QPen pen;
     pen.setWidth(2);
+    pen.setColor(QColor(160, 160, 160));
     graphicsLine->setPen(pen);
     graphicsLine->setLine(this->getStart().getX(), this->getStart().getY(), this->getEnd().getX(), this->getEnd().getY());
     streetGraphics.append(graphicsLine);
@@ -121,4 +122,9 @@ void street::setDelayed(bool del)
 void street::setClosedDown(bool newCls)
 {
     closedDown = newCls;
+}
+
+void street::addStop(stop *newStop)
+{
+    stops.append(newStop);
 }

@@ -57,7 +57,7 @@ void ellipse::mousePressEvent(QGraphicsSceneMouseEvent *event)
         int stopPos = 0;
         QVector<double> stopRatio = ellipseVehicle->getStopRatio();
         for(int j = 0; j < ellipseVehicle->getStopVec().size(); j++){
-            if(!ellStop.getStopName().compare(ellipseVehicle->getStopVec()[j].getStopName())){
+            if(!ellStop.getStopName().compare(ellipseVehicle->getStopVec()[j]->getStopName())){
                 stopPos = j;
                 timetableString = timetableString + "       " + ellStop.getStopName() + "\n\n";
                 QVector<QTime> departures;
@@ -71,7 +71,6 @@ void ellipse::mousePressEvent(QGraphicsSceneMouseEvent *event)
 
                 }
 
-                int prev = 0;
                 for(int l = 0; l < 23; l++){
                     timetableString = timetableString + "       " + QString::number(l) + " ";
                     for(int m = 0; m < departures.size(); m++){

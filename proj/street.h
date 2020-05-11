@@ -32,6 +32,7 @@ public:
     void setGraphics();
     void setDelayed(bool del);
     void setClosedDown(bool newCls);
+    void addStop(stop *newStop);
 
 private:
     /**
@@ -49,6 +50,9 @@ private:
     /**
      * @brief vzhled (grafika) ulice
      */
+
+    QVector<stop*> stops;
+
     QVector<QGraphicsItem*> streetGraphics;
     bool delayed = false;
     int delayMsec = 0;
