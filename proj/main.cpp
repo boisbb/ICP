@@ -39,7 +39,8 @@
  * <br>
  * <b>info box - detail:</b>
  * @image html infobox.png
- * <b>Jízdní řád dané zastávky (první číslo je hodina):</b>
+ * <b>Jízdní řád dané zastávky (první číslo je hodina):</b><br>
+ * Zobrazí se při kliknutí na zastávku v info boxu
  * @image html timetable.png
  */
 
