@@ -1,0 +1,62 @@
+[
+    {
+        "stops": [
+            {
+                "name": "testStop1",
+                "street name": [
+                    "testStreet"
+                ],
+                "x": 100,
+                "y": 200
+            },
+            {
+                "name": "testStop2",
+                "street name": [
+                    "testStreet"
+                ],
+                "x": 250,
+                "y": 350
+            },
+            {
+                "name": "testStop3",
+                "street name": [
+                    "testStreet"
+                ],
+                "x": 400,
+                "y": 500
+            }
+        ]
+    },
+    {
+        "streets": [
+            {
+                "end x": 400,
+                "end y": 500,
+                "name": "testStreet",
+                "start x": 100,
+                "start y": 200
+            }
+        ]
+    },
+    {
+        "lines": [
+            {
+                "number": 10,
+                "stops": [
+                    "testStop1",
+		    "testStop2",
+		    "testStop3"
+                ]
+            }
+        ]
+    },
+    {
+        "vehicles": [
+            {
+                "number": 10,
+                "x": 100,
+                "y": 200
+            }
+        ]
+    }
+]
