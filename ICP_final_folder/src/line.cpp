@@ -1,9 +1,3 @@
-/*!
- * @file
- * @brief Tento soubor obsahuje funkce pro obsluhovani přímky, která reprezentuje ulici
- *
- * @author Boris Burkalo (xburka00), Jan Klusáček (xklusa14)
- */
 #include "line.h"
 #include "street.h"
 #include <QDebug>
