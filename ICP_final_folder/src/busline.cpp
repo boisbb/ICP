@@ -31,6 +31,19 @@ busLine::busLine(int lineId)
     lineColor.setRgb(rand() % 256, rand() % 256, rand() % 256);
 }
 
+busLine::~busLine()
+{
+    for(timetableClass *Stop : stopTimes){
+        for(int i  = 0; i < Stop->departureTime.size(); i++){
+            for(int j = 0; j < Stop->departureTime[i].size(); j++){
+                delete Stop->departureTime[i][j];
+            }
+        }
+        delete Stop;
+    }
+
+}
+
 /**
  * @brief TODO funkce sloužící pro zíkání čísla linky
  * @return číslo linky
@@ -87,7 +100,35 @@ QTime busLine::getDuration(double journeySize)
     return QTime(0, seconds / 60, (int)seconds % 60);
 }
 
+/**
+ * @brief metoda, která vymaže zastávky
+ */
+
 void busLine::deleteStops()
+{
+    for(int i = lineRoute.size() - 1; i >= 0; i--){
+        lineRoute.remove(i);
+    }
+}
+
+/**
+ * @brief metoda, který přidá originální zastávky do seznamu zastávek
+ * @param origStop zastávka
+ */
+
+void busLine::addOriginalStops(stop origStop)
+{
+    stop *newOrigStop = new stop();
+    *newOrigStop = origStop;
+    originalVec.append(newOrigStop);
+}
+
+QVector<stop *> busLine::getOriginalStops()
+{
+    return originalVec;
+}
+
+void busLine::removeStops()
 {
     for(int i = lineRoute.size() - 1; i >= 0; i--){
         lineRoute.remove(i);
@@ -122,10 +163,18 @@ QColor busLine::getColor()
     return lineColor;
 }
 
+/**
+ * @brief zkopíruje seznam zastávek do originálního seznamu zastávek
+ */
+
 void busLine::setOriginalStopVec()
 {
     originalVec = lineRoute;
 }
+
+/**
+ * @brief zresetuje seznam zastávek na originál
+ */
 
 void busLine::resetStopsToOriginal()
 {
@@ -138,11 +187,9 @@ void busLine::resetStopsToOriginal()
  */
 void busLine::generateStopTimes(QJsonArray timetableArray)
 {
-    for(stop *busS : lineRoute){
+    for(int i = 0; i < lineRoute.size(); i++){
         stopTimes.append(new timetableClass());
     }
-
-    //qDebug() << timetableArray[2].toObject().find("night").value().toArray();
 
     stopTimes.append(new timetableClass());
     stopTimes[0]->busStop = new stop(lineRoute[0]->getStopName(),*lineRoute[0]->getCoord());
@@ -154,7 +201,6 @@ void busLine::generateStopTimes(QJsonArray timetableArray)
         QVector<QTime*> times;
         for(int j = 0; j < night.size(); j++){
             times.append(new QTime(i, night[j].toInt(), 0));
-             //qDebug() << "Added times: " << times[times.size() - 1]->toString();
         }
         stopTimes[0]->departureTime.append(times);
     }
@@ -162,7 +208,6 @@ void busLine::generateStopTimes(QJsonArray timetableArray)
         QVector<QTime*> times;
         for(int j = 0; j < morning.size(); j++){
             times.append(new QTime(i, morning[j].toInt(), 0));
-             //qDebug() << "Added times: " << times[times.size() - 1]->toString();
         }
         stopTimes[0]->departureTime.append(times);
     }
@@ -171,7 +216,6 @@ void busLine::generateStopTimes(QJsonArray timetableArray)
         QVector<QTime*> times;
         for(int j = 0; j < day.size(); j++){
             times.append(new QTime(i, day[j].toInt(), 0));
-             //qDebug() << "Added times: " << times[times.size() - 1]->toString();
         }
         stopTimes[0]->departureTime.append(times);
     }
@@ -179,10 +223,12 @@ void busLine::generateStopTimes(QJsonArray timetableArray)
         QVector<QTime*> times;
         for(int j = 0; j < night.size(); j++){
             times.append(new QTime(i, night[j].toInt(), 0));
-             //qDebug() << "Added times: " << times[times.size() - 1]->toString();
         }
         stopTimes[0]->departureTime.append(times);
     }
+
+
+
 
 
 }

@@ -79,25 +79,50 @@ QVector<QGraphicsItem*> street::getGraphics()
     return streetGraphics;
 }
 
+/**
+ * @brief zjistí, zda je ulice zavřená
+ * @return true pokud je zavřená, jinak false
+ */
+
 bool street::getClosedDown()
 {
     return closedDown;
 }
+
+/**
+ * @brief getter ulic, které jsou lokalizované na ulici
+ * @return seznam zastávek
+ */
 
 QVector<stop*> street::getStop()
 {
     return stops;
 }
 
+/**
+ * @brief nastaví zpoždeění dané ulici
+ * @param delay zpoždění k nastavění
+ */
+
 void street::setDelay(int delay)
 {
     delayMsec = delay;
 }
 
+/**
+ * @brief getter pro zpoždění
+ * @return vrátí zpoždění
+ */
+
 int street::getDelay()
 {
     return delayMsec;
 }
+
+/**
+ * @brief zjistí, zda je ulice zpožděná
+ * @return true pokud je ulice zpožděná, jinak false
+ */
 
 bool street::getDelayed()
 {
@@ -119,17 +144,64 @@ void street::setGraphics()
     streetGraphics.append(graphicsLine);
 }
 
+/**
+ * @brief nastaví ulici jako zpožděnou/nezpožděnou
+ * @param del zpožděná/nezpožděná
+ */
+
 void street::setDelayed(bool del)
 {
     delayed = del;
 }
+
+/**
+ * @brief nastaví ulici bool zavření
+ * @param newCls zpožděná/nezpožděná
+ */
 
 void street::setClosedDown(bool newCls)
 {
     closedDown = newCls;
 }
 
+/**
+ * @brief přidá zastávku ulici
+ * @param newStop nová zastávka
+ */
+
 void street::addStop(stop *newStop)
 {
     stops.append(newStop);
 }
+
+/**
+ * @brief nastaví novou počáteční pozici
+ * @param newStart pozice k nastavení
+ */
+
+void street::setStart(coordinate newStart)
+{
+    *start = newStart;
+}
+
+/**
+ * @brief nastaví novou konečnou pozici ulice
+ * @param newEnd pozice k nastavení
+ */
+
+void street::setEnd(coordinate newEnd)
+{
+    *end = newEnd;
+}
+
+/**
+ * @brief převrátí posloupnost ve vektoru zastávek
+ */
+
+void street::reverseStops()
+{
+    std::reverse(stops.begin(), stops.end());
+
+}
+
+

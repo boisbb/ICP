@@ -34,6 +34,9 @@ public:
     void setDelayed(bool del);
     void setClosedDown(bool newCls);
     void addStop(stop *newStop);
+    void setStart(coordinate newStart);
+    void setEnd(coordinate newEnd);
+    void reverseStops();
 
 private:
     /**
@@ -51,12 +54,22 @@ private:
     /**
      * @brief vzhled (grafika) ulice
      */
-
-    QVector<stop*> stops;
-
     QVector<QGraphicsItem*> streetGraphics;
+    /**
+     * @brief vektor zastávek na ulici
+     */
+    QVector<stop*> stops;
+    /**
+     * @brief značí, zda je ulice zpomalená
+     */
     bool delayed = false;
+    /**
+     * @brief značí zpomalení ulice
+     */
     int delayMsec = 0;
+    /**
+     * @brief značí, zda je ulice zavřená
+     */
     bool closedDown = false;
 
 

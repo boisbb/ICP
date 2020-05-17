@@ -23,6 +23,12 @@ void ellipse::setVehicle(vehicle *ellVeh)
     ellipseVehicle = ellVeh;
 }
 
+/**
+ * @brief nastaví zastávku a ulici dané elipse
+ * @param eStop zastávka k nastavení
+ * @param line linie k nastavení
+ */
+
 void ellipse::setStop(stop eStop, busLine *line)
 {
     ellStop = eStop;
@@ -46,19 +52,15 @@ void ellipse::mousePressEvent(QGraphicsSceneMouseEvent *event)
         }
     }
     else{
-
-        qDebug() << "Clicked but not vehicle";
         QDialog *timetableDialog = new QDialog();
         timetableDialog->setWindowTitle("Timetable");
         QLabel *timetableLabel = new QLabel(timetableDialog);
         QString timetableString;
         QTime durationTime = ellipseVehicle->getLine()->getDuration(ellipseVehicle->getFullJourney().size() - 1);
         double durationSecs = durationTime.hour() * 3600 + durationTime.minute() * 60 + durationTime.second();
-        int stopPos = 0;
         QVector<double> stopRatio = ellipseVehicle->getStopRatio();
         for(int j = 0; j < ellipseVehicle->getStopVec().size(); j++){
             if(!ellStop.getStopName().compare(ellipseVehicle->getStopVec()[j]->getStopName())){
-                stopPos = j;
                 timetableString = timetableString + "       " + ellStop.getStopName() + "\n\n";
                 QVector<QTime> departures;
                 for(int i = 0; i < ellLine->getStopTime(0).size(); i++){
@@ -79,22 +81,8 @@ void ellipse::mousePressEvent(QGraphicsSceneMouseEvent *event)
                         }
                     }
                     timetableString = timetableString + "    \n\n";
-
-                    /*if(prev == departures[l].hour()){
-                        //timetableString = timetableString +
-                        qDebug() << departures[l].toString();
-                        timetableString = timetableString + "  " + QString::number(departures[l].minute());
-                        //timet
-                    }
-                    else{
-                        qDebug() << departures[l].toString() << " SWITCHED";
-                        prev = departures[l].hour();
-                        timetableString = timetableString + "    \n\n       " + QString::number(departures[l].hour());
-                        timetableString = timetableString + "   " + QString::number(departures[l].minute());
-                    }*/
                 }
             }
-            //break;
 
         }
 

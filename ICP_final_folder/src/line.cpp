@@ -5,48 +5,76 @@
 #include <QPen>
 
 
+/**
+ * @brief event handler pro zachycení klikání na přímku
+ * @param event
+ */
+
 void line::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
-    //qDebug() << lineStreet->getName();
     if(event->button() == Qt::LeftButton)
     {
         chosen = !chosen;
         event->ignore();
     }
     else if(event->button() == Qt::RightButton){
-        qDebug() << "Road of obstruction";
-        detour = true;
-        justSetDet = true;
+
         QPen pen;
-        if(detour)
-            pen.setColor(QColor(255, 255, 0));
+        if(justSetDet)
+            pen.setColor(QColor(160,160,160));
         else
             pen.setColor(QColor(255, 255, 0));
+        justSetDet = !justSetDet;
         pen.setWidth(2);
         setPen(pen);
     }
     //lineStreet-
 }
 
+/**
+ * @brief getter boolu, který indikuje, že zrovna byla zmáčknutá přímka
+ * @return vrací true pokud byl, jinak vrací false
+ */
+
 bool line::getJustSetDet() const
 {
     return justSetDet;
 }
 
+/**
+ * @brief setter boolu, který indikuje, že zrovna byla zmáčknutá přímka
+ * @param value hodnota k nastavení
+ */
+
 void line::setJustSetDet(bool value)
 {
+    if(justSetDet){
+        QPen pen;
+        pen.setColor(QColor(120,0,0));
+        setPen(pen);
+    }
+
     justSetDet = value;
+
 }
+
+/**
+ * @brief nastavení ulice přímky
+ * @param value ulice k natavení
+ */
 
 void line::setLineStreet(street *value)
 {
     lineStreet = value;
 }
 
+/**
+ * @brief vybere přímku
+ */
+
 void line::Choose()
 {
     QPen pen;
-    qDebug() << "choose" << chosen;
     if(chosen && !lineStreet->getClosedDown())
         pen.setColor(QColor(255,0,0));
     else if(!lineStreet->getClosedDown())
@@ -60,6 +88,10 @@ void line::Choose()
     this->setPen(pen);
 }
 
+/**
+ * @brief odebere linku
+ */
+
 void line::unChoose()
 {
     chosen = false;
@@ -72,7 +104,6 @@ void line::unChoose()
     else if(lineStreet->getDelayed())
         pen.setColor(QColor(150,20,0));
     else if(lineStreet->getClosedDown()){
-        qDebug() << "It is kept closed down";
         pen.setColor(QColor(160, 160, 160));
         pen.setStyle(Qt::DashDotLine);
     }
@@ -80,10 +111,20 @@ void line::unChoose()
     setPen(pen);
 }
 
+/**
+ * @brief zjistí zda byla vybrána daná přímka
+ * @return vrátí true pokud byla vybrána, jinak false
+ */
+
 bool line::getChosen()
 {
     return chosen;
 }
+
+
+/**
+ * @brief nastaví přímku jako zavřenou
+ */
 
 void line::setClosed()
 {
@@ -102,6 +143,21 @@ void line::setClosed()
     setPen(pen);
 }
 
+/**
+ * @brief nastaví přímku jako objížďku
+ */
+
+void line::setDetour()
+{
+
+
+    detour = !detour;
+}
+
+/**
+ * @brief odnastaví přímku jako objížďku
+ */
+
 void line::unSetDetour()
 {
     detour = false;
@@ -112,10 +168,19 @@ void line::unSetDetour()
 
 }
 
+/**
+ * @brief zjistí, zda je přímka objížďkou
+ * @return true pokude je objížďkou, jinak false
+ */
+
 bool line::getDetour()
 {
     return detour;
 }
+
+/**
+ * @brief otevře zpět přímku - ulici
+ */
 
 void line::unClose()
 {

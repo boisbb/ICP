@@ -11,13 +11,13 @@
 #include <QTimer>
 #include <QWidget>//resize
 #include <cmath>
+#include <QCloseEvent>
 
 #include "busline.h"
 #include "coordinate.h"
 #include "stop.h"
 #include "street.h"
 #include "vehicle.h"
-#include "scene.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -60,6 +60,8 @@ private:
     void see_info();//v dolním místě bude ukazovat informace o zvoleném vozidle
     void draw_stops(QGraphicsScene *scene);
     void isChosen(street streetInst);
+    void closeEvent (QCloseEvent *event) override;
+
 
     /**
      * @brief čas scény, vychází z reálného času při spuštění
@@ -97,22 +99,32 @@ private:
     /**
      * @brief hlavní scéna (mapa)
      */
-    scene *myScene;
+    QGraphicsScene *myScene;
 
+    /**
+     * @brief kliknutí na linii
+     */
     bool lineClicked = false;
 
     /**
      * @brief měřič času, slouží k aktualizaci scény a pohybu v ní
      */
     QTimer *timer = new QTimer(this);
-    void deserialize();
-    void spawnVehicles();
-
     /**
      * @brief vozidlo v informačním boxu dole
      */
     QGraphicsEllipseItem *infoVehicle;
+    /**
+     * @brief vektor vybraných ulic
+     */
     QVector<street*> chosenStreets;
+    /**
+     * @brief bool, indikující zda bylo kliknuto na objekt
+     */
     bool justClicked = false;
+
+
+    void deserialize();
+    void spawnVehicles();
 };
 #endif // MAINWINDOW_H

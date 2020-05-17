@@ -28,7 +28,14 @@ private:
      * @brief vozidlo
      */
     vehicle* ellipseVehicle;
+    /**
+     * @brief zastávka
+     */
     stop ellStop;
+
+    /**
+     * @brief autobusová linka
+     */
     busLine *ellLine;
 
 };

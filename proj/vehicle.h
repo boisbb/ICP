@@ -95,6 +95,9 @@ private:
      * @brief čas zastavení vozidla v zastávce
      */
     QTime stopTime;
+    /**
+     * @brief čas před zpožděním
+     */
     QTime preDelay;
     /**
      * @brief flag jeslti vozidlo jede zpátky
@@ -112,6 +115,9 @@ private:
      * @brief flag jeslti se má smazat grafika v hlavním okně v mapě)
      */
     bool destr = false;
+    /**
+     * @brief značí, zda je spoj zpomalen
+     */
     bool isDelayed = false;
 
 

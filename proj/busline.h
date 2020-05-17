@@ -22,6 +22,7 @@ class busLine
 public:
     busLine();
     busLine(int lineId);
+    ~busLine();
     /* getters */
     int getId();
     QVector<QString> getStopNames();
@@ -37,6 +38,9 @@ public:
     void setColor(QColor color);
     QTime getDuration(double journeySize);
     void deleteStops();
+    void addOriginalStops(stop origStop);
+    QVector<stop*> getOriginalStops();
+    void removeStops();
 private:
 
     class timetableClass {
@@ -72,6 +76,10 @@ private:
      */
     QVector<timetableClass*> stopTimes;
 
+
+    /**
+     * @brief obsahuje originální zastávky, které jsou vložené při začátku
+     */
     QVector<stop*> originalVec;
 
 

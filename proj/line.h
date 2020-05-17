@@ -13,6 +13,7 @@ public:
     void unChoose();
     bool getChosen();
     void setClosed();
+    void setDetour();
     void unSetDetour();
     bool getDetour();
     void unClose();
@@ -22,10 +23,25 @@ public:
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *event);
 private:
+    /**
+     * @brief ulice přímky
+     */
     street *lineStreet;
+    /**
+     * @brief určuje, zda je přímka vybraná
+     */
     bool chosen = false;
+    /**
+     * @brief určuje, zda je přímka zavřená
+     */
     bool closed = false;
+    /**
+     * @brief určuje, zda je přímka objížďkou
+     */
     bool detour = false;
+    /**
+     * @brief určuje, zda byl přímka právě pro objížďku
+     */
     bool justSetDet = false;
 
 };
