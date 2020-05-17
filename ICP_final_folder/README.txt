@@ -3,9 +3,19 @@ Autoři: Boris Burkalo (xkburka00), Jan Klusáček (xklusa14)
 Aplikace pro zobrazení linek hromadné dopravy a sledování jejich pohybu
 
 Překlad:
-- Doplň!!!!!!!!!!
+- make
 Spuštění:
-- Doplň!!!!!!!!!!
+- make run
+Zabalení do archivu zip:
+- make pack
+Vytvoření dokumentace:
+- make doxygen
+Smazání dokumentace:
+- make clean-doxy
+Smazání archivu:
+- make clean-pack
+
+-- všechny tyto make příkazy musí být provedeny z kořenové složky
 
 Ovládání aplikace:
 - Aplikace se ovládá pomocí tlačítek nacházejících se na pravé straně okna. Jejich popis najdete na hlavní stránce dokumentace (index.html - viz. dále).
@@ -20,3 +30,4 @@ Odevzdaná složka obsahuje:
 - složku doc, která v podsložce img obsahuje obrázky, které jsou obsažené v dokumentaci
 - složku examples obsahující mapové podklady a jízdní řády
 - Makefile sloužící pro překlad a spuštění programu, vygenerování dokumentace,...
+- README.txt soubor

@@ -26,7 +26,7 @@
  * <b>delay -</b> - tlačítko na odebrání zácpy na dané ulici (vyžaduje zakliknutou ulici)<br>
  * <b>reset delay</b> - tlačítko na nastavení normálního provozu una dané ulici (vyžaduje zakliknutou ulici)<br>
  * <b>close down</b> - tlačítko sloužící pro uzavření ulice (vyžaduje zakliknutou ulici)<br>
- * <b>set detour</b> - tlačítko sloužící pro nastavení objížďky (objížďka se musí manuálně navolit, narozdíl od volení ulice levým tlačítkem se objídka volí pravým tlačítkem <br>
+ * <b>set detour</b> - tlačítko sloužící pro nastavení objížďky (objížďka se musí manuálně navolit, narozdíl od volení ulice levým tlačítkem se objídka volí pravým tlačítkem, poté kliknout na toto tlačítko) <br>
  * <b>reset</b> - tlačítko sloužící pro zrušení objížďek a zavřených ulic<br>
  * <b>+</b> - tlačítko sloužící pro zoom (zvětšení)<br>
  * <b>-</b> - tlačítko sloužící pro zoom (zmenšení)<br>
